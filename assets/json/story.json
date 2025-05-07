@@ -1,0 +1,27 @@
+[
+  {
+    "id": "intro",
+    "narrative": "Siti? What the hell is the ruckus?.",
+    "character": "PLAYER",
+    "background": "assets/background/background.jpg",
+    "choices": [
+      { "text": "Begin", "next": "scene2", "set_flag": "started" }
+    ]
+  },
+  {
+    "id": "scene2",
+    "narrative": "Hallway.",
+    "character": "Siti the AI",
+    "background": "assets/background/background.jpg",
+    "choices": [
+      { "text": "Talk", "next": "end" }
+    ]
+  },
+  {
+    "id": "end",
+    "narrative": "The End.",
+    "character": "Narrator",
+    "background": "assets/background/background.jpg",
+    "choices": []
+  }
+]
