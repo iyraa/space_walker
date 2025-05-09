@@ -11,46 +11,45 @@ class Node {
   final String id;
 
   @HiveField(1)
-  final String narrative;
-
-  @HiveField(2)
-  final String character;
-
-  @HiveField(3)
   final String background;
 
-  @HiveField(4)
-  final List<Choice> choices;
+  @HiveField(2)
+  final List<DialogueLine> dialogues;
 
-  @HiveField(5)
-  final String? next; //next node if have no choice
+  @HiveField(3)
+  final List<Choice> choices;
 
   Node({
     required this.id,
-    required this.narrative,
-    required this.character,
     required this.background,
+    required this.dialogues,
     required this.choices,
-    this.next,
   });
 
   static fromJson(sceneMap) {}
 }
 
-@HiveType(typeId: 1, adapterName: 'ChoiceAdapter') // Unique typeId for Choice
+@HiveType(typeId: 1, adapterName: 'DialogueLineAdapter')
+class DialogueLine {
+  @HiveField(0)
+  final String character;
+
+  @HiveField(1)
+  final String text;
+
+  DialogueLine({required this.character, required this.text});
+}
+
+@HiveType(typeId: 2, adapterName: 'ChoiceAdapter') // Unique typeId for Choice
 class Choice {
   @HiveField(0)
   final String text;
 
   @HiveField(1)
-  final String next;
+  final Map<String, int>? condition;
 
   @HiveField(2)
-  final String? setFlag;
+  final Map<String, int>? setFlag;
 
-  Choice({required this.text, required this.next, this.setFlag});
-
-  get requiredFlag => null;
-
-  get excludeFlag => null;
+  Choice({required this.text, this.condition, this.setFlag});
 }

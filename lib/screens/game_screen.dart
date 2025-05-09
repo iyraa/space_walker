@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:space_walker/services/flag_service.dart';
 import '../models/node.dart';
 
 class GameScreen extends StatefulWidget {
   final String playerName;
+  //final flagsService = FlagService();
 
   const GameScreen({super.key, required this.playerName});
 
@@ -14,7 +16,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   Node? _currentNode;
   late Box<Node> _nodeBox;
-  final Set<String> _flags = {};
+  int _dialogueIndex = 0;
 
   @override
   void initState() {
@@ -24,14 +26,28 @@ class _GameScreenState extends State<GameScreen> {
 
   void _loadFirstNode() async {
     _nodeBox = Hive.box<Node>('nodeBox');
-    final introScene = _nodeBox.get('intro');
+    final introScene = _nodeBox.get('start');
     if (introScene != null) {
       setState(() {
         _currentNode = introScene;
+        _dialogueIndex = 0;
       });
     } else {
       print('no intro scene found in Hive'); //debug
     }
+  }
+
+  void _nextDialogue() {
+    if (_currentNode == null) return;
+
+    if (_dialogueIndex < _currentNode!.dialogues.length - 1) {
+      setState(() => _dialogueIndex++);
+    }
+  }
+
+  void _selectChoice(Choice choice) {
+    flagService.applyFlag(choice.setFlag);
+    _goToNode(choice.text);
   }
 
   void _goToNode(String nodeID) {
@@ -39,6 +55,7 @@ class _GameScreenState extends State<GameScreen> {
     if (nextNode != null) {
       setState(() {
         _currentNode = nextNode;
+        _dialogueIndex = 0; //init back to 0 on next node
       });
     } else {
       print('Node not found: $nodeID');
@@ -54,16 +71,31 @@ class _GameScreenState extends State<GameScreen> {
       );
     }
 
-    final String character = _currentNode!.character.replaceAll(
-      "PLAYER",
-      widget.playerName,
-    );
+    final DialogueLine line = _currentNode!.dialogues[_dialogueIndex];
 
-    final String narrative = _currentNode!.narrative.replaceAll(
+    final String character = line.character.replaceAll(
       "PLAYER",
       widget.playerName,
     );
+    final String text = line.text.replaceAll("PLAYER", widget.playerName);
+
     final String backgroundPath = _currentNode!.background;
+
+    final bool isLastLine =
+        _dialogueIndex == _currentNode!.dialogues.length - 1;
+
+    final availableChoices =
+        isLastLine
+            ? _currentNode!.choices.where((choice) {
+              // Check if the condition exists and if the condition is met
+              if (choice.condition != null) {
+                return flagService.areConditionsMet(
+                  choice.condition!,
+                ); // Ensure condition is checked
+              }
+              return true; // If no condition, always show the choice
+            }).toList()
+            : [];
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -72,7 +104,7 @@ class _GameScreenState extends State<GameScreen> {
           Positioned.fill(
             child: Image.asset(backgroundPath, fit: BoxFit.cover),
           ),
-          
+
           Positioned.fill(
             child: Container(
               padding: const EdgeInsets.all(20),
@@ -100,24 +132,32 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                   const SizedBox(height: 8),
                   Text(
-                    narrative,
+                    text,
                     style: const TextStyle(fontSize: 18, color: Colors.white),
                   ),
                   const SizedBox(height: 20),
-                  ..._currentNode!.choices.map((choice) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (choice.setFlag != null) {
-                            _flags.add(choice.setFlag!);
-                          }
-                          _goToNode(choice.next);
-                        },
-                        child: Text(choice.text),
-                      ),
-                    );
-                  }),
+                  if (!isLastLine)
+                    ElevatedButton(
+                      onPressed: _nextDialogue,
+                      child: const Text('Next'),
+                    )
+                  else
+                    ...availableChoices.map((choice) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _selectChoice(
+                              choice,
+                            ); // ✅ cleanly apply flag and load next node
+                          },
+                          child:
+                              choice.text.toLowerCase() == 'continue'
+                                  ? const Icon(Icons.arrow_downward)
+                                  : Text(choice.text),
+                        ),
+                      );
+                    }),
                 ],
               ),
             ),

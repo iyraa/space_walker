@@ -14,13 +14,16 @@ class _NameInputScreenState extends State<NameInputScreen> {
   void _startGame() {
     String playerName = _controller.text.trim();
     if (playerName.isNotEmpty) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder:
-              (context) => GameScreen(playerName: '(Captain + $playerName)'),
-        ),
-      );
+      playerName =
+          playerName[0].toUpperCase() + playerName.substring(1).toLowerCase();
+      if (playerName.isNotEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GameScreen(playerName: 'Captain $playerName'),
+          ),
+        );
+      }
     }
   }
 

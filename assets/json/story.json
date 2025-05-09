@@ -1,27 +1,30 @@
 [
   {
-    "id": "intro",
-    "narrative": "Siti? What the hell is the ruckus?.",
-    "character": "PLAYER",
+    "id": "start",
     "background": "assets/background/background.jpg",
+    "dialogues": [
+      {
+        "character": "PLAYER",
+        "text": "Hello, Captain. How are you?"
+      },
+      {
+        "character": "SECOND_OFFICER",
+        "text": "We're ready for the mission."
+      }
+    ],
     "choices": [
-      { "text": "Begin", "next": "scene2", "set_flag": "started" }
+      {
+        "text": "Agree",
+        "next": "mission_start",
+        "set_flag": {"trust": 1},
+        "condition": {"trust": 0}
+      },
+      {
+        "text": "Disagree",
+        "next": "mission_cancelled",
+        "set_flag": {"trust": -1},
+        "condition": {"trust": 1}
+      }
     ]
-  },
-  {
-    "id": "scene2",
-    "narrative": "Hallway.",
-    "character": "Siti the AI",
-    "background": "assets/background/background.jpg",
-    "choices": [
-      { "text": "Talk", "next": "end" }
-    ]
-  },
-  {
-    "id": "end",
-    "narrative": "The End.",
-    "character": "Narrator",
-    "background": "assets/background/background.jpg",
-    "choices": []
   }
 ]
