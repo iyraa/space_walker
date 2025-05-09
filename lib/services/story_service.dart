@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:space_walker/models/node.dart';
+import 'package:space_walker/services/flag_service.dart';
 
 Future<void> loadStoryFromJson() async {
   final nodeBox = await Hive.openBox<Node>('nodeBox');
+  final Set<String> allFlags =
+      {}; // Added this line to collect all flag keys dynamically
 
   print('loading story from JSON...');
   final storyJson = await rootBundle.loadString('assets/json/story.json');
@@ -35,7 +38,7 @@ Future<void> loadStoryFromJson() async {
               .toList(),
       choices:
           choicesList.map((choice) {
-            // Convert setFlag and condition into Map<String, int> if they exist
+            // Collect setFlag and condition into Map<String, int> if they exist
             Map<String, int>? setFlag =
                 choice['set_flag'] != null
                     ? Map<String, int>.from(choice['set_flag'])
@@ -45,8 +48,13 @@ Future<void> loadStoryFromJson() async {
                     ? Map<String, int>.from(choice['condition'])
                     : null;
 
+            // Collect all flag keys dynamically
+            if (setFlag != null) allFlags.addAll(setFlag.keys);
+            if (condition != null) allFlags.addAll(condition.keys);
+
             return Choice(
               text: choice['text'],
+              next: choice['next'],
               setFlag: setFlag,
               condition: condition,
             );
@@ -57,5 +65,15 @@ Future<void> loadStoryFromJson() async {
     print('added node: ${node.id}');
   }
 
-  print('story loaded into Hive box.');
+  // Initialize missing flags after processing all nodes
+  for (var flag in allFlags) {
+    if (!flagService.hasFlag(flag)) {
+      print(
+        'Initializing flag: $flag',
+      ); // Debugging output to track initialization
+      flagService.applyFlag({flag: 0});
+    }
+  }
+
+  print('story loaded into Hive box and flags initialized.');
 }

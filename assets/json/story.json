@@ -16,14 +16,66 @@
       {
         "text": "Agree",
         "next": "mission_start",
-        "set_flag": {"trust": 1},
-        "condition": {"trust": 0}
+        "set_flag": {},
+        "condition": {}
       },
       {
         "text": "Disagree",
         "next": "mission_cancelled",
-        "set_flag": {"trust": -1},
-        "condition": {"trust": 1}
+        "set_flag": {},
+        "condition": {}
+      }
+    ]
+  },
+  {
+    "id": "mission_start",
+    "background": "assets/background/mission_start.jpg",
+    "dialogues": [
+      {
+        "character": "PLAYER",
+        "text": "Let's begin the mission!"
+      },
+      {
+        "character": "SECOND_OFFICER",
+        "text": "All systems are go."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Proceed",
+        "next": "mission_in_progress",
+        "set_flag": {
+          "mission_progress": 1
+        },
+        "condition": {
+          "trust": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "mission_cancelled",
+    "background": "assets/background/mission_cancelled.jpg",
+    "dialogues": [
+      {
+        "character": "PLAYER",
+        "text": "I can't agree to that."
+      },
+      {
+        "character": "SECOND_OFFICER",
+        "text": "Mission aborted."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Exit",
+        "next": "end",
+        "set_flag": {
+          "mission_status": -1
+        },
+        "condition": {
+          "trust": -1
+        }
       }
     ]
   }

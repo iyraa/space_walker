@@ -28,6 +28,7 @@ class FlagService {
   bool areConditionsMet(Map<String, int> conditions) {
     for (var entry in conditions.entries) {
       final flagValue = getFlag(entry.key);
+
       final conditionValue = entry.value;
 
       if (flagValue == null) {
@@ -43,11 +44,14 @@ class FlagService {
 
   /// Retrieve the current value of a flag
   int? getFlag(String key) {
-    return _box.get(key);
+    final value = _box.get(key);
+    print('Getting flag value: $key => $value'); // Debugging flag retrieval
+    return value;
   }
 
   /// Clear all flags (useful for restart or debug)
   Future<void> clearFlags() async {
+    print("All flags cleared");
     await _box.clear();
   }
 

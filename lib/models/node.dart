@@ -51,5 +51,8 @@ class Choice {
   @HiveField(2)
   final Map<String, int>? setFlag;
 
-  Choice({required this.text, this.condition, this.setFlag});
+  @HiveField(3)
+  final String? next;
+
+  Choice({required this.text, this.condition, this.setFlag, this.next});
 }

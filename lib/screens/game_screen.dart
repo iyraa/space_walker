@@ -5,7 +5,6 @@ import '../models/node.dart';
 
 class GameScreen extends StatefulWidget {
   final String playerName;
-  //final flagsService = FlagService();
 
   const GameScreen({super.key, required this.playerName});
 
@@ -84,18 +83,21 @@ class _GameScreenState extends State<GameScreen> {
     final bool isLastLine =
         _dialogueIndex == _currentNode!.dialogues.length - 1;
 
+    // Filter choices based on conditions (make sure condition is not null)
     final availableChoices =
         isLastLine
-            ? _currentNode!.choices.where((choice) {
-              // Check if the condition exists and if the condition is met
-              if (choice.condition != null) {
-                return flagService.areConditionsMet(
-                  choice.condition!,
-                ); // Ensure condition is checked
-              }
-              return true; // If no condition, always show the choice
-            }).toList()
+            ? _currentNode!.choices
+                .where(
+                  (choice) =>
+                      choice.condition != null &&
+                      flagService.areConditionsMet(choice.condition!),
+                )
+                .toList()
             : [];
+
+    print(
+      'Available choices: ${availableChoices.map((choice) => choice.text).toList()}',
+    );
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -104,7 +106,6 @@ class _GameScreenState extends State<GameScreen> {
           Positioned.fill(
             child: Image.asset(backgroundPath, fit: BoxFit.cover),
           ),
-
           Positioned.fill(
             child: Container(
               padding: const EdgeInsets.all(20),
@@ -139,7 +140,7 @@ class _GameScreenState extends State<GameScreen> {
                   if (!isLastLine)
                     ElevatedButton(
                       onPressed: _nextDialogue,
-                      child: const Text('Next'),
+                      child: const Icon(Icons.arrow_downward),
                     )
                   else
                     ...availableChoices.map((choice) {
@@ -147,14 +148,17 @@ class _GameScreenState extends State<GameScreen> {
                         padding: const EdgeInsets.only(bottom: 10),
                         child: ElevatedButton(
                           onPressed: () {
-                            _selectChoice(
-                              choice,
-                            ); // ✅ cleanly apply flag and load next node
+                            // Apply the flags and load the next node
+                            if (choice.setFlag != null) {
+                              flagService.applyFlag(choice.setFlag);
+                            }
+                            _goToNode(
+                              choice.next,
+                            ); // Or use `choice.next` if that's the actual ID
                           },
-                          child:
-                              choice.text.toLowerCase() == 'continue'
-                                  ? const Icon(Icons.arrow_downward)
-                                  : Text(choice.text),
+                          child: Text(
+                            choice.text,
+                          ), // Use choice.text for the button text
                         ),
                       );
                     }),
