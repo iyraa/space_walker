@@ -35,15 +35,15 @@ class DialogueLine {
   final String character;
 
   @HiveField(1)
-  final String text;
+  final String narrative;
 
-  DialogueLine({required this.character, required this.text});
+  DialogueLine({required this.character, required this.narrative});
 }
 
 @HiveType(typeId: 2, adapterName: 'ChoiceAdapter') // Unique typeId for Choice
 class Choice {
   @HiveField(0)
-  final String text;
+  final String option;
 
   @HiveField(1)
   final Map<String, int>? condition;
@@ -52,7 +52,7 @@ class Choice {
   final Map<String, int>? setFlag;
 
   @HiveField(3)
-  final String? next;
+  final String? nextScene;
 
-  Choice({required this.text, this.condition, this.setFlag, this.next});
+  Choice({required this.option, this.condition, this.setFlag, this.nextScene});
 }

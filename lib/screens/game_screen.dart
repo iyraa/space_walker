@@ -44,10 +44,10 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  void _selectChoice(Choice choice) {
-    flagService.applyFlag(choice.setFlag);
-    _goToNode(choice.text);
-  }
+  // void _selectChoice(Choice choice) {
+  //   flagService.applyFlag(choice.setFlag);
+  //   _goToNode(choice.text);
+  // }
 
   void _goToNode(String nodeID) {
     final nextNode = _nodeBox.get(nodeID);
@@ -76,7 +76,10 @@ class _GameScreenState extends State<GameScreen> {
       "PLAYER",
       widget.playerName,
     );
-    final String text = line.text.replaceAll("PLAYER", widget.playerName);
+    final String narrative = line.narrative.replaceAll(
+      "PLAYER",
+      widget.playerName,
+    );
 
     final String backgroundPath = _currentNode!.background;
 
@@ -96,7 +99,7 @@ class _GameScreenState extends State<GameScreen> {
             : [];
 
     print(
-      'Available choices: ${availableChoices.map((choice) => choice.text).toList()}',
+      'Available choices: ${availableChoices.map((choice) => choice.option).toList()}',
     );
 
     return Scaffold(
@@ -133,7 +136,7 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                   const SizedBox(height: 8),
                   Text(
-                    text,
+                    narrative,
                     style: const TextStyle(fontSize: 18, color: Colors.white),
                   ),
                   const SizedBox(height: 20),
@@ -153,11 +156,11 @@ class _GameScreenState extends State<GameScreen> {
                               flagService.applyFlag(choice.setFlag);
                             }
                             _goToNode(
-                              choice.next,
+                              choice.nextScene,
                             ); // Or use `choice.next` if that's the actual ID
                           },
                           child: Text(
-                            choice.text,
+                            choice.option,
                           ), // Use choice.text for the button text
                         ),
                       );

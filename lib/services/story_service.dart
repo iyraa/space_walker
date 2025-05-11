@@ -32,7 +32,7 @@ Future<void> loadStoryFromJson() async {
               .map(
                 (dialogue) => DialogueLine(
                   character: dialogue['character'],
-                  text: dialogue['text'],
+                  narrative: dialogue['narrative'],
                 ),
               )
               .toList(),
@@ -53,8 +53,8 @@ Future<void> loadStoryFromJson() async {
             if (condition != null) allFlags.addAll(condition.keys);
 
             return Choice(
-              text: choice['text'],
-              next: choice['next'],
+              option: choice['option'],
+              nextScene: choice['nextScene'],
               setFlag: setFlag,
               condition: condition,
             );

@@ -61,7 +61,7 @@ class DialogueLineAdapter extends TypeAdapter<DialogueLine> {
     };
     return DialogueLine(
       character: fields[0] as String,
-      text: fields[1] as String,
+      narrative: fields[1] as String,
     );
   }
 
@@ -72,7 +72,7 @@ class DialogueLineAdapter extends TypeAdapter<DialogueLine> {
       ..writeByte(0)
       ..write(obj.character)
       ..writeByte(1)
-      ..write(obj.text);
+      ..write(obj.narrative);
   }
 
   @override
@@ -97,10 +97,10 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Choice(
-      text: fields[0] as String,
+      option: fields[0] as String,
       condition: (fields[1] as Map?)?.cast<String, int>(),
       setFlag: (fields[2] as Map?)?.cast<String, int>(),
-      next: fields[3] as String?,
+      nextScene: fields[3] as String?,
     );
   }
 
@@ -109,13 +109,13 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
     writer
       ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.text)
+      ..write(obj.option)
       ..writeByte(1)
       ..write(obj.condition)
       ..writeByte(2)
       ..write(obj.setFlag)
       ..writeByte(3)
-      ..write(obj.next);
+      ..write(obj.nextScene);
   }
 
   @override

@@ -5,77 +5,135 @@
     "dialogues": [
       {
         "character": "PLAYER",
-        "text": "Hello, Captain. How are you?"
+        "narrative": "Siti? What the hell is this ruckus?"
       },
       {
-        "character": "SECOND_OFFICER",
-        "text": "We're ready for the mission."
+        "character": "SITI the AI",
+        "narrative": "Why, hello there, PLAYER. No “good morning,” Siti? We are being impolite today."
       }
     ],
     "choices": [
       {
-        "text": "Agree",
-        "next": "mission_start",
-        "set_flag": {},
+        "option": "Top of the morning to you, Siti, my amazing AI friend! What's is up with the siren?",
+        "nextScene": "scene_1a",
+        "set_flag": {"siti": 1},
         "condition": {}
       },
       {
-        "text": "Disagree",
-        "next": "mission_cancelled",
+        "option": "Not the time for that. Can’t you just tell me what’s causing that ear-splitting, high-pitched siren?",
+        "nextScene": "scene_1b",
+        "set_flag": {"siti": -1},
+        "condition": {}
+      }
+    ]
+  },
+  {
+    "id": "scene_1a",
+    "background": "assets/background/background.jpg",
+    "dialogues": [
+      {
+        "character": "SITI the AI",
+        "narrative": "Oh, thank you my cool PLAYER. The siren is going mad because something tried to get in remotely."
+      },
+      {
+        "character": "PLAYER",
+        "narrative": "Impossible! We’re seriously isolated out here."
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "Good observation, PLAYER! You may think that I’m pulling your legs you if I told you that the access came from Nur Zero Three spaceship!"
+      },
+      {
+        "character": "PLAYER",
+        "narrative": "NZT? That’s gotta be a joke, right?"
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "You seem to forget that I’m an AI. I can’t “joke”. However, I can tell you a wonderful dad's jokes."
+      },
+      {
+        "character": "PLAYER",
+        "narrative": "Not now, Siti. I need to see for myself."
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "Understood! Don't forget to bring your access card."
+      }
+    ],
+    "choices": [
+      {
+        "option": "Leave room",
+        "nextScene": "scene_2",
         "set_flag": {},
         "condition": {}
       }
     ]
   },
   {
-    "id": "mission_start",
-    "background": "assets/background/mission_start.jpg",
+    "id": "scene_1b",
+    "background": "assets/background/background.jpg",
     "dialogues": [
       {
-        "character": "PLAYER",
-        "text": "Let's begin the mission!"
+        "character": "SITI the AI",
+        "narrative": "Well, okay then! An unauthorized remote access attempt has triggered the alarm."
       },
       {
-        "character": "SECOND_OFFICER",
-        "text": "All systems are go."
+        "character": "PLAYER",
+        "narrative": "Your system must be wrong. We’re a long way from another civilization."
+      },
+        {
+        "character": "SITI the AI",
+        "narrative": "I’m never wrong, PLAYER. Never."
+         },
+      {
+        "character": "PLAYER",
+        "narrative": "Then tell me, do you know who is it?"
+      },
+      {
+        "character":  "SITI the AI",
+        "narrative": "Nur Zero Three."
+      },
+      {
+          "character": "PLAYER",
+          "narrative": "Impossible! This is ridiculous!"
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "Mmhmm."
+      },
+      {
+        "character" : "PLAYER",
+        "narrative": "I have to check it myself."
       }
     ],
     "choices": [
       {
-        "text": "Proceed",
-        "next": "mission_in_progress",
-        "set_flag": {
-          "mission_progress": 1
-        },
-        "condition": {
-          "trust": 1
-        }
+        "option": "Leave room",
+        "nextScene": "scene_2",
+        "set_flag": {},
+        "condition": {}
       }
     ]
   },
   {
-    "id": "mission_cancelled",
-    "background": "assets/background/mission_cancelled.jpg",
+  "id": "scene_2",
+    "background": "assets/background/background.jpg",
     "dialogues": [
       {
-        "character": "PLAYER",
-        "text": "I can't agree to that."
+        "character": "SITI the AI",
+        "narrative": "Welcome to hallway"
       },
       {
-        "character": "SECOND_OFFICER",
-        "text": "Mission aborted."
+        "character": "PLAYER",
+        "narrative": "Good."
       }
     ],
     "choices": [
       {
-        "text": "Exit",
-        "next": "end",
-        "set_flag": {
-          "mission_status": -1
-        },
-        "condition": {
-          "trust": -1
-        }
+        "option": "Exit",
+        "nextScene": "",
+        "set_flag": {},
+        "condition": {}
       }
     ]
   }
