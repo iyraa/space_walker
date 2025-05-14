@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:space_walker/screens/game_screen.dart';
+import 'package:space_walker/screens/game_screenn.dart';
 
 class NameInputScreen extends StatefulWidget {
   const NameInputScreen({super.key});
@@ -20,7 +21,8 @@ class _NameInputScreenState extends State<NameInputScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => GameScreen(playerName: 'Captain $playerName'),
+            builder:
+                (context) => GameScreenn(playerName: 'Captain $playerName'),
           ),
         );
       }

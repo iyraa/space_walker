@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:space_walker/screens/game_screenn.dart';
+import 'package:space_walker/screens/sample_grid.dart';
 import 'package:space_walker/services/flag_service.dart';
 import 'package:space_walker/services/story_service.dart';
 import 'package:space_walker/screens/name_input_screen.dart';
@@ -39,7 +41,16 @@ class SpaceWalker extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Space Walker',
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.dark(
+          secondary: Color(0xFF18222A),
+          primary: Color(0xFF9ED7D0),
+          brightness: Brightness.dark,
+        ),
+
+        textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 23)),
+      ),
+
       debugShowCheckedModeBanner: false,
       home: const NameInputScreen(),
     );

@@ -82,12 +82,10 @@ class _GameScreenState extends State<GameScreen> {
       widget.playerName,
     );
 
-    // final String characterImg = character.toLowerCase().replaceAll(
-    //   '%2520',
-    //   '_',
-    // );
+    bool isPlayer = character == widget.playerName;
 
     String characterImg = character.replaceAll(' ', '_').toLowerCase();
+
     final String backgroundPath = _currentNode!.background;
 
     final bool isLastLine =
@@ -113,90 +111,99 @@ class _GameScreenState extends State<GameScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          Column(
-            children: [
-              DialogueWidget(
-                character: character,
-                narrative: narrative,
-                onNext: _nextDialogue,
-                isLastLine: isLastLine,
-                characterImg: characterImg,
+          Positioned.fill(
+            child: Image.asset(backgroundPath, fit: BoxFit.cover),
+          ),
+
+          // Positioned(
+          //   top: 20,
+          //   right: 10,
+          //   child: Column(
+          //     children: [
+          //       if (character.isNotEmpty)
+          //         Image.asset(
+          //           'characters/$characterImg.png',
+          //           height: 150,
+          //           errorBuilder: (_, __, ___) => const SizedBox(),
+          //         ),
+          //     ],
+          //   ),
+          // ),
+
+          // character and dialogue
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.orange,
               ),
-            ],
+              padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+              //color: Color.fromRGBO(0, 0, 0, 0.6),
+              //alignment: Alignment.bottomCenter,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  if (character.isNotEmpty)
+                    Container(
+                      color: Color.fromRGBO(23, 34, 5, 1),
+                      child: DialogueWidget(
+                        character: character,
+                        narrative: narrative,
+                        isLastLine: isLastLine,
+                        characterImg: characterImg,
+                        availableChoices: availableChoices,
+                        goToNode: _goToNode,
+                      ),
+                      // child: Text(
+                      //   '$character:',
+                      //   style: const TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 20,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                      //),
+                      // const SizedBox(height: 8),
+                      // Text(
+                      //   narrative,
+                      //   style: const TextStyle(fontSize: 18, color: Colors.white),
+                      // ),
+                      // const SizedBox(height: 20),
+                      // if (!isLastLine)
+                      //   ElevatedButton(
+                      //     onPressed: _nextDialogue,
+                      //     child: const Icon(Icons.arrow_downward),
+                      //   )
+                      // else
+                      //   ...availableChoices.map((choice) {
+                      //     return Padding(
+                      //       padding: const EdgeInsets.only(bottom: 10),
+                      //       child: ElevatedButton(
+                      //         onPressed: () {
+                      //           // Apply the flags and load the next node
+                      //           if (choice.setFlag != null) {
+                      //             flagService.applyFlag(choice.setFlag);
+                      //           }
+                      //           _goToNode(
+                      //             choice.nextScene,
+                      //           ); // Or use `choice.next` if that's the actual ID
+                      //         },
+                      //         child: Text(
+                      //           choice.option,
+                      //         ), // Use choice.text for the button text
+                      //       ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
-
-    // return Scaffold(
-    //   backgroundColor: Colors.black,
-    //   body: Stack(
-    //     children: [
-    //       Positioned.fill(
-    //         child: Image.asset(backgroundPath, fit: BoxFit.cover),
-    //       ),
-    //       Positioned.fill(
-    //         child: Container(
-    //           padding: const EdgeInsets.all(20),
-    //           color: Color.fromRGBO(255, 255, 255, 0.3),
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               if (character.isNotEmpty)
-    //                 Center(
-    //                   child: Image.asset(
-    //                     'assets/images/characters/$character.png',
-    //                     height: 150,
-    //                     errorBuilder: (_, __, ___) => const SizedBox(),
-    //                   ),
-    //                 ),
-    //               const SizedBox(height: 10),
-    //               if (character.isNotEmpty)
-    //                 Text(
-    //                   '$character:',
-    //                   style: const TextStyle(
-    //                     fontWeight: FontWeight.bold,
-    //                     fontSize: 20,
-    //                     color: Colors.white,
-    //                   ),
-    //                 ),
-    //               const SizedBox(height: 8),
-    //               Text(
-    //                 narrative,
-    //                 style: const TextStyle(fontSize: 18, color: Colors.white),
-    //               ),
-    //               const SizedBox(height: 20),
-    //               if (!isLastLine)
-    //                 ElevatedButton(
-    //                   onPressed: _nextDialogue,
-    //                   child: const Icon(Icons.arrow_downward),
-    //                 )
-    //               else
-    //                 ...availableChoices.map((choice) {
-    //                   return Padding(
-    //                     padding: const EdgeInsets.only(bottom: 10),
-    //                     child: ElevatedButton(
-    //                       onPressed: () {
-    //                         // Apply the flags and load the next node
-    //                         if (choice.setFlag != null) {
-    //                           flagService.applyFlag(choice.setFlag);
-    //                         }
-    //                         _goToNode(
-    //                           choice.nextScene,
-    //                         ); // Or use `choice.next` if that's the actual ID
-    //                       },
-    //                       child: Text(
-    //                         choice.option,
-    //                       ), // Use choice.text for the button text
-    //                     ),
-    //                   );
-    //                 }),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }
