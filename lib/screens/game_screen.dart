@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:space_walker/services/flag_service.dart';
+import 'package:space_walker/models/node.dart';
+import 'package:space_walker/ui/choice_widget.dart';
 import 'package:space_walker/ui/dialogue_widget.dart';
-import '../models/node.dart';
+import 'package:space_walker/services/flag_service.dart';
 
 class GameScreen extends StatefulWidget {
   final String playerName;
@@ -12,6 +13,27 @@ class GameScreen extends StatefulWidget {
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
+
+final LinearGradient myBGGradient = LinearGradient(
+  colors: [Color(0xff000000), Color(0xff434343)],
+  stops: [0, 1],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+
+final LinearGradient borderGradient = LinearGradient(
+  colors: [Color(0xff831100), Color(0xff753a88)],
+  stops: [0, 1],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+
+final LinearGradient containerGradient = LinearGradient(
+  colors: [Color(0xff1d4350), Color(0xffa43931)],
+  stops: [0, 1],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
 
 class _GameScreenState extends State<GameScreen> {
   Node? _currentNode;
@@ -33,7 +55,7 @@ class _GameScreenState extends State<GameScreen> {
         _dialogueIndex = 0;
       });
     } else {
-      print('no intro scene found in Hive'); //debug
+      debugPrint('no intro scene found in Hive');
     }
   }
 
@@ -44,11 +66,6 @@ class _GameScreenState extends State<GameScreen> {
       setState(() => _dialogueIndex++);
     }
   }
-
-  // void _selectChoice(Choice choice) {
-  //   flagService.applyFlag(choice.setFlag);
-  //   _goToNode(choice.text);
-  // }
 
   void _goToNode(String nodeID) {
     final nextNode = _nodeBox.get(nodeID);
@@ -64,32 +81,27 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_currentNode == null) {
-      return Scaffold(
-        backgroundColor: Colors.black,
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
-
     final DialogueLine line = _currentNode!.dialogues[_dialogueIndex];
-
     final String character = line.character.replaceAll(
       "PLAYER",
       widget.playerName,
     );
+
     final String narrative = line.narrative.replaceAll(
       "PLAYER",
       widget.playerName,
     );
 
-    bool isPlayer = character == widget.playerName;
-
-    String characterImg = character.replaceAll(' ', '_').toLowerCase();
-
     final String backgroundPath = _currentNode!.background;
 
     final bool isLastLine =
         _dialogueIndex == _currentNode!.dialogues.length - 1;
+
+    String characterImg = character.replaceAll(' ', '_').toLowerCase();
+
+    bool isPlayer = character == widget.playerName;
+
+    String mainPlayerName = widget.playerName;
 
     // Filter choices based on conditions (make sure condition is not null)
     final availableChoices =
@@ -103,106 +115,284 @@ class _GameScreenState extends State<GameScreen> {
                 .toList()
             : [];
 
+    bool _showSnackBar = false;
     print(
       'Available choices: ${availableChoices.map((choice) => choice.option).toList()}',
     );
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(backgroundPath, fit: BoxFit.cover),
-          ),
+    //deco var
+    final colorScheme = Theme.of(context).colorScheme;
+    final double borderWidth = 1.0;
+    final Color containerColor = colorScheme.secondary;
+    final Color borderColor = colorScheme.primary;
+    final double borderPadding = 2.0;
 
-          // Positioned(
-          //   top: 20,
-          //   right: 10,
-          //   child: Column(
-          //     children: [
-          //       if (character.isNotEmpty)
-          //         Image.asset(
-          //           'characters/$characterImg.png',
-          //           height: 150,
-          //           errorBuilder: (_, __, ___) => const SizedBox(),
-          //         ),
-          //     ],
-          //   ),
-          // ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Sample Grid')),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            //double height = constraints.maxHeight;
 
-          // character and dialogue
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.orange,
+            // Check if height is below 800
+            // if (height < 800 && !_showSnackBar) {
+            //   // Show a notification (Snackbar) if height is below 800
+            //   WidgetsBinding.instance.addPostFrameCallback((_) {
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       SnackBar(
+            //         content: Text(
+            //           'Height is less than the minimum required height of 800.',
+            //         ),
+            //         duration: Duration(seconds: 3),
+            //         backgroundColor: Colors.red,
+            //       ),
+            //     );
+            //   });
+            // }
+            print(
+              'Height: ${constraints.maxHeight}, Width: ${constraints.maxWidth}',
+            );
+
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: 800,
+                minWidth: constraints.maxWidth,
               ),
-              padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-              //color: Color.fromRGBO(0, 0, 0, 0.6),
-              //alignment: Alignment.bottomCenter,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  if (character.isNotEmpty)
+              child: Container(
+                decoration: BoxDecoration(gradient: myBGGradient),
+                child: Column(
+                  children: [
+                    //Top
                     Container(
-                      color: Color.fromRGBO(23, 34, 5, 1),
-                      child: DialogueWidget(
-                        character: character,
-                        narrative: narrative,
-                        isLastLine: isLastLine,
-                        characterImg: characterImg,
-                        availableChoices: availableChoices,
-                        goToNode: _goToNode,
+                      height: 30,
+                      decoration: BoxDecoration(color: Colors.black),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('spacewalker'),
+
+                            Text('Login: $mainPlayerName'),
+                          ],
+                        ),
                       ),
-                      // child: Text(
-                      //   '$character:',
-                      //   style: const TextStyle(
-                      //     fontWeight: FontWeight.bold,
-                      //     fontSize: 20,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
-                      //),
-                      // const SizedBox(height: 8),
-                      // Text(
-                      //   narrative,
-                      //   style: const TextStyle(fontSize: 18, color: Colors.white),
-                      // ),
-                      // const SizedBox(height: 20),
-                      // if (!isLastLine)
-                      //   ElevatedButton(
-                      //     onPressed: _nextDialogue,
-                      //     child: const Icon(Icons.arrow_downward),
-                      //   )
-                      // else
-                      //   ...availableChoices.map((choice) {
-                      //     return Padding(
-                      //       padding: const EdgeInsets.only(bottom: 10),
-                      //       child: ElevatedButton(
-                      //         onPressed: () {
-                      //           // Apply the flags and load the next node
-                      //           if (choice.setFlag != null) {
-                      //             flagService.applyFlag(choice.setFlag);
-                      //           }
-                      //           _goToNode(
-                      //             choice.nextScene,
-                      //           ); // Or use `choice.next` if that's the actual ID
-                      //         },
-                      //         child: Text(
-                      //           choice.option,
-                      //         ), // Use choice.text for the button text
-                      //       ),
                     ),
-                ],
+
+                    //SizedBox(width: 5),
+
+                    //2nd
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  //2nd row 1st col
+                                  Expanded(
+                                    flex: 1,
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.all(
+                                              borderPadding,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                width: borderWidth,
+                                                color: borderColor,
+                                              ),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: containerColor,
+                                                border: Border.all(
+                                                  width: borderWidth,
+                                                  color: borderColor,
+                                                ),
+                                              ),
+                                              child: const Center(
+                                                child: Text('info'),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                        SizedBox(height: 10),
+
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.all(
+                                              borderPadding,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                width: borderWidth,
+                                                color: borderColor,
+                                              ),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: containerColor,
+                                                border: Border.all(
+                                                  width: borderWidth,
+                                                  color: borderColor,
+                                                ),
+                                              ),
+                                              child: const Center(
+                                                child: Text('info'),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 10),
+                                  //2nd row 2nd col
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: borderWidth,
+                                          color: borderColor,
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: containerColor,
+                                          border: Border.all(
+                                            width: 1,
+                                            color: borderColor,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: ChoiceWidget(
+                                            isLastLine: isLastLine,
+                                            availableChoices: availableChoices,
+                                            goToNode: _goToNode,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+
+                                  //2nd row 3rd col
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: borderWidth,
+                                          color: borderColor,
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.all(borderPadding),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: containerColor,
+                                          border: Border.all(
+                                            width: borderWidth,
+                                            color: borderColor,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text('this is the one'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(height: 10),
+                            //third row
+                            //third row, 1st col
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: GestureDetector(
+                                      onTap: _nextDialogue,
+                                      child: Container(
+                                        padding: EdgeInsets.all(2.0),
+                                        decoration: BoxDecoration(
+                                          color: colorScheme.secondary,
+                                          border: Border.all(
+                                            width: 1,
+                                            color: colorScheme.primary,
+                                          ),
+                                        ),
+
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: colorScheme.primary,
+                                            ),
+                                          ),
+                                          child: DialogueWidget(
+                                            character: character,
+                                            narrative: narrative,
+                                            isLastLine: isLastLine,
+                                            characterImg: characterImg,
+                                            availableChoices: [],
+                                            goToNode: _goToNode,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+
+                                  //third row, 2nd col
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: borderWidth,
+                                          color: borderColor,
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.all(borderPadding),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: containerColor,
+                                          border: Border.all(
+                                            width: borderWidth,
+                                            color: borderColor,
+                                          ),
+                                        ),
+                                        child: Center(child: Text('30')),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

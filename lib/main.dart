@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:space_walker/screens/game_screenn.dart';
+import 'package:space_walker/screens/game_screen.dart';
 import 'package:space_walker/screens/sample_grid.dart';
 import 'package:space_walker/services/flag_service.dart';
 import 'package:space_walker/services/story_service.dart';
