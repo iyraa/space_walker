@@ -4,6 +4,8 @@ import 'package:space_walker/models/node.dart';
 import 'package:space_walker/ui/choice_widget.dart';
 import 'package:space_walker/ui/dialogue_widget.dart';
 import 'package:space_walker/services/flag_service.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+//import 'package:space_walker/ui/typewriter_text_widget.dart';
 
 class GameScreen extends StatefulWidget {
   final String playerName;
@@ -13,27 +15,6 @@ class GameScreen extends StatefulWidget {
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
-
-final LinearGradient myBGGradient = LinearGradient(
-  colors: [Color(0xff000000), Color(0xff434343)],
-  stops: [0, 1],
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-);
-
-final LinearGradient borderGradient = LinearGradient(
-  colors: [Color(0xff831100), Color(0xff753a88)],
-  stops: [0, 1],
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-);
-
-final LinearGradient containerGradient = LinearGradient(
-  colors: [Color(0xff1d4350), Color(0xffa43931)],
-  stops: [0, 1],
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-);
 
 class _GameScreenState extends State<GameScreen> {
   Node? _currentNode;
@@ -115,7 +96,6 @@ class _GameScreenState extends State<GameScreen> {
                 .toList()
             : [];
 
-    bool _showSnackBar = false;
     print(
       'Available choices: ${availableChoices.map((choice) => choice.option).toList()}',
     );
@@ -159,7 +139,7 @@ class _GameScreenState extends State<GameScreen> {
                 minWidth: constraints.maxWidth,
               ),
               child: Container(
-                decoration: BoxDecoration(gradient: myBGGradient),
+                decoration: BoxDecoration(color: colorScheme.secondary),
                 child: Column(
                   children: [
                     //Top
@@ -277,7 +257,7 @@ class _GameScreenState extends State<GameScreen> {
                                         ),
                                         child: Center(
                                           child: ChoiceWidget(
-                                            isLastLine: isLastLine,
+                                            // isLastLine: isLastLine,
                                             availableChoices: availableChoices,
                                             goToNode: _goToNode,
                                           ),
@@ -307,7 +287,24 @@ class _GameScreenState extends State<GameScreen> {
                                           ),
                                         ),
                                         child: Center(
-                                          child: Text('this is the one'),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: AnimatedTextKit(
+                                              animatedTexts: [
+                                                TypewriterAnimatedText(
+                                                  'System Log...',
+                                                  textStyle: const TextStyle(
+                                                    fontFamily: 'BrunoAceSC',
+                                                    color: Color(0xFF9ED7D0),
+                                                  ),
+                                                  speed: const Duration(
+                                                    milliseconds: 300,
+                                                  ),
+                                                ),
+                                              ],
+                                              repeatForever: true,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -347,9 +344,9 @@ class _GameScreenState extends State<GameScreen> {
                                             character: character,
                                             narrative: narrative,
                                             isLastLine: isLastLine,
-                                            characterImg: characterImg,
-                                            availableChoices: [],
-                                            goToNode: _goToNode,
+                                            // characterImg: characterImg,
+                                            // availableChoices: [],
+                                            // goToNode: _goToNode,
                                           ),
                                         ),
                                       ),

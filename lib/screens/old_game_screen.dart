@@ -155,9 +155,6 @@ class _OldGameScreenState extends State<OldGameScreen> {
                         character: character,
                         narrative: narrative,
                         isLastLine: isLastLine,
-                        characterImg: characterImg,
-                        availableChoices: availableChoices,
-                        goToNode: _goToNode,
                       ),
                       // child: Text(
                       //   '$character:',

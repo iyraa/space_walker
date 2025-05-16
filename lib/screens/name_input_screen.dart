@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:space_walker/screens/old_game_screen.dart';
+import 'package:space_walker/main.dart';
 import 'package:space_walker/screens/game_screen.dart';
 
 class NameInputScreen extends StatefulWidget {
@@ -21,8 +21,7 @@ class _NameInputScreenState extends State<NameInputScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder:
-                (context) => GameScreen(playerName: 'Captain $playerName'),
+            builder: (context) => GameScreen(playerName: 'Captain $playerName'),
           ),
         );
       }
@@ -31,6 +30,8 @@ class _NameInputScreenState extends State<NameInputScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -41,7 +42,7 @@ class _NameInputScreenState extends State<NameInputScreen> {
               Text('Enter your name'),
               TextField(controller: _controller),
               SizedBox(height: 16),
-              ElevatedButton(
+              OutlinedButton(
                 onPressed: _startGame,
                 child: Text('Go on a mission'),
               ),

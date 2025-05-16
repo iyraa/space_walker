@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   hive: ^2.0.5
   hive_flutter: ^1.1.0
+  animated_text_kit: ^4.2.2
+
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +27,18 @@ flutter:
     - assets/json/story.json
     - assets/background/
     - assets/characters/
+
+  fonts:
+    - family: SpaceMono
+      fonts:
+        - asset: fonts/SpaceMono-Regular.ttf
+        - asset: fonts/SpaceMono-Italic.ttf
+          style: italic
+        - asset: fonts/SpaceMono-Bold.ttf
+          weight: 700
+    - family: BrunoAceSC
+      fonts:
+        - asset: fonts/BrunoAceSC-Regular.ttf
+    - family: Electrolize
+      fonts:
+        - asset: fonts/Electrolize-Regular.ttf
