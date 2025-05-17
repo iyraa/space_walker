@@ -9,7 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-  //await flagService.init();
+  await flagService.init();
 
   // Register adapters
   Hive.registerAdapter(NodeAdapter());

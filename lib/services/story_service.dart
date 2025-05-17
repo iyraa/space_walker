@@ -57,6 +57,7 @@ Future<void> loadStoryFromJson() async {
               nextScene: choice['nextScene'],
               setFlag: setFlag,
               condition: condition,
+              
             );
           }).toList(),
     );

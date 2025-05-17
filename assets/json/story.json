@@ -62,10 +62,16 @@
     ],
     "choices": [
       {
-        "option": "Leave room",
+        "option": "Siti + 1",
         "nextScene": "scene_2",
         "set_flag": {},
-        "condition": {}
+        "condition": {"siti": 1}
+      },
+      {
+        "option": "Siti - 1",
+        "nextScene": "scene_2",
+        "set_flag": {},
+        "condition": {"siti": -1}
       }
     ]
   },

@@ -96,6 +96,8 @@ class _GameScreenState extends State<GameScreen> {
                 )
                 .toList()
             : [];
+    
+    
 
     print(
       'Available choices: ${availableChoices.map((choice) => choice.option).toList()}',
@@ -103,33 +105,12 @@ class _GameScreenState extends State<GameScreen> {
 
     //deco var
     final colorScheme = Theme.of(context).colorScheme;
-    final double borderWidth = 1.0;
-    final Color containerColor = colorScheme.secondary;
-    final Color borderColor = colorScheme.primary;
-    final double borderPadding = 2.0;
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text('Sample Grid')),
         body: LayoutBuilder(
           builder: (context, constraints) {
-            //double height = constraints.maxHeight;
-
-            // Check if height is below 800
-            // if (height < 800 && !_showSnackBar) {
-            //   // Show a notification (Snackbar) if height is below 800
-            //   WidgetsBinding.instance.addPostFrameCallback((_) {
-            //     ScaffoldMessenger.of(context).showSnackBar(
-            //       SnackBar(
-            //         content: Text(
-            //           'Height is less than the minimum required height of 800.',
-            //         ),
-            //         duration: Duration(seconds: 3),
-            //         backgroundColor: Colors.red,
-            //       ),
-            //     );
-            //   });
-            // }
             print(
               'Height: ${constraints.maxHeight}, Width: ${constraints.maxWidth}',
             );
@@ -154,7 +135,11 @@ class _GameScreenState extends State<GameScreen> {
                           children: [
                             Text('spacewalker'),
 
-                            Text('Login: $mainPlayerName'),
+                            AnimatedTextKit(
+                              animatedTexts: [
+                                FlickerAnimatedText('Login: $mainPlayerName'),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -221,23 +206,20 @@ class _GameScreenState extends State<GameScreen> {
                                     flex: 1,
                                     child: CustomContainer(
                                       child: Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: AnimatedTextKit(
-                                            animatedTexts: [
-                                              TypewriterAnimatedText(
-                                                'System Log...',
-                                                textStyle: const TextStyle(
-                                                  fontFamily: 'BrunoAceSC',
-                                                  color: Color(0xFF9ED7D0),
-                                                ),
-                                                speed: const Duration(
-                                                  milliseconds: 300,
-                                                ),
+                                        child: AnimatedTextKit(
+                                          animatedTexts: [
+                                            TypewriterAnimatedText(
+                                              'System Log...',
+                                              textStyle: const TextStyle(
+                                                fontFamily: 'BrunoAceSC',
+                                                color: Color(0xFF9ED7D0),
                                               ),
-                                            ],
-                                            repeatForever: true,
-                                          ),
+                                              speed: const Duration(
+                                                milliseconds: 300,
+                                              ),
+                                            ),
+                                          ],
+                                          repeatForever: true,
                                         ),
                                       ),
                                     ),
