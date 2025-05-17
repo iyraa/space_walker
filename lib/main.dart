@@ -8,10 +8,8 @@ import 'models/node.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Hive
-  //final appDocDir = await getApplicationDocumentsDirectory();
   await Hive.initFlutter();
-  await flagService.init();
+  //await flagService.init();
 
   // Register adapters
   Hive.registerAdapter(NodeAdapter());

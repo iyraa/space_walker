@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:space_walker/models/node.dart';
 import 'package:space_walker/ui/choice_widget.dart';
+import 'package:space_walker/ui/custom_container.dart';
 import 'package:space_walker/ui/dialogue_widget.dart';
 import 'package:space_walker/services/flag_service.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -179,27 +180,9 @@ class _GameScreenState extends State<GameScreen> {
                                     child: Column(
                                       children: [
                                         Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.all(
-                                              borderPadding,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                width: borderWidth,
-                                                color: borderColor,
-                                              ),
-                                            ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: containerColor,
-                                                border: Border.all(
-                                                  width: borderWidth,
-                                                  color: borderColor,
-                                                ),
-                                              ),
-                                              child: const Center(
-                                                child: Text('info'),
-                                              ),
+                                          child: CustomContainer(
+                                            child: const Center(
+                                              child: Text('info'),
                                             ),
                                           ),
                                         ),
@@ -207,27 +190,9 @@ class _GameScreenState extends State<GameScreen> {
                                         SizedBox(height: 10),
 
                                         Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.all(
-                                              borderPadding,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                width: borderWidth,
-                                                color: borderColor,
-                                              ),
-                                            ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: containerColor,
-                                                border: Border.all(
-                                                  width: borderWidth,
-                                                  color: borderColor,
-                                                ),
-                                              ),
-                                              child: const Center(
-                                                child: Text('info'),
-                                              ),
+                                          child: CustomContainer(
+                                            child: const Center(
+                                              child: Text('info'),
                                             ),
                                           ),
                                         ),
@@ -239,28 +204,12 @@ class _GameScreenState extends State<GameScreen> {
                                   //2nd row 2nd col
                                   Expanded(
                                     flex: 3,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: borderWidth,
-                                          color: borderColor,
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: containerColor,
-                                          border: Border.all(
-                                            width: 1,
-                                            color: borderColor,
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: ChoiceWidget(
-                                            // isLastLine: isLastLine,
-                                            availableChoices: availableChoices,
-                                            goToNode: _goToNode,
-                                          ),
+                                    child: CustomContainer(
+                                      child: Center(
+                                        child: ChoiceWidget(
+                                          // isLastLine: isLastLine,
+                                          availableChoices: availableChoices,
+                                          goToNode: _goToNode,
                                         ),
                                       ),
                                     ),
@@ -270,40 +219,24 @@ class _GameScreenState extends State<GameScreen> {
                                   //2nd row 3rd col
                                   Expanded(
                                     flex: 1,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: borderWidth,
-                                          color: borderColor,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.all(borderPadding),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: containerColor,
-                                          border: Border.all(
-                                            width: borderWidth,
-                                            color: borderColor,
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(20.0),
-                                            child: AnimatedTextKit(
-                                              animatedTexts: [
-                                                TypewriterAnimatedText(
-                                                  'System Log...',
-                                                  textStyle: const TextStyle(
-                                                    fontFamily: 'BrunoAceSC',
-                                                    color: Color(0xFF9ED7D0),
-                                                  ),
-                                                  speed: const Duration(
-                                                    milliseconds: 300,
-                                                  ),
+                                    child: CustomContainer(
+                                      child: Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(20.0),
+                                          child: AnimatedTextKit(
+                                            animatedTexts: [
+                                              TypewriterAnimatedText(
+                                                'System Log...',
+                                                textStyle: const TextStyle(
+                                                  fontFamily: 'BrunoAceSC',
+                                                  color: Color(0xFF9ED7D0),
                                                 ),
-                                              ],
-                                              repeatForever: true,
-                                            ),
+                                                speed: const Duration(
+                                                  milliseconds: 300,
+                                                ),
+                                              ),
+                                            ],
+                                            repeatForever: true,
                                           ),
                                         ),
                                       ),
@@ -323,31 +256,14 @@ class _GameScreenState extends State<GameScreen> {
                                     flex: 4,
                                     child: GestureDetector(
                                       onTap: _nextDialogue,
-                                      child: Container(
-                                        padding: EdgeInsets.all(2.0),
-                                        decoration: BoxDecoration(
-                                          color: colorScheme.secondary,
-                                          border: Border.all(
-                                            width: 1,
-                                            color: colorScheme.primary,
-                                          ),
-                                        ),
-
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              width: 1,
-                                              color: colorScheme.primary,
-                                            ),
-                                          ),
-                                          child: DialogueWidget(
-                                            character: character,
-                                            narrative: narrative,
-                                            isLastLine: isLastLine,
-                                            // characterImg: characterImg,
-                                            // availableChoices: [],
-                                            // goToNode: _goToNode,
-                                          ),
+                                      child: CustomContainer(
+                                        child: DialogueWidget(
+                                          character: character,
+                                          narrative: narrative,
+                                          isLastLine: isLastLine,
+                                          // characterImg: characterImg,
+                                          // availableChoices: [],
+                                          // goToNode: _goToNode,
                                         ),
                                       ),
                                     ),
@@ -357,24 +273,8 @@ class _GameScreenState extends State<GameScreen> {
                                   //third row, 2nd col
                                   Expanded(
                                     flex: 1,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: borderWidth,
-                                          color: borderColor,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.all(borderPadding),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: containerColor,
-                                          border: Border.all(
-                                            width: borderWidth,
-                                            color: borderColor,
-                                          ),
-                                        ),
-                                        child: Center(child: Text('30')),
-                                      ),
+                                    child: CustomContainer(
+                                      child: Center(child: Text('30')),
                                     ),
                                   ),
                                 ],

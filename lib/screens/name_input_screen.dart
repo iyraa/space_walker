@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:space_walker/main.dart';
 import 'package:space_walker/screens/game_screen.dart';
 
 class NameInputScreen extends StatefulWidget {
