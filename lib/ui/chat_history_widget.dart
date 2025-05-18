@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:space_walker/ui/typewriter_text_widget.dart';
 
 // Define the ChatMessage class to hold each message's data.
 class ChatMessage {

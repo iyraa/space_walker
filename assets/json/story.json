@@ -17,13 +17,15 @@
         "option": "Top of the morning to you, Siti, my amazing AI friend! What's is up with the siren?",
         "nextScene": "scene_1a",
         "set_flag": {"siti": 1},
-        "condition": {}
+        "condition": {}, 
+        "systemLog": "The 2nd log"
       },
       {
         "option": "Not the time for that. Can’t you just tell me what’s causing that ear-splitting, high-pitched siren?",
         "nextScene": "scene_1b",
         "set_flag": {"siti": -1},
-        "condition": {}
+        "condition": {}, 
+        "systemLog": "The 2nd log"
       }
     ]
   },
@@ -65,13 +67,15 @@
         "option": "Siti + 1",
         "nextScene": "scene_2",
         "set_flag": {},
-        "condition": {"siti": 1}
+        "condition": {"siti": 1}, 
+        "systemLog": "The 2nd log"
       },
       {
         "option": "Siti - 1",
         "nextScene": "scene_2",
         "set_flag": {},
-        "condition": {"siti": -1}
+        "condition": {"siti": -1}, 
+        "systemLog": "The 2nd log"
       }
     ]
   },
@@ -117,7 +121,8 @@
         "option": "Leave room",
         "nextScene": "scene_2",
         "set_flag": {},
-        "condition": {}
+        "condition": {}, 
+        "systemLog": "The 2nd log"
       }
     ]
   },
@@ -139,7 +144,8 @@
         "option": "Exit",
         "nextScene": "",
         "set_flag": {},
-        "condition": {}
+        "condition": {}, 
+        "systemLog": "The 2nd log"
       }
     ]
   }

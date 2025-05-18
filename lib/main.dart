@@ -19,7 +19,7 @@ void main() async {
   final nodeBox = await Hive.openBox<Node>('nodeBox');
   if (nodeBox.isEmpty) {
     print('loading story from JSON...');
-    await loadStoryFromJson(); //load the story data into Hive if box is empty
+    await StoryService.loadStoryFromJson(); //load the story data into Hive if box is empty
     print('story loaded into Hive');
   }
   // Open the story data and start the app

@@ -101,13 +101,14 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       condition: (fields[1] as Map?)?.cast<String, int>(),
       setFlag: (fields[2] as Map?)?.cast<String, int>(),
       nextScene: fields[3] as String?,
+      systemLog: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Choice obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.option)
       ..writeByte(1)
@@ -115,7 +116,9 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       ..writeByte(2)
       ..write(obj.setFlag)
       ..writeByte(3)
-      ..write(obj.nextScene);
+      ..write(obj.nextScene)
+      ..writeByte(4)
+      ..write(obj.systemLog);
   }
 
   @override

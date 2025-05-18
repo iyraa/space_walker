@@ -19,6 +19,7 @@ class Node {
   @HiveField(3)
   final List<Choice> choices;
 
+
   Node({
     required this.id,
     required this.background,
@@ -54,5 +55,14 @@ class Choice {
   @HiveField(3)
   final String? nextScene;
 
-  Choice({required this.option, this.condition, this.setFlag, this.nextScene});
+  @HiveField(4)
+  final String? systemLog;
+
+  Choice({
+    required this.option,
+    this.condition,
+    this.setFlag,
+    this.nextScene,
+    this.systemLog,
+  });
 }
