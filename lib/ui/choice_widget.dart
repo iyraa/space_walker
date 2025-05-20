@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:space_walker/models/node.dart';
-import 'package:space_walker/services/flag_service.dart';
 
 class ChoiceWidget extends StatelessWidget {
-  // final bool isLastLine;
   final Choice choice;
-  final VoidCallback
-  onSelected; // final void Function(Choice) onChoiceSelected;
+  final VoidCallback onSelected;
 
   const ChoiceWidget({
     super.key,
@@ -16,29 +13,38 @@ class ChoiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color.fromRGBO(40, 40, 53, 0.298),
-      child: Align(
-        //padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 16.0,
+              ),
+              child: Center(
+                child: OutlinedButton(
+                  onPressed: onSelected,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
 
-          children: [
-            Center(
-              //padding: const EdgeInsets.only(top: 10),
-              child: OutlinedButton(
-                onPressed: onSelected,
-
-                child: Text(choice.option),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 24,
+                    ),
+                  ),
+                  child: Text(choice.option),
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-    // } else {
-    //   return SizedBox();
   }
 }
-
-//}

@@ -6,7 +6,7 @@ class FlagService {
 
   /// Initialize the Hive box (call once in `main()` before use)
   Future<void> init() async {
-    _box = await Hive.openBox(_boxFlag);
+    _box = await Hive.openBox('flags');
   }
 
   /// Apply a map of flags to the box (e.g., from a Choice)

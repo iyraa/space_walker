@@ -16,7 +16,7 @@ class CustomContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
         border: Border.all(
           width: 1,
           color: Theme.of(context).colorScheme.primary,
@@ -26,7 +26,7 @@ class CustomContainer extends StatelessWidget {
         padding: padding,
         margin: const EdgeInsets.all(2.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
           border: Border.all(
             width: 1,
             color: Theme.of(context).colorScheme.primary,

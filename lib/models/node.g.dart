@@ -20,15 +20,14 @@ class NodeAdapter extends TypeAdapter<Node> {
       id: fields[0] as String,
       background: fields[1] as String,
       dialogues: (fields[2] as List).cast<DialogueLine>(),
-      puzzle: fields[3] as Puzzle?,
-      choices: (fields[4] as List).cast<Choice>(),
+      choices: (fields[3] as List).cast<Choice>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Node obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -36,8 +35,6 @@ class NodeAdapter extends TypeAdapter<Node> {
       ..writeByte(2)
       ..write(obj.dialogues)
       ..writeByte(3)
-      ..write(obj.puzzle)
-      ..writeByte(4)
       ..write(obj.choices);
   }
 
@@ -105,13 +102,14 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       setFlag: (fields[2] as Map?)?.cast<String, int>(),
       nextScene: fields[3] as String?,
       systemLog: fields[4] as String?,
+      puzzle: fields[5] as Puzzle?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Choice obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.option)
       ..writeByte(1)
@@ -121,7 +119,9 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       ..writeByte(3)
       ..write(obj.nextScene)
       ..writeByte(4)
-      ..write(obj.systemLog);
+      ..write(obj.systemLog)
+      ..writeByte(5)
+      ..write(obj.puzzle);
   }
 
   @override

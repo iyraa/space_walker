@@ -12,19 +12,20 @@
         "narrative": "Why, hello there, PLAYER. No “good morning,” Siti? We are being impolite today."
       }
     ],
-    "puzzle": {
-      "type": "codeEntry",
-      "description": "Enter the code to unlock the door.",
-      "solution": "1234",
-      "flag": "door_unlocked",
-      "successMessage": "The door is unlocked.",
-      "failureMessage": "The code is incorrect. Try again."
-    },
+    
     "choices": [
       {
         "option": "Top of the morning to you, Siti, my amazing AI friend! What's is up with the siren?",
         "nextScene": "scene_1a",
         "set_flag": {"siti": 1},
+        "condition": {}, 
+        "systemLog": "The 2nd log"
+        
+      },
+      {
+        "option": "Not the time for that. Can’t you just tell me what’s causing that ear-splitting, high-pitched siren?",
+        "nextScene": "scene_1b",
+        "set_flag": {"siti": -1},
         "condition": {}, 
         "systemLog": "The 2nd log"
       },
@@ -34,6 +35,21 @@
         "set_flag": {"siti": -1},
         "condition": {}, 
         "systemLog": "The 2nd log"
+      },
+      {
+        "option": "Do puzzle?",
+        "nextScene": "scene_1b",
+        "set_flag": {"siti": 3},
+        "condition": {}, 
+        "systemLog": "puzzle",
+        "puzzle": {
+          "type": "codeEntry",
+          "description": "Enter the code to unlock the door.",
+          "solution": "1234",
+          "flag": "door_unlocked",
+          "successMessage": "The door is unlocked.",
+          "failureMessage": "The code is incorrect. Try again."
+        }
       }
     ]
   },
@@ -150,7 +166,7 @@
     "choices": [
       {
         "option": "Exit",
-        "nextScene": "",
+        "nextScene": "start",
         "set_flag": {},
         "condition": {}, 
         "systemLog": "The 2nd log"

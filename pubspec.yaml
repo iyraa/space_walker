@@ -12,7 +12,9 @@ dependencies:
   hive: ^2.0.5
   hive_flutter: ^1.1.0
   animated_text_kit: ^4.2.2
-
+  video_player: ^2.8.2
+  audioplayers: ^6.4.0
+  animated_background: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -26,7 +28,10 @@ flutter:
   assets:
     - assets/json/story.json
     - assets/background/
+    - assets/background/moving_bg.mov
+
     - assets/characters/
+    - assets/audio/
 
   fonts:
     - family: SpaceMono

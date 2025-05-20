@@ -16,17 +16,17 @@ class Node {
   @HiveField(2)
   final List<DialogueLine> dialogues;
 
-  @HiveField(3)
-  final Puzzle? puzzle;
+  // @HiveField(3)
+  // final List<Puzzle>? puzzles;
 
-  @HiveField(4)
+  @HiveField(3)
   final List<Choice> choices;
 
   Node({
     required this.id,
     required this.background,
     required this.dialogues,
-    this.puzzle,
+    // this.puzzles,
     required this.choices,
   });
 
@@ -37,7 +37,10 @@ class Node {
         (json['dialogues'] as List)
             .map((dialogue) => DialogueLine.fromJson(dialogue))
             .toList(),
-    puzzle: json['puzzle'] != null ? Puzzle.fromJson(json['puzzle']) : null,
+    // puzzles:
+    //     (json['puzzles'] as List<dynamic>? ?? [])
+    //         .map((p) => Puzzle.fromJson(p as Map<String, dynamic>))
+    //         .toList(),
     choices:
         (json['choices'] as List)
             .map((choice) => Choice.fromJson(choice))
@@ -78,12 +81,16 @@ class Choice {
   @HiveField(4)
   final String? systemLog;
 
+  @HiveField(5)
+  final Puzzle? puzzle;
+
   Choice({
     required this.option,
     this.condition,
     this.setFlag,
     this.nextScene,
     this.systemLog,
+    this.puzzle,
   });
 
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
@@ -93,6 +100,10 @@ class Choice {
     setFlag: (json['set_flag'] as Map<String, dynamic>?)?.cast<String, int>(),
     nextScene: json['nextScene'] ?? '',
     systemLog: json['systemLog'] ?? '',
+    puzzle:
+        json['puzzle'] != null
+            ? Puzzle.fromJson(json['puzzle'] as Map<String, dynamic>)
+            : null,
   );
 }
 

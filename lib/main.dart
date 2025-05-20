@@ -17,12 +17,12 @@ void main() async {
   Hive.registerAdapter(DialogueLineAdapter());
   Hive.registerAdapter(PuzzleAdapter());
 
-  final nodeBox = await Hive.openBox<Node>('nodeBox');
-  if (nodeBox.isEmpty) {
-    print('loading story from JSON...');
-    await StoryService.loadStoryFromJson(); //load the story data into Hive if box is empty
-    print('story loaded into Hive');
-  }
+  // final nodeBox = await Hive.openBox<Node>('nodeBox');
+  // if (nodeBox.isEmpty) {
+  //   print('loading story from JSON...');
+  //   await StoryService.loadFirstNode(); //load the story data into Hive if box is empty
+  //   print('story loaded into Hive');
+  // }
   // Open the story data and start the app
   // await Hive.deleteBoxFromDisk('nodeBox');
   // var nodeBox = await Hive.openBox<Node>('nodeBox');
