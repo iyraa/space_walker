@@ -20,14 +20,15 @@ class NodeAdapter extends TypeAdapter<Node> {
       id: fields[0] as String,
       background: fields[1] as String,
       dialogues: (fields[2] as List).cast<DialogueLine>(),
-      choices: (fields[3] as List).cast<Choice>(),
+      puzzle: fields[3] as Puzzle?,
+      choices: (fields[4] as List).cast<Choice>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Node obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,6 +36,8 @@ class NodeAdapter extends TypeAdapter<Node> {
       ..writeByte(2)
       ..write(obj.dialogues)
       ..writeByte(3)
+      ..write(obj.puzzle)
+      ..writeByte(4)
       ..write(obj.choices);
   }
 
@@ -128,6 +131,58 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ChoiceAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class PuzzleAdapter extends TypeAdapter<Puzzle> {
+  @override
+  final int typeId = 3;
+
+  @override
+  Puzzle read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Puzzle(
+      type: fields[0] as String,
+      description: fields[1] as String,
+      solution: fields[2] as String,
+      flag: fields[3] as String,
+      successMessage: fields[4] as String,
+      failureMessage: fields[5] as String,
+      hint: fields[6] as String?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Puzzle obj) {
+    writer
+      ..writeByte(7)
+      ..writeByte(0)
+      ..write(obj.type)
+      ..writeByte(1)
+      ..write(obj.description)
+      ..writeByte(2)
+      ..write(obj.solution)
+      ..writeByte(3)
+      ..write(obj.flag)
+      ..writeByte(4)
+      ..write(obj.successMessage)
+      ..writeByte(5)
+      ..write(obj.failureMessage)
+      ..writeByte(6)
+      ..write(obj.hint);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PuzzleAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

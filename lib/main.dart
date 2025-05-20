@@ -15,6 +15,7 @@ void main() async {
   Hive.registerAdapter(NodeAdapter());
   Hive.registerAdapter(ChoiceAdapter());
   Hive.registerAdapter(DialogueLineAdapter());
+  Hive.registerAdapter(PuzzleAdapter());
 
   final nodeBox = await Hive.openBox<Node>('nodeBox');
   if (nodeBox.isEmpty) {

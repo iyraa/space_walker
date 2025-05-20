@@ -12,6 +12,14 @@
         "narrative": "Why, hello there, PLAYER. No “good morning,” Siti? We are being impolite today."
       }
     ],
+    "puzzle": {
+      "type": "codeEntry",
+      "description": "Enter the code to unlock the door.",
+      "solution": "1234",
+      "flag": "door_unlocked",
+      "successMessage": "The door is unlocked.",
+      "failureMessage": "The code is incorrect. Try again."
+    },
     "choices": [
       {
         "option": "Top of the morning to you, Siti, my amazing AI friend! What's is up with the siren?",

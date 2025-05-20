@@ -32,7 +32,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _loadFirstNode() async {
-    _nodeBox = Hive.box<Node>('nodeBox');
+    _nodeBox = Hive.box<Node>('nodes');
     final introScene = _nodeBox.get('start');
     if (introScene != null) {
       setState(() {
@@ -81,6 +81,11 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_currentNode == null) {
+      // Show a loading indicator or placeholder until the node is loaded
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     // final Choice choiceL = _currentNode!.choices['systemLog'];
     final DialogueLine line = _currentNode!.dialogues[_dialogueIndex];
 
