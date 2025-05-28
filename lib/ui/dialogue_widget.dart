@@ -23,40 +23,53 @@ class DialogueWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onNext,
       child: Container(
+        color: Colors.red.withOpacity(0.1),
+        padding: const EdgeInsets.all(10.0),
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-        //color: Colors.red.withOpacity(0.2), // for debugging
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '$character:',
-                  style: const TextStyle(
-                    fontFamily: 'BrunoAceSC',
-                    fontSize: 20,
-                    color: Color(0xFF9ED7D0),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        '$character:',
+                        style: const TextStyle(
+                          fontFamily: 'BrunoAceSC',
+                          fontSize: 20,
+                          color: Color(0xFF9ED7D0),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        narrative,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Expanded(
+                        child: SizedBox(),
+                      ), // pushes icon to bottom if space
+                      if (!isLastLine)
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Icon(
+                            Icons.rocket_launch_outlined,
+                            color: Color(0xFF9ED7D0),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  narrative,
-                  style: const TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                const SizedBox(height: 5.0),
-              ],
-            ),
-            if (!isLastLine)
-              Positioned(
-                right: 20,
-                bottom: 0,
-                child: Icon(
-                  Icons.rocket_launch_outlined,
-                  color: Color(0xFF9ED7D0),
-                ),
               ),
-          ],
+            );
+          },
         ),
       ),
     );

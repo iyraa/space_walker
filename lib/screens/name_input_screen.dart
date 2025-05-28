@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:space_walker/screens/game_screen.dart';
-import 'package:animated_background/animated_background.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_glow/flutter_glow.dart';
+import 'package:space_walker/ui/custom_container.dart';
+import '../ui/constellation_background.dart'; // Add this import
 
 class NameInputScreen extends StatefulWidget {
   const NameInputScreen({super.key});
@@ -32,7 +34,7 @@ class _NameInputScreenState extends State<NameInputScreen>
 
       // Play SFX and wait for it to finish (or wait a fixed duration)
       final player = AudioPlayer();
-      await player.play(AssetSource('assets/audio/sfx/welcome_captain.w4a'));
+      await player.play(AssetSource('audio/sfx/welcome_captain.mp3'));
       await Future.delayed(const Duration(seconds: 2));
 
       setState(() {
@@ -72,85 +74,136 @@ class _NameInputScreenState extends State<NameInputScreen>
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('background/space_background.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: AnimatedBackground(
-              behaviour: SpaceBehaviour(),
-              vsync: this,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Space Walker',
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                      const SizedBox(height: 32),
-                      Text(
-                        _playerName.isEmpty
-                            ? ''
-                            : 'Welcome Captain ${_playerName[0].toUpperCase()}${_playerName.length > 1 ? _playerName.substring(1) : ''}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.tealAccent,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      OutlinedButton(
-                        onPressed: _showNameInput,
-                        child: const Text('Start Game'),
-                      ),
-                      const SizedBox(height: 24),
-                      if (showNameSection) ...[
-                        const Text('Please enter your name'),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            controller: _controller,
-                            style: const TextStyle(fontSize: 14),
+            color: Theme.of(context).colorScheme.secondary,
+            child: const AnimatedConstellationBackground(),
+          ),
+          Container(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Left GIF
+                  Image.asset("images/title.gif", fit: BoxFit.cover),
+                  const SizedBox(width: 24),
+
+                  // Center: Title, name, buttons
+                  Expanded(
+                    child: CustomContainer(
+                      padding: EdgeInsets.fromLTRB(16, 100, 16, 100),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                "images/siti.gif",
+                                height: 80,
+
+                                fit: BoxFit.cover,
+                              ),
+
+                              SizedBox(height: 20),
+                              GlowText(
+                                'SPACE',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 50.0,
+                                  fontFamily: 'BrunoAceSC',
+                                ),
+                              ),
+                              GlowText(
+                                'WALKER',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 50.0,
+                                  fontFamily: 'BrunoAceSC',
+                                ),
+                              ),
+                              // AnimatedTextKit(
+                              //   animatedTexts: [
+                              //     FlickerAnimatedText(
+                              //       'SPACE WALKER',
+                              //       textStyle: TextStyle(
+                              //         fontFamily: 'BrunoAceSC',
+                              //         fontSize: 42,
+                              //         fontWeight: FontWeight.bold,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ],
+                              //   isRepeatingAnimation: true,
+                              //   repeatForever: true,
+                              // ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        OutlinedButton(
-                          onPressed: _isLoading ? null : _startGame,
-                          child: const Text('Go on a mission'),
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-                      OutlinedButton(
-                        onPressed: () {
-                          // Add your logic for this button
-                        },
-                        child: const Text('Settings'),
+                          // const SizedBox(height: 16),
+                          // Text(
+                          //   _playerName.isEmpty
+                          //       ? 'Welc'
+                          //       : 'Welcome Captain ${_playerName[0].toUpperCase()}${_playerName.length > 1 ? _playerName.substring(1) : ''}',
+                          //   style: const TextStyle(
+                          //     fontSize: 18,
+                          //     fontWeight: FontWeight.bold,
+                          //     color: Colors.tealAccent,
+                          //   ),
+                          // ),
+                          const SizedBox(height: 24),
+                          Column(
+                            children: [
+                              const SizedBox(height: 16),
+
+                              const Text('Please enter your name'),
+                              SizedBox(
+                                width: 180,
+                                child: TextField(
+                                  controller: _controller,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ),
+
+                              const SizedBox(height: 16),
+
+                              if (_playerName.isNotEmpty)
+                                const SizedBox(height: 16),
+                              OutlinedButton(
+                                onPressed: _startGame,
+                                child: const Text('Go on a mission'),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {},
+                                child: const Text('Settings'),
+                              ),
+                              const SizedBox(width: 12),
+                              OutlinedButton(
+                                onPressed: () {},
+                                child: const Text('Playlist'),
+                              ),
+                              const SizedBox(width: 12),
+                              OutlinedButton(
+                                onPressed: () {},
+                                child: const Text('Credits'),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12),
-                      OutlinedButton(
-                        onPressed: () {
-                          // Add your logic for this button
-                        },
-                        child: const Text('Playlist'),
-                      ),
-                      const SizedBox(height: 12),
-                      OutlinedButton(
-                        onPressed: () {
-                          // Add your logic for this button
-                        },
-                        child: const Text('Credits'),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 24),
+                ],
               ),
             ),
           ),
+          // ),
           if (_isLoading)
             Container(
               color: Colors.black.withOpacity(0.8),
@@ -158,10 +211,16 @@ class _NameInputScreenState extends State<NameInputScreen>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(),
+                    // CircularProgressIndicator(),
+                    Image.asset(
+                      "images/siti.gif",
+                      height: 80,
+
+                      fit: BoxFit.cover,
+                    ),
                     SizedBox(height: 24),
                     Text(
-                      'Welcome aboard, $_playerName',
+                      'Welcome, Captain $_playerName',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,

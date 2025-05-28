@@ -25,24 +25,31 @@ class SystemLogWidget extends StatelessWidget {
           ],
           repeatForever: true,
         ),
+
+        SizedBox(height: 8),
         Expanded(
           child: ListView.builder(
             itemCount: logs.length,
             itemBuilder:
-                (context, index) => AnimatedTextKit(
-                  animatedTexts: [
-                    TypewriterAnimatedText(
-                      logs[index],
-                      textStyle: TextStyle(
-                        fontSize: 11,
-                        color: Theme.of(context).colorScheme.primary,
+                (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 6.0,
+                  ), // Add vertical padding between items
+                  child: AnimatedTextKit(
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        logs[index],
+                        textStyle: TextStyle(
+                          fontSize: 11,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        speed: const Duration(milliseconds: 50),
                       ),
-                      speed: const Duration(milliseconds: 50),
-                    ),
-                  ],
-                  isRepeatingAnimation: false,
-                  displayFullTextOnTap: true,
-                  stopPauseOnTap: true,
+                    ],
+                    isRepeatingAnimation: false,
+                    displayFullTextOnTap: true,
+                    stopPauseOnTap: true,
+                  ),
                 ),
           ),
         ),

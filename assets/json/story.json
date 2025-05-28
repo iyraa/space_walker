@@ -2,6 +2,7 @@
   {
     "id": "start",
     "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
     "dialogues": [
       {
         "character": "PLAYER",
@@ -56,6 +57,7 @@
   {
     "id": "scene_1a",
     "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
     "dialogues": [
       {
         "character": "SITI the AI",
@@ -106,6 +108,7 @@
   {
     "id": "scene_1b",
     "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
     "dialogues": [
       {
         "character": "SITI the AI",
@@ -153,6 +156,7 @@
   {
   "id": "scene_2",
     "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
     "dialogues": [
       {
         "character": "SITI the AI",

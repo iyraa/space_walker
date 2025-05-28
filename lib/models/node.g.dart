@@ -19,22 +19,25 @@ class NodeAdapter extends TypeAdapter<Node> {
     return Node(
       id: fields[0] as String,
       background: fields[1] as String,
-      dialogues: (fields[2] as List).cast<DialogueLine>(),
-      choices: (fields[3] as List).cast<Choice>(),
+      music: fields[2] as String?,
+      dialogues: (fields[3] as List).cast<DialogueLine>(),
+      choices: (fields[4] as List).cast<Choice>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Node obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.background)
       ..writeByte(2)
-      ..write(obj.dialogues)
+      ..write(obj.music)
       ..writeByte(3)
+      ..write(obj.dialogues)
+      ..writeByte(4)
       ..write(obj.choices);
   }
 

@@ -14,17 +14,21 @@ class Node {
   final String background;
 
   @HiveField(2)
+  final String? music;
+
+  @HiveField(3)
   final List<DialogueLine> dialogues;
 
   // @HiveField(3)
   // final List<Puzzle>? puzzles;
 
-  @HiveField(3)
+  @HiveField(4)
   final List<Choice> choices;
 
   Node({
     required this.id,
     required this.background,
+    this.music,
     required this.dialogues,
     // this.puzzles,
     required this.choices,
@@ -33,6 +37,7 @@ class Node {
   factory Node.fromJson(Map<String, dynamic> json) => Node(
     id: json['id'] ?? '',
     background: json['background'] ?? '',
+    music: json['music'] ?? '',
     dialogues:
         (json['dialogues'] as List)
             .map((dialogue) => DialogueLine.fromJson(dialogue))
