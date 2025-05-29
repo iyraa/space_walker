@@ -1,0 +1,167 @@
+[
+  {
+    "id": "1: Start",
+    "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
+    "dialogues": [
+      {
+        "character": "PLAYER",
+        "narrative": "Huh? What’s that sound? It’s making my ears hurt."
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "You're finally awake! There's an urgent matter that needs your attention, PLAYER."
+      },
+      {
+        "character": "PLAYER",
+        "narrative": "Are the others awake?"
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "Yes they are on the way to the command center. The passengers are still sleeping; the alarm is only rang in the crew quarters. "
+      },
+      {
+        "character": "SITI the AI",
+        "narrative": "Don't forget bring your keycard and wear your uniform."
+      }
+    ],
+    "choices": [
+      {
+        "option": "Get keycard",
+        "nextScene": "",
+        "set_flag": {"got_keycard": true},
+        "condition": {},
+        "systemLog": "On the back of the card, you see a code: 0206"
+      },
+      {
+        "option": "Put on uniform",
+        "nextScene": "",
+        "set_flag": {"got_uniform": true},
+        "condition": {},
+        "systemLog": "You wear your uniform. It feels comfortable and ready for action."
+      },
+      {
+        "option": "Input password",
+        "nextScene": "",
+        "set_flag": {},
+        "condition": {},
+        "systemLog": "Attempting to login into the system...",
+        "puzzle": {
+          "type": "codeEntry",
+          "description": "Enter the code to unlock the door.",
+          "solution": "0206",
+          "set_flag": {"password_entered": true},
+          "successMessage": "Attempting to login into the system...",
+          "failureMessage": "The code is incorrect. Try again."
+        }
+      },
+      {
+        "option": "Login into the system",
+        "nextScene": "2: System Familarization",
+        "set_flag": {},
+        "condition": {
+          "got_keycard": true,
+          "got_uniform": true,
+          "password_entered": true
+        },
+        "systemLog": "Login successful. Welcome, PLAYER."
+      }
+    ]
+  },
+  {
+    "id": "2: System Familarization",
+    "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
+    "dialogues": [
+      {
+        "character": "SITI the AI",
+        "narrative": "Welcome to the system, PLAYER. Here you can find information about the ship, system logs, and more."
+      }
+    ],
+    "choices": [
+      {
+        "option": "System Logs",
+        "nextScene": "system_logs",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": "Accessing system logs..."
+      },
+      {
+        "option": "NUR 10 Information",
+        "nextScene": "",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": "NUR 10 is a spaceship designed for interstellar space travel. We are onroute to Caelus Prime, to ferry passengers and crew to their new home."
+      },
+      {
+        "option": "Shuttle Integrity",
+        "nextScene": "",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": "Shuttle integrity is the current status and information about your shuttle."
+      },
+      {
+        "option": "Who is SITI?",
+        "nextScene": "",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": "SITI is an intelligent AI system designed to assist the crew of NUR 10."
+      }, 
+      {
+        "option": "I'm familiar with the system",
+        "nextScene": "2B: System Familiarization",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": "Exiting system..."
+      }
+    ]
+  },
+  {
+    "id": "2B: System Familiarization",
+    "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
+    "dialogues": [
+      {
+        "character": "SITI the AI",
+        "narrative": "Have you familarized yourself with the system, PLAYER?"
+      }
+    ],
+    "choices": [
+      {
+        "option": "Yes, I have",
+        "nextScene": "3: Crew Quarters",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": ""
+      },
+      {
+        "option": "No, I need more time",
+        "nextScene": "2: System Familarization",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": ""
+      }
+    ]
+  },
+  {
+    "id": "3: Crew Quarters",
+    "background": "assets/background/background.jpg",
+    "music": "siren.mp3",
+    "dialogues": [
+      {
+        "character": "SITI the AI",
+        "narrative": "Welcome to crew quarters."
+      }
+    ],
+    "choices": [
+      {
+        "option": "Restart",
+        "nextScene": "1: Start",
+        "set_flag": {},
+        "condition": {}, 
+        "systemLog": "Restart"
+      }
+    ]
+  }
+  
+]

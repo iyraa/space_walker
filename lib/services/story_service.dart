@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:space_walker/models/node.dart';
 import 'package:space_walker/services/flag_service.dart';
-// import 'package:space_walker/services/flag_service.dart';
 
 class StoryService {
   late Box<Node> _nodeBox;
@@ -28,12 +27,12 @@ class StoryService {
     }
   }
 
-  Future<void> setFlag(String key, int value) async {
+  Future<void> setFlag(String key, bool value) async {
     final flagBox = await Hive.openBox('flags');
     flagBox.put(key, value);
   }
 
-  bool checkCondition(Map<String, int>? condition) {
+  bool checkCondition(Map<String, bool>? condition) {
     if (condition == null || condition.isEmpty) {
       return true;
     }
@@ -54,28 +53,25 @@ class StoryService {
     }).toList();
   }
 
-  Future<void> applyChoice(Choice choice) async {
-    // Move to the next scene
-    _currentNode = _nodeBox.get(choice.nextScene);
-
-    if (_currentNode != null) {
-      // Apply flags from the choice, if any
-      if (choice.setFlag != null) {
-        flagService.applyFlag(choice.setFlag!);
-      }
-    } else {
-      debugPrint('Next node with id ${choice.nextScene} not found');
+  Future<bool> applyChoiceAndCheckAdvance(Choice choice) async {
+    if (choice.setFlag != null) {
+      flagService.applyFlag(choice.setFlag!);
     }
+    bool didAdvance = false;
+    if (choice.nextScene != null && choice.nextScene!.isNotEmpty) {
+      _currentNode = _nodeBox.get(choice.nextScene);
+      didAdvance = true;
+      if (_currentNode == null) {
+        debugPrint('Next node with id ${choice.nextScene} not found');
+      }
+    }
+    return didAdvance;
   }
 
   Future<void> loadStoryFromJson() async {
-    // final nodeBox = await Hive.openBox<Node>('nodes');
-    // final Set<String> allFlags =
-    //     {}; // Added this line to collect all flag keys dynamically
-
     // Load story data from JSON //
     debugPrint('loading story from JSON...');
-    final storyJson = await rootBundle.loadString('assets/json/story.json');
+    final storyJson = await rootBundle.loadString('json/spacewalker.json');
     final List<dynamic> storyData = json.decode(storyJson);
     debugPrint('Succesfully parsed ${storyData.length} story nodes!!');
 

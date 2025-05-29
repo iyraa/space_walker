@@ -101,8 +101,8 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
     };
     return Choice(
       option: fields[0] as String,
-      condition: (fields[1] as Map?)?.cast<String, int>(),
-      setFlag: (fields[2] as Map?)?.cast<String, int>(),
+      condition: (fields[1] as Map?)?.cast<String, bool>(),
+      setFlag: (fields[2] as Map?)?.cast<String, bool>(),
       nextScene: fields[3] as String?,
       systemLog: fields[4] as String?,
       puzzle: fields[5] as Puzzle?,
@@ -152,7 +152,7 @@ class PuzzleAdapter extends TypeAdapter<Puzzle> {
       type: fields[0] as String,
       description: fields[1] as String,
       solution: fields[2] as String,
-      flag: fields[3] as String,
+      setFlag: (fields[3] as Map?)?.cast<String, bool>(),
       successMessage: fields[4] as String,
       failureMessage: fields[5] as String,
       hint: fields[6] as String?,
@@ -170,7 +170,7 @@ class PuzzleAdapter extends TypeAdapter<Puzzle> {
       ..writeByte(2)
       ..write(obj.solution)
       ..writeByte(3)
-      ..write(obj.flag)
+      ..write(obj.setFlag)
       ..writeByte(4)
       ..write(obj.successMessage)
       ..writeByte(5)

@@ -30,7 +30,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   final StoryService _storyService = StoryService();
   int _dialogueIndex = 0;
-  var currentNode;
+  Node? currentNode;
   bool _showPuzzleWarning = false;
   late VideoPlayerController _videoController;
 
@@ -49,26 +49,17 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
     _bgmPlayer = AudioPlayer();
     initialize();
-    _videoController =
-        VideoPlayerController.asset('/background/moving_bg.mov')
-          ..setLooping(true)
-          ..setVolume(0)
-          ..initialize().then((_) {
-            setState(() {});
-            _videoController.play();
-          });
   }
 
   @override
   void dispose() {
     _bgmPlayer.dispose();
-    _videoController.dispose();
     super.dispose();
   }
 
   Future<void> initialize() async {
     await _storyService.init();
-    await _storyService.loadFirstNode('start');
+    await _storyService.loadFirstNode('1: Start');
 
     // Reset flag when starting a new game
     await flagService.init();
@@ -97,10 +88,12 @@ class _GameScreenState extends State<GameScreen> {
         _pendingChoice = choice;
       });
     } else {
-      await _storyService.applyChoice(choice);
+      final didAdvance = await _storyService.applyChoiceAndCheckAdvance(choice);
       setState(() {
         currentNode = _storyService.currentNode;
-        _dialogueIndex = 0;
+        if (didAdvance) {
+          _dialogueIndex = 0;
+        }
         systemLogList.add(choice.systemLog!);
       });
     }
@@ -109,23 +102,23 @@ class _GameScreenState extends State<GameScreen> {
   void _onPuzzleSubmit(String solution) async {
     if (_activePuzzle == null || _pendingChoice == null) return;
 
-    // Example: check solution
     if (solution == _activePuzzle!.solution) {
-      // Optionally show success message
-      await _storyService.applyChoice(_pendingChoice!);
+      // Apply puzzle flag if present
+      if (_activePuzzle!.setFlag != null) {
+        flagService.applyFlag(_activePuzzle!.setFlag!);
+      }
+      final didAdvance = await _storyService.applyChoiceAndCheckAdvance(
+        _pendingChoice!,
+      );
       setState(() {
         _activePuzzle = null;
         _pendingChoice = null;
-        _puzzleErrorMessage = null;
-        _showPuzzleWarning = false;
         currentNode = _storyService.currentNode;
-        _dialogueIndex = 0;
+        if (didAdvance) {
+          _dialogueIndex = 0;
+        }
       });
     } else {
-      // Optionally show failure message (e.g., Snackbar)
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text(_activePuzzle!.failureMessage ?? "Incorrect!")),
-      // );
       setState(() {
         _puzzleErrorMessage = _activePuzzle!.failureMessage ?? "Wrong answer!";
         _showPuzzleWarning = true;
@@ -160,277 +153,269 @@ class _GameScreenState extends State<GameScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Space Walker',
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-          ),
-        ),
+        // appBar: AppBar(
+        //   title: Text(
+        //     'Space Walker',
+        //     style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        //   ),
+        // ),
         body: Stack(
           children: [
-            // Add this as the very first child to put the animated constellation behind everything
             const AnimatedConstellationBackground(),
 
             // Main game UI
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 800,
-                    minWidth: constraints.maxWidth,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: _showPuzzleWarning ? Colors.red.shade900 : null,
-                    ),
-                    child: Column(
-                      children: [
-                        //Top
-                        Container(
-                          height: 30,
-                          decoration: BoxDecoration(color: Colors.black),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('spacewalker'),
-                                AnimatedTextKit(
-                                  animatedTexts: [
-                                    TyperAnimatedText(
-                                      'Login: ${widget.playerName}',
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+            Container(
+              decoration: BoxDecoration(
+                color:
+                    _showPuzzleWarning
+                        ? Colors.red.shade900
+                        : Theme.of(
+                          context,
+                        ).colorScheme.secondary.withOpacity(0.3),
+              ),
+              child: Column(
+                children: [
+                  //Top
+                  Container(
+                    height: 30,
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('spacewalker'),
+                          AnimatedTextKit(
+                            animatedTexts: [
+                              TyperAnimatedText('Login: ${widget.playerName}'),
+                            ],
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                  ),
 
-                        //SizedBox(width: 5),
+                  //SizedBox(width: 5),
 
-                        //2nd
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
+                  //2nd
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
-                                  flex: 3,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                  flex: 1,
+                                  child: Column(
                                     children: [
                                       Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: CustomContainer(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Center(
-                                                  child: Text(
-                                                    '${currentNode!.dialogues.length}',
+                                        child: CustomContainer(
+                                          padding: EdgeInsets.all(10.0),
+                                          child: Center(
+                                            child: AnimatedTextKit(
+                                              animatedTexts: [
+                                                TyperAnimatedText(
+                                                  'NUR 10',
+                                                  textStyle: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        Theme.of(
+                                                          context,
+                                                        ).colorScheme.primary,
+                                                  ),
+                                                  speed: const Duration(
+                                                    milliseconds: 100,
                                                   ),
                                                 ),
-                                              ),
+                                              ],
+                                              repeatForever: true,
                                             ),
-
-                                            // SizedBox(height: 10),
-                                            Expanded(
-                                              child: CustomContainer(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Center(
-                                                  child: Column(
-                                                    children: [
-                                                      AnimatedTextKit(
-                                                        animatedTexts: [
-                                                          TyperAnimatedText(
-                                                            'YUSOF I 01',
-                                                            textStyle: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .colorScheme
-                                                                      .primary,
-                                                            ),
-                                                            speed:
-                                                                const Duration(
-                                                                  milliseconds:
-                                                                      100,
-                                                                ),
-                                                          ),
-                                                        ],
-                                                        repeatForever: true,
-                                                      ),
-                                                      Text(
-                                                        'siti: ${flagService.getFlag('siti') ?? 0}',
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ),
 
-                                      //SizedBox(width: 10),
-                                      //2nd row 2nd col
+                                      // SizedBox(height: 10),
                                       Expanded(
-                                        flex: 3,
                                         child: CustomContainer(
-                                          padding: EdgeInsets.all(1.0),
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Center(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    // ...your main content here...
-                                                  ],
-                                                ),
-                                              ),
-                                              if (_activePuzzle != null)
-                                                Center(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      PuzzleWidget(
-                                                        puzzle: _activePuzzle!,
-                                                        onSubmit:
-                                                            _onPuzzleSubmit,
-                                                        errorMessage:
-                                                            _puzzleErrorMessage,
+                                          padding: EdgeInsets.all(10.0),
+                                          child: Center(
+                                            child: Column(
+                                              children: [
+                                                AnimatedTextKit(
+                                                  animatedTexts: [
+                                                    TyperAnimatedText(
+                                                      'M',
+                                                      textStyle: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .primary,
                                                       ),
-                                                      const SizedBox(
-                                                        height: 16,
-                                                      ),
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            _activePuzzle =
-                                                                null;
-                                                            _pendingChoice =
-                                                                null;
-                                                          });
-                                                        },
-                                                        child: const Text(
-                                                          'Close Puzzle',
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              else if (isLastLine)
-                                                Positioned.fill(
-                                                  child: Container(
-                                                    color: Colors.black
-                                                        .withOpacity(0.6),
-                                                    child: Center(
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children:
-                                                            _storyService
-                                                                .availableChoices()
-                                                                .map(
-                                                                  (
-                                                                    choice,
-                                                                  ) => ChoiceWidget(
-                                                                    choice:
-                                                                        choice,
-                                                                    onSelected:
-                                                                        () => _onChoiceSelected(
-                                                                          choice,
-                                                                        ),
-                                                                  ),
-                                                                )
-                                                                .toList(),
+                                                      speed: const Duration(
+                                                        milliseconds: 100,
                                                       ),
                                                     ),
+                                                  ],
+                                                  repeatForever: true,
+                                                ),
+                                                Text(
+                                                  'siti: ${flagService.getFlag('siti') ?? 0}',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
                                                   ),
                                                 ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                //SizedBox(width: 10),
+                                //2nd row 2nd col
+                                Expanded(
+                                  flex: 3,
+                                  child: CustomContainer(
+                                    padding: EdgeInsets.all(1.0),
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Center(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              // ...your main content here...
                                             ],
                                           ),
                                         ),
-                                      ),
-                                      //SizedBox(width: 10),
-
-                                      //2nd row 3rd col
-                                      Expanded(
-                                        flex: 1,
-                                        child: CustomContainer(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: SystemLogWidget(
-                                            logs: systemLogList,
+                                        if (_activePuzzle != null)
+                                          Center(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                PuzzleWidget(
+                                                  puzzle: _activePuzzle!,
+                                                  onSubmit: _onPuzzleSubmit,
+                                                  errorMessage:
+                                                      _puzzleErrorMessage,
+                                                ),
+                                                const SizedBox(height: 16),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      _activePuzzle = null;
+                                                      _pendingChoice = null;
+                                                    });
+                                                  },
+                                                  child: const Text(
+                                                    'Close Puzzle',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        else if (isLastLine)
+                                          Positioned.fill(
+                                            child: Container(
+                                              color: Colors.black.withOpacity(
+                                                0.6,
+                                              ),
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children:
+                                                      _storyService
+                                                          .availableChoices()
+                                                          .map(
+                                                            (
+                                                              choice,
+                                                            ) => ChoiceWidget(
+                                                              choice: choice,
+                                                              onSelected:
+                                                                  () =>
+                                                                      _onChoiceSelected(
+                                                                        choice,
+                                                                      ),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
+                                //SizedBox(width: 10),
 
-                                //SizedBox(height: 10),
-                                //third row
-                                //third row, 1st col
+                                //2nd row 3rd col
                                 Expanded(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 4,
-                                        child: CustomContainer(
-                                          padding: EdgeInsets.all(5.0),
-                                          child:
-                                              (_dialogueIndex <
-                                                      currentNode!
-                                                          .dialogues
-                                                          .length)
-                                                  ? DialogueWidget(
-                                                    dialogue:
-                                                        currentNode!
-                                                            .dialogues[_dialogueIndex],
-                                                    onNext: _nextDialogue,
-                                                    isLastLine: isLastLine,
-                                                    playerName:
-                                                        widget.playerName,
-                                                  )
-                                                  : SizedBox.shrink(),
-                                        ),
-                                      ),
-                                      // SizedBox(width: 10),
-                                      //third row, 2nd col
-                                      Expanded(
-                                        flex: 1,
-                                        child: CustomContainer(
-                                          padding: EdgeInsets.all(5.0),
-                                          child: Center(child: Text('30')),
-                                        ),
-                                      ),
-                                    ],
+                                  flex: 1,
+                                  child: CustomContainer(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: SystemLogWidget(logs: systemLogList),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+
+                          //SizedBox(height: 10),
+                          //third row
+                          //third row, 1st col
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: CustomContainer(
+                                    padding: EdgeInsets.all(5.0),
+                                    child:
+                                        (_dialogueIndex <
+                                                currentNode!.dialogues.length)
+                                            ? DialogueWidget(
+                                              dialogue:
+                                                  currentNode!
+                                                      .dialogues[_dialogueIndex],
+                                              onNext: _nextDialogue,
+                                              isLastLine: isLastLine,
+                                              playerName: widget.playerName,
+                                            )
+                                            : SizedBox.shrink(),
+                                  ),
+                                ),
+                                // SizedBox(width: 10),
+                                //third row, 2nd col
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomContainer(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Center(child: Text('30')),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
+
             // Error overlay
             if (_showPuzzleWarning)
               ErrorOverlay(

@@ -10,22 +10,17 @@ class FlagService {
   }
 
   /// Apply a map of flags to the box (e.g., from a Choice)
-  void applyFlag(Map<String, int>? setFlag) {
+  void applyFlag(Map<String, bool>? setFlag) {
     if (setFlag == null) return;
 
     setFlag.forEach((key, value) {
-      final currentValue =
-          _box.get(key, defaultValue: 0)
-              as int; // default to 0 if the flag doesn't exist
-      _box.put(
-        key,
-        currentValue + value,
-      ); // Increment the existing value or set it
+      // Instead of incrementing, just assign the value (string) to the key
+      _box.put(key, value);
     });
   }
 
-  /// Check if all given conditions are met (assuming they are integers now)
-  bool areConditionsMet(Map<String, int> conditions) {
+  /// Check if all given conditions are met (now using bool)
+  bool areConditionsMet(Map<String, bool> conditions) {
     for (var entry in conditions.entries) {
       final flagValue = getFlag(entry.key);
 
@@ -43,10 +38,11 @@ class FlagService {
   }
 
   /// Retrieve the current value of a flag
-  int? getFlag(String key) {
+  bool? getFlag(String key) {
     final value = _box.get(key);
-    print('Getting flag value: $key => $value'); // Debugging flag retrieval
-    return value;
+    //print('Getting flag value: $key => $value'); // Debugging flag retrieval
+    if (value is bool) return value;
+    return null;
   }
 
   /// Clear all flags (useful for restart or debug)

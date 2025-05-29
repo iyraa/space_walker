@@ -75,10 +75,10 @@ class Choice {
   final String option;
 
   @HiveField(1)
-  final Map<String, int>? condition;
+  final Map<String, bool>? condition;
 
   @HiveField(2)
-  final Map<String, int>? setFlag;
+  final Map<String, bool>? setFlag;
 
   @HiveField(3)
   final String? nextScene;
@@ -101,8 +101,8 @@ class Choice {
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
     option: json['option'] ?? '',
     condition:
-        (json['condition'] as Map<String, dynamic>?)?.cast<String, int>(),
-    setFlag: (json['set_flag'] as Map<String, dynamic>?)?.cast<String, int>(),
+        (json['condition'] as Map<String, dynamic>?)?.cast<String, bool>(),
+    setFlag: (json['set_flag'] as Map<String, dynamic>?)?.cast<String, bool>(),
     nextScene: json['nextScene'] ?? '',
     systemLog: json['systemLog'] ?? '',
     puzzle:
@@ -124,7 +124,7 @@ class Puzzle {
   final String solution;
 
   @HiveField(3)
-  final String flag;
+  final Map<String, bool>? setFlag;
 
   @HiveField(4)
   final String successMessage;
@@ -139,7 +139,7 @@ class Puzzle {
     required this.type,
     required this.description,
     required this.solution,
-    required this.flag,
+    required this.setFlag,
     required this.successMessage,
     required this.failureMessage,
     this.hint,
@@ -149,7 +149,7 @@ class Puzzle {
     type: json['type'] ?? '',
     description: json['description'] ?? '',
     solution: json['solution'] ?? '',
-    flag: json['flag'] ?? '',
+    setFlag: (json['set_flag'] as Map<String, dynamic>?)?.cast<String, bool>(),
     successMessage: json['successMessage'] ?? '',
     failureMessage: json['failureMessage'] ?? '',
     hint: json['hint'],

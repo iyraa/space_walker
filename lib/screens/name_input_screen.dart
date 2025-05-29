@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:space_walker/screens/game_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_glow/flutter_glow.dart';
+import 'package:space_walker/ui/constellation_background.dart';
 import 'package:space_walker/ui/custom_container.dart';
-import '../ui/constellation_background.dart'; // Add this import
 
 class NameInputScreen extends StatefulWidget {
   const NameInputScreen({super.key});
@@ -12,22 +12,13 @@ class NameInputScreen extends StatefulWidget {
   State<NameInputScreen> createState() => _NameInputScreenState();
 }
 
-class _NameInputScreenState extends State<NameInputScreen>
-    with TickerProviderStateMixin {
+class _NameInputScreenState extends State<NameInputScreen> {
   final _controller = TextEditingController();
   String _playerName = '';
-  bool showNameSection = false;
   bool _isLoading = false;
 
-  void _showNameInput() {
-    setState(() {
-      showNameSection = true;
-    });
-  }
-
   Future<void> _startGame() async {
-    String playerName = _controller.text.trim();
-    if (playerName.isNotEmpty) {
+    if (_playerName.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
@@ -35,18 +26,16 @@ class _NameInputScreenState extends State<NameInputScreen>
       // Play SFX and wait for it to finish (or wait a fixed duration)
       final player = AudioPlayer();
       await player.play(AssetSource('audio/sfx/welcome_captain.mp3'));
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 5));
 
       setState(() {
         _isLoading = false;
       });
 
-      playerName =
-          playerName[0].toUpperCase() + playerName.substring(1).toLowerCase();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => GameScreen(playerName: 'Captain $playerName'),
+          builder: (context) => GameScreen(playerName: 'Captain $_playerName'),
         ),
       );
     }
@@ -57,7 +46,11 @@ class _NameInputScreenState extends State<NameInputScreen>
     super.initState();
     _controller.addListener(() {
       setState(() {
-        _playerName = _controller.text;
+        final text = _controller.text.trim();
+        _playerName =
+            text.isNotEmpty
+                ? text[0].toUpperCase() + text.substring(1).toLowerCase()
+                : '';
       });
     });
   }
@@ -86,7 +79,7 @@ class _NameInputScreenState extends State<NameInputScreen>
                   Image.asset("images/title.gif", fit: BoxFit.cover),
                   const SizedBox(width: 24),
 
-                  // Center: Title, name, buttons
+                  // Right: Title, name, buttons
                   Expanded(
                     child: CustomContainer(
                       padding: EdgeInsets.fromLTRB(16, 100, 16, 100),
@@ -121,34 +114,8 @@ class _NameInputScreenState extends State<NameInputScreen>
                                   fontFamily: 'BrunoAceSC',
                                 ),
                               ),
-                              // AnimatedTextKit(
-                              //   animatedTexts: [
-                              //     FlickerAnimatedText(
-                              //       'SPACE WALKER',
-                              //       textStyle: TextStyle(
-                              //         fontFamily: 'BrunoAceSC',
-                              //         fontSize: 42,
-                              //         fontWeight: FontWeight.bold,
-                              //         color: Colors.white,
-                              //       ),
-                              //     ),
-                              //   ],
-                              //   isRepeatingAnimation: true,
-                              //   repeatForever: true,
-                              // ),
                             ],
                           ),
-                          // const SizedBox(height: 16),
-                          // Text(
-                          //   _playerName.isEmpty
-                          //       ? 'Welc'
-                          //       : 'Welcome Captain ${_playerName[0].toUpperCase()}${_playerName.length > 1 ? _playerName.substring(1) : ''}',
-                          //   style: const TextStyle(
-                          //     fontSize: 18,
-                          //     fontWeight: FontWeight.bold,
-                          //     color: Colors.tealAccent,
-                          //   ),
-                          // ),
                           const SizedBox(height: 24),
                           Column(
                             children: [
@@ -165,8 +132,8 @@ class _NameInputScreenState extends State<NameInputScreen>
 
                               const SizedBox(height: 16),
 
-                              if (_playerName.isNotEmpty)
-                                const SizedBox(height: 16),
+                              //if (_playerName.isNotEmpty)
+                              const SizedBox(height: 16),
                               OutlinedButton(
                                 onPressed: _startGame,
                                 child: const Text('Go on a mission'),
@@ -178,11 +145,6 @@ class _NameInputScreenState extends State<NameInputScreen>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              OutlinedButton(
-                                onPressed: () {},
-                                child: const Text('Settings'),
-                              ),
-                              const SizedBox(width: 12),
                               OutlinedButton(
                                 onPressed: () {},
                                 child: const Text('Playlist'),
@@ -198,7 +160,6 @@ class _NameInputScreenState extends State<NameInputScreen>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                 ],
               ),
             ),
