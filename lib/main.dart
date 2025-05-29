@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:space_walker/services/flag_service.dart';
-import 'package:space_walker/screens/name_input_screen.dart';
+import 'package:space_walker/screens/start_game_screen.dart';
 import 'package:space_walker/models/node.dart';
 
 void main() async {
@@ -55,7 +55,7 @@ class SpaceWalker extends StatelessWidget {
       ),
 
       debugShowCheckedModeBanner: false,
-      home: const NameInputScreen(),
+      home: const StartGameScreen(),
     );
   }
 }

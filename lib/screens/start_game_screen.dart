@@ -5,19 +5,25 @@ import 'package:flutter_glow/flutter_glow.dart';
 import 'package:space_walker/ui/constellation_background.dart';
 import 'package:space_walker/ui/custom_container.dart';
 
-class NameInputScreen extends StatefulWidget {
-  const NameInputScreen({super.key});
+class StartGameScreen extends StatefulWidget {
+  const StartGameScreen({super.key});
 
   @override
-  State<NameInputScreen> createState() => _NameInputScreenState();
+  State<StartGameScreen> createState() => _StartGameScreenState();
 }
 
-class _NameInputScreenState extends State<NameInputScreen> {
+class _StartGameScreenState extends State<StartGameScreen> {
   final _controller = TextEditingController();
   String _playerName = '';
   bool _isLoading = false;
 
   Future<void> _startGame() async {
+    final text = _controller.text.trim();
+    _playerName =
+        text.isNotEmpty
+            ? text[0].toUpperCase() + text.substring(1).toLowerCase()
+            : '';
+
     if (_playerName.isNotEmpty) {
       setState(() {
         _isLoading = true;
@@ -39,26 +45,6 @@ class _NameInputScreenState extends State<NameInputScreen> {
         ),
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-      setState(() {
-        final text = _controller.text.trim();
-        _playerName =
-            text.isNotEmpty
-                ? text[0].toUpperCase() + text.substring(1).toLowerCase()
-                : '';
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
