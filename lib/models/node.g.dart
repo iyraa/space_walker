@@ -106,13 +106,14 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       nextScene: fields[3] as String?,
       systemLog: fields[4] as String?,
       puzzle: fields[5] as Puzzle?,
+      effects: (fields[6] as Map?)?.cast<String, dynamic>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Choice obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.option)
       ..writeByte(1)
@@ -124,7 +125,9 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
       ..writeByte(4)
       ..write(obj.systemLog)
       ..writeByte(5)
-      ..write(obj.puzzle);
+      ..write(obj.puzzle)
+      ..writeByte(6)
+      ..write(obj.effects);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:space_walker/models/node.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ChoiceWidget extends StatelessWidget {
   final Choice choice;
@@ -10,6 +11,11 @@ class ChoiceWidget extends StatelessWidget {
     required this.onSelected,
     required this.choice,
   });
+
+  void _playSfx() {
+    final player = AudioPlayer();
+    player.play(AssetSource('audio/sfx/click.mp3'), volume: 0.7);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +32,15 @@ class ChoiceWidget extends StatelessWidget {
               ),
               child: Center(
                 child: OutlinedButton(
-                  onPressed: onSelected,
+                  onPressed: () {
+                    _playSfx();
+                    onSelected();
+                  },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.primary,
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-
                     padding: const EdgeInsets.symmetric(
                       vertical: 12,
                       horizontal: 24,

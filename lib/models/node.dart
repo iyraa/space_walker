@@ -89,6 +89,9 @@ class Choice {
   @HiveField(5)
   final Puzzle? puzzle;
 
+  @HiveField(6)
+  final Map<String, dynamic>? effects;
+
   Choice({
     required this.option,
     this.condition,
@@ -96,6 +99,7 @@ class Choice {
     this.nextScene,
     this.systemLog,
     this.puzzle,
+    this.effects,
   });
 
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
@@ -109,6 +113,7 @@ class Choice {
         json['puzzle'] != null
             ? Puzzle.fromJson(json['puzzle'] as Map<String, dynamic>)
             : null,
+    effects: json['effects'] as Map<String, dynamic>?,
   );
 }
 

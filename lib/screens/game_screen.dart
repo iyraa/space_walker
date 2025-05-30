@@ -8,7 +8,7 @@ import 'package:space_walker/ui/dialogue_widget.dart';
 import 'package:space_walker/services/flag_service.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:space_walker/ui/error_overlay.dart';
-import 'package:space_walker/ui/system_log.dart';
+import 'package:space_walker/ui/system_log_widget.dart';
 import 'package:space_walker/ui/puzzle_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -58,6 +58,9 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> initialize() async {
+    // Stop any currently playing music before restarting
+    await _bgmPlayer.stop();
+
     await _storyService.init();
     await _storyService.loadFirstNode('1: Start');
 
@@ -77,6 +80,7 @@ class _GameScreenState extends State<GameScreen> {
     if (music != null && music != _currentMusic) {
       _currentMusic = music;
       await _bgmPlayer.stop();
+      await _bgmPlayer.setReleaseMode(ReleaseMode.loop); // Loop the music
       await _bgmPlayer.play(AssetSource('audio/music/$music'), volume: 0.5);
     }
   }
@@ -216,24 +220,44 @@ class _GameScreenState extends State<GameScreen> {
                                         child: CustomContainer(
                                           padding: EdgeInsets.all(10.0),
                                           child: Center(
-                                            child: AnimatedTextKit(
-                                              animatedTexts: [
-                                                TyperAnimatedText(
-                                                  'NUR 10',
-                                                  textStyle: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        Theme.of(
-                                                          context,
-                                                        ).colorScheme.primary,
-                                                  ),
-                                                  speed: const Duration(
-                                                    milliseconds: 100,
+                                            child: Column(
+                                              children: [
+                                                AnimatedTextKit(
+                                                  animatedTexts: [
+                                                    TyperAnimatedText(
+                                                      'NUR 10',
+                                                      textStyle: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .primary,
+                                                      ),
+                                                      speed: const Duration(
+                                                        milliseconds: 100,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                  repeatForever: true,
+                                                ),
+                                                Text(
+                                                  'Crew Morale: ${_storyService.morale}',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
                                                   ),
                                                 ),
+                                                Text(
+                                                  'Number of Crew: ${_storyService.crew}',
+                                                ),
+                                                Text(
+                                                  'Number of passengers: ${_storyService.passengers}',
+                                                ),
+                                                Text(
+                                                  'Fuel status: ${_storyService.fuel}%',
+                                                ),
                                               ],
-                                              repeatForever: true,
                                             ),
                                           ),
                                         ),
@@ -365,7 +389,10 @@ class _GameScreenState extends State<GameScreen> {
                                   flex: 1,
                                   child: CustomContainer(
                                     padding: EdgeInsets.all(10.0),
-                                    child: SystemLogWidget(logs: systemLogList),
+                                    child: SystemLogWidget(
+                                      logs: systemLogList,
+                                      playerName: widget.playerName,
+                                    ),
                                   ),
                                 ),
                               ],

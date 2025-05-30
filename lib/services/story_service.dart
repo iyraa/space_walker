@@ -10,6 +10,11 @@ class StoryService {
 
   Node? _currentNode;
 
+  int crew = 8; // Initial crew count
+  int fuel = 75; // Initial fuel level
+  int morale = 100; // Initial morale level
+  int passengers = 24; // Initial passenger count
+
   Future<void> init() async {
     _nodeBox = await Hive.openBox<Node>('nodes');
     await loadStoryFromJson();
@@ -57,6 +62,12 @@ class StoryService {
     if (choice.setFlag != null) {
       flagService.applyFlag(choice.setFlag!);
     }
+
+    // Apply effects if present
+    if (choice.effects != null && choice.effects is Map<String, dynamic>) {
+      _applyEffects(choice.effects as Map<String, dynamic>);
+    }
+
     bool didAdvance = false;
     if (choice.nextScene != null && choice.nextScene!.isNotEmpty) {
       _currentNode = _nodeBox.get(choice.nextScene);
@@ -66,6 +77,24 @@ class StoryService {
       }
     }
     return didAdvance;
+  }
+
+  // Add this helper method to handle effects
+  void _applyEffects(Map<String, dynamic> effects) {
+    // Example: handle crew, fuel, morale, passengers
+    if (effects.containsKey('crew')) {
+      crew += effects['crew'] as int;
+    }
+    if (effects.containsKey('fuel')) {
+      fuel += effects['fuel'] as int;
+    }
+    if (effects.containsKey('morale')) {
+      morale += effects['morale'] as int;
+    }
+    if (effects.containsKey('passengers')) {
+      passengers += effects['passengers'] as int;
+    }
+    // Add more effect handling as needed
   }
 
   Future<void> loadStoryFromJson() async {
