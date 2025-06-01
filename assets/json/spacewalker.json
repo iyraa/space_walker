@@ -1,325 +1,60 @@
-[
-  {
-    "id": "1: Start",
-    "background": "assets/background/background.jpg",
-    "music": "siren.mp3",
-    "dialogues": [
-      {
-        "character": "PLAYER",
-        "narrative": "Huh? What’s that sound? It’s making my ears hurt."
-      },
-      {
-        "character": "SITI the AI",
-        "narrative": "You're finally awake! There's an urgent matter that needs your attention, PLAYER."
-      },
-      {
-        "character": "PLAYER",
-        "narrative": "Are the others awake?"
-      },
-      {
-        "character": "SITI the AI",
-        "narrative": "Yes they are on the way to the command center. The passengers are still sleeping; the alarm is only rang in the crew quarters. "
-      },
-      {
-        "character": "SITI the AI",
-        "narrative": "Don't forget bring your keycard and wear your uniform."
-      }
-    ],
-    "choices": [
-      {
-        "option": "Get keycard",
-        "nextScene": "",
-        "set_flag": {"got_keycard": true},
-        "condition": {},
-        "systemLog": "On the back of the card, you see a code: 0206"
-      },
-      {
-        "option": "Put on uniform",
-        "nextScene": "",
-        "set_flag": {"got_uniform": true},
-        "condition": {},
-        "systemLog": "You wear your uniform. It feels comfortable and ready for action."
-      },
-      {
-        "option": "Input password",
-        "nextScene": "",
-        "set_flag": {},
-        "condition": {
-          "got_keycard": true,
-          "got_uniform": true
-        },
-        "systemLog": "Attempting to login into the system...",
-        "puzzle": {
-          "type": "codeEntry",
-          "description": "Enter the code to unlock the door.",
-          "solution": "0206",
-          "set_flag": {"password_entered": true},
-          "successMessage": "Attempting to login into the system...",
-          "failureMessage": "The code is incorrect. Try again."
-        }
-      },
-      {
-        "option": "Login into the system",
-        "nextScene": "2: System Familarization",
-        "set_flag": {},
-        "condition": {
-          "password_entered": true
-        },
-        "systemLog": "Login successful. Welcome, PLAYER."
-      }
-    ]
-  },
-  {
-    "id": "2: System Familarization",
-    "background": "assets/background/background.jpg",
-    "music": "siren.mp3",
-    "dialogues": [
-      {
-        "character": "SITI the AI",
-        "narrative": "Welcome to the system, PLAYER. Here you can find information about the ship, system logs, and more."
-      }
-    ],
-    "choices": [
-      {
-        "option": "System Logs",
-        "nextScene": "",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "System logs appear here. You can review past events and actions taken by your choices."
-      },
-      {
-        "option": "About NUR 10",
-        "nextScene": "",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "NUR 10 is a spaceship designed for interstellar space travel. We are onroute to Caelus Prime, to ferry passengers and crew to their new home."
-      },
-      {
-        "option": "Shuttle Integrity",
-        "nextScene": "",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "Shuttle integrity is the current status and information about your shuttle."
-      },
-      {
-        "option": "Who is SITI?",
-        "nextScene": "",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "SITI is an intelligent AI system designed to assist the crew of NUR 10."
-      }, 
-      {
-        "option": "I'm familiar with the system",
-        "nextScene": "2B: System Familiarization",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "Exiting system information."
-      }
-    ]
-  },
-  {
-    "id": "2B: System Familiarization",
-    "background": "assets/background/background.jpg",
-    "music": "siren.mp3",
-    "dialogues": [
-      {
-        "character": "SITI the AI",
-        "narrative": "Have you familarized yourself with the system, PLAYER?"
-      }
-    ],
-    "choices": [
-      {
-        "option": "Yes, I have. Let's go to the command center.",
-        "nextScene": "3: Command Center",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": ""
-      },
-      {
-        "option": "No, I need more time",
-        "nextScene": "2: System Familarization",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": ""
-      }
-    ]
-  },
-  {
-    "id": "3: Command Center",
-    "background": "assets/background/cryptic1.gif",
-    "music": "slow_bgm.mp3",
-    "dialogues": [
-      {
-        "character": "Chief Engineer",
-        "narrative": "Ah, PLAYER! There you are. We were starting to think you’d sleep through the whole alarm."
+{
+  "characters": [
+    { "id": "1", "name": "PLAYER" },
+    { "id": "2", "name": "SITI the AI" },
+    { "id": "3", "name": "CPO Su Yin" },
+    { "id": "4", "name": "Chief Engineer Edwin" },
+    { "id": "5", "name": "Liutenant KF" }
+  ],
+  "nodes": [
+    {
+  "id": "1_START",
+  "background": "assets/background/background.jpg",
+  "music": "siren.mp3",
+  "content": [
+    {
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "This is a line of dialogue from PLAYER."
     },
-      {
-        "character": "PLAYER",
-        "narrative": "Glad to see my reputation precedes me. What’s going on?"
-      },
-      {
-        "character": "CPO Su Yin",
-        "narrative": "Captain, I’m picking up a signal. It’s encrypted — old Earth military code. Not standard colony traffic."
-      }, 
-      {
-        "character": "Chief Edwin",
-        "narrative": "What does it say?"
-      },
-      {
-        "character": "Lt KF",
-        "narrative": "It's encrypted, but it's definitely a distress signal."
-      },
-      {
-        "character": "PLAYER",
-        "narrative": "Is it meant for us?"
-      },
-      {
-        "character": "Lt KF",
-        "narrative": "I think so. It has our ship’s name in the data... but from before we launched. Someone knew exactly where we’d be."
-      },
-      {
-        "character": "Chief Edwin",
-        "narrative": "“I’ve seen this type of encryption before. It’s complicated — hidden inside older code so it looks harmless."
-      },
-      {
-        "character": "PLAYER",
-        "narrative": "It could be a trap, or worse a virus. We open it and risk the whole ship."
-      },
-      {
-        "character": "Chief Engineer",
-        "narrative": "Maybe. But we can’t ignore it. We need to find out who sent it and why."
-      },
-      {
-        "character": "SITI the AI",
-        "narrative": "I will keep it isolated and run in a safe environment. If it's dangerous, I can contain it."
-      },
-      {
-        "character": "PLAYER",
-        "narrative": "Sounds good."
-      },
-      {
-        "character": "PLAYER",
-        "narrative": "What do you think, SITI?"
-      },
-      {
-        "character": "SITI the AI",
-        "narrative": "I can try to decode it, but it might take some time. I’ll need access to the mainframe."
-      }
-    ],
-    "choices": [
-      {
-        "option": "Decode the message",
-        "nextScene": "3A: Decoding Message",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "Trying to decode the message..."
-      }, 
-      {
-        "option": "Decode the message yourself",
-        "nextScene": "",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "You decided to take a look at the message yourself.",
-        "puzzle": {
-          "type": "decoding",
-          "description": "Decode the message. Capital sensitive.",
-          "solution": "WE NEVER LEFT",
-          "set_flag": {"message_decoded": true},
-          "successMessage": "You successfully decoded the message.",
-          "failureMessage": "The decoding failed. Try again."
-        }
-      },
-      {
-        "option": "Read the rest of the message",
-        "nextScene": "4: Waiting",
-        "set_flag": {},
-        "condition": {"message_decoded": true}, 
-        "systemLog": "The rest of the message reads: 'We never left. No memories, no past. We are the ghosts of NUR 10.'"
-      }
-    ]
-  },
-  {
-    "id": "3A: Decoding Message",
-    "background": "assets/background/cyptic.jpg",
-    "music": "slow_bgm.mp3",
-    "dialogues": [
-      {
-        "character": "SITI the AI",
-        "narrative": "I successfully decoded the some of the message. Maybe you can help me with the rest, PLAYER?"
-      }
-    ],
-    "choices": [
-      {
-        "option": "Start decoding",
-        "nextScene": "4: First Message",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": "",
-        "puzzle": {
-          "type": "decoding",
-          "description": "Decode the message. Capital sensitive.",
-          "solution": "WE NEVER LEFT",
-          "set_flag": {"message_decoded": true},
-          "successMessage": "You successfully decoded the message.",
-          "failureMessage": "The decoding failed. Try again."
-        }
-      }
-    ]
-  }, 
-  {
-    "id": "4: First Message",
-    "background": "assets/background/cryptic1.gif",
-    "music": "slow_bgm.mp3",
-    "dialogues": [
-      {
-        "character": "SITI the AI",
-        "narrative": "The message is decoded. It reads: 'To: Cap. PLAYER - We never left. ROOT AT 7°N / 118°E. No memories, no past. We are the ghosts of NUR 10.'"
-      },
-      {
-        "character": "CPO Su Yin",
-        "narrative": "What is this?"
-      },
-      {
-        "character": "Chief Edwin",
-        "narrative": "I don't know, but it sounds ominous."
-      }, 
-      {
-        "character": "Lt KF",
-        "narrative": "It reads like a part warning, part riddle. Coordinates maybe? Seven north, one-eighteen east? Could be planetary — or orbital."
-      },
-      {
-        "character": "CPO Su Yin",
-        "narrative": "Why do they use 'we' and 'ghosts'? They sound like they know us, but we don’t know them."
-      },
-      {
-        "character": "PLAYER",
-        "narrative": "Or they are us. We never left... Could mean a loop. A time loop, or a memory wipe."
-      }, 
-      {
-        "character": "Chief Edwin",
-        "narrative": "A memory wipe? That’s... unsettling. But we can’t ignore it. If this from a version of our mission that failed, then we are flying straight to the same mistake."
-      }, 
-      {
-        "character": "Lt KF",
-        "narrative": "Captain... the signal's timestamp says it's two years from now."
-      }
-    ],
-    "choices": [
-      {
-        "option": "Siti, can you decode the coordinates?",
-        "nextScene": "5: Decoding Coordinates",
-        "set_flag": {"coordinates_decoded": true},
-        "condition": {}, 
-        "systemLog": "Decoding coordinates... Please wait."
-      },
-      {
-        "option": "Decode the rest of the message",
-        "nextScene": "4A: Second Message",
-        "set_flag": {},
-        "condition": {}, 
-        "systemLog": ""
-      }
-    ]
-  }
-  
-]
+    {
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "This is a line of dialogue from SITI."
+    },
+    {
+      "type": "puzzle",
+      "puzzle_type": "codeEntry",
+      "description": "Enter the code to unlock the door.",
+      "solution": "0206",
+      "set_flag": { "password_entered": true },
+      "successMessage": "Correct code!",
+      "failureMessage": "Incorrect code. Try again.",
+      "condition": { "got_keycard": true },
+      "next_node_id": ""
+    },
+    {
+      "type": "choice",
+      "option": "Appear only after entering the code",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": { "password_entered": true },
+      "systemLog": "You move to the next room."
+    },
+    {
+      "type": "choice",
+      "option": "Keycard",
+      "next_node_id": "",
+      "set_flag": {"got_keycard": true},
+      "condition": {},
+      "systemLog": "You ask SITI for help."
+    },
+    {
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Repeat lol."
+    }
+  ]
+}
+  ]
+}

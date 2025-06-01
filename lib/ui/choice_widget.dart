@@ -3,7 +3,7 @@ import 'package:space_walker/models/node.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class ChoiceWidget extends StatelessWidget {
-  final Choice choice;
+  final NodeContent choice;
   final VoidCallback onSelected;
 
   const ChoiceWidget({
@@ -46,7 +46,7 @@ class ChoiceWidget extends StatelessWidget {
                       horizontal: 24,
                     ),
                   ),
-                  child: Text(choice.option),
+                  child: Text(choice.option ?? ''),
                 ),
               ),
             ),

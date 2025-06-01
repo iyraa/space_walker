@@ -20,15 +20,14 @@ class NodeAdapter extends TypeAdapter<Node> {
       id: fields[0] as String,
       background: fields[1] as String,
       music: fields[2] as String?,
-      dialogues: (fields[3] as List).cast<DialogueLine>(),
-      choices: (fields[4] as List).cast<Choice>(),
+      content: (fields[3] as List).cast<NodeContent>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Node obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -36,9 +35,7 @@ class NodeAdapter extends TypeAdapter<Node> {
       ..writeByte(2)
       ..write(obj.music)
       ..writeByte(3)
-      ..write(obj.dialogues)
-      ..writeByte(4)
-      ..write(obj.choices);
+      ..write(obj.content);
   }
 
   @override
@@ -52,82 +49,66 @@ class NodeAdapter extends TypeAdapter<Node> {
           typeId == other.typeId;
 }
 
-class DialogueLineAdapter extends TypeAdapter<DialogueLine> {
-  @override
-  final int typeId = 1;
-
-  @override
-  DialogueLine read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return DialogueLine(
-      character: fields[0] as String,
-      narrative: fields[1] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, DialogueLine obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.character)
-      ..writeByte(1)
-      ..write(obj.narrative);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DialogueLineAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class ChoiceAdapter extends TypeAdapter<Choice> {
+class NodeContentAdapter extends TypeAdapter<NodeContent> {
   @override
   final int typeId = 2;
 
   @override
-  Choice read(BinaryReader reader) {
+  NodeContent read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Choice(
-      option: fields[0] as String,
-      condition: (fields[1] as Map?)?.cast<String, bool>(),
-      setFlag: (fields[2] as Map?)?.cast<String, bool>(),
-      nextScene: fields[3] as String?,
-      systemLog: fields[4] as String?,
-      puzzle: fields[5] as Puzzle?,
-      effects: (fields[6] as Map?)?.cast<String, dynamic>(),
+    return NodeContent(
+      type: fields[0] as String,
+      character: fields[1] as String?,
+      narrative: fields[2] as String?,
+      puzzleType: fields[3] as String?,
+      description: fields[4] as String?,
+      solution: fields[5] as String?,
+      setFlag: (fields[6] as Map?)?.cast<String, bool>(),
+      successMessage: fields[7] as String?,
+      failureMessage: fields[8] as String?,
+      symbols: (fields[9] as List?)?.cast<String>(),
+      option: fields[10] as String?,
+      nextNodeId: fields[11] as String?,
+      condition: (fields[12] as Map?)?.cast<String, bool>(),
+      systemLog: fields[13] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Choice obj) {
+  void write(BinaryWriter writer, NodeContent obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(14)
       ..writeByte(0)
-      ..write(obj.option)
+      ..write(obj.type)
       ..writeByte(1)
-      ..write(obj.condition)
+      ..write(obj.character)
       ..writeByte(2)
-      ..write(obj.setFlag)
+      ..write(obj.narrative)
       ..writeByte(3)
-      ..write(obj.nextScene)
+      ..write(obj.puzzleType)
       ..writeByte(4)
-      ..write(obj.systemLog)
+      ..write(obj.description)
       ..writeByte(5)
-      ..write(obj.puzzle)
+      ..write(obj.solution)
       ..writeByte(6)
-      ..write(obj.effects);
+      ..write(obj.setFlag)
+      ..writeByte(7)
+      ..write(obj.successMessage)
+      ..writeByte(8)
+      ..write(obj.failureMessage)
+      ..writeByte(9)
+      ..write(obj.symbols)
+      ..writeByte(10)
+      ..write(obj.option)
+      ..writeByte(11)
+      ..write(obj.nextNodeId)
+      ..writeByte(12)
+      ..write(obj.condition)
+      ..writeByte(13)
+      ..write(obj.systemLog);
   }
 
   @override
@@ -136,50 +117,35 @@ class ChoiceAdapter extends TypeAdapter<Choice> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ChoiceAdapter &&
+      other is NodeContentAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
-class PuzzleAdapter extends TypeAdapter<Puzzle> {
+class CharacterAdapter extends TypeAdapter<Character> {
   @override
   final int typeId = 3;
 
   @override
-  Puzzle read(BinaryReader reader) {
+  Character read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Puzzle(
-      type: fields[0] as String,
-      description: fields[1] as String,
-      solution: fields[2] as String,
-      setFlag: (fields[3] as Map?)?.cast<String, bool>(),
-      successMessage: fields[4] as String,
-      failureMessage: fields[5] as String,
-      hint: fields[6] as String?,
+    return Character(
+      id: fields[0] as String,
+      name: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Puzzle obj) {
+  void write(BinaryWriter writer, Character obj) {
     writer
-      ..writeByte(7)
-      ..writeByte(0)
-      ..write(obj.type)
-      ..writeByte(1)
-      ..write(obj.description)
       ..writeByte(2)
-      ..write(obj.solution)
-      ..writeByte(3)
-      ..write(obj.setFlag)
-      ..writeByte(4)
-      ..write(obj.successMessage)
-      ..writeByte(5)
-      ..write(obj.failureMessage)
-      ..writeByte(6)
-      ..write(obj.hint);
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name);
   }
 
   @override
@@ -188,7 +154,7 @@ class PuzzleAdapter extends TypeAdapter<Puzzle> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PuzzleAdapter &&
+      other is CharacterAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

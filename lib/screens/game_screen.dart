@@ -36,27 +36,28 @@ class _GameScreenState extends State<GameScreen> {
   final StoryService _storyService = StoryService();
   int _dialogueIndex = 0;
   Node? currentNode;
-  bool _showPuzzleWarning = false;
-  late VideoPlayerController _videoController;
 
   /* MUSIC MANAGEMENT */
   late final AudioPlayer _sfxPlayer;
   late final AudioPlayer _playlistPlayer;
   String? _currentMusic;
 
-  Puzzle? _activePuzzle;
+  NodeContent? _activePuzzle;
   String? _puzzleErrorMessage;
-  Choice? _pendingChoice;
+  NodeContent? _pendingChoice; // Use NodeContent for choices now
 
   List<String> systemLogList = [];
-  List<Choice> choices = [];
-  List<DialogueLine> dialogueHistory = [];
+  List<NodeContent> choices = []; // Choices are NodeContent with type 'choice'
+  List<NodeContent> dialogueHistory =
+      []; // Dialogues are NodeContent with type 'dialogue'
 
   bool _wasLoggedIn = false;
 
   bool _showBackgroundPanel = false;
   bool _backgroundFlicker = false;
   int _flickerCount = 0;
+
+  bool _showPuzzleWarning = false;
 
   @override
   void initState() {
@@ -88,13 +89,13 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _dialogueIndex = 0;
       currentNode = _storyService.currentNode;
-
       dialogueHistory = [];
-
-      // Add the first dialogue line if available
-      if (currentNode != null && currentNode!.dialogues.isNotEmpty) {
-        dialogueHistory.add(currentNode!.dialogues[0]);
+      final dialogues =
+          currentNode!.content.where((c) => c.type == 'dialogue').toList();
+      if (dialogues.isNotEmpty) {
+        dialogueHistory.add(dialogues[0]);
       }
+      _activePuzzle = getActivePuzzle();
     });
     await _playNodeMusic();
   }
@@ -109,69 +110,57 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  void _onChoiceSelected(Choice choice) async {
-    if (choice.puzzle != null) {
-      setState(() {
-        _activePuzzle = choice.puzzle;
-        _pendingChoice = choice;
-        // Remove only the selected choice
-        choices.removeWhere((c) => c == choice);
-      });
-    } else {
-      final didAdvance = await _storyService.applyChoiceAndCheckAdvance(choice);
-      setState(() {
-        currentNode = _storyService.currentNode;
-
-        if (didAdvance) {
-          _dialogueIndex = 0;
-        }
+  void _onChoiceSelected(NodeContent choice) async {
+    final didAdvance = await _storyService.applyChoiceAndCheckAdvance(choice);
+    setState(() {
+      currentNode = _storyService.currentNode;
+      if (didAdvance) {
+        _dialogueIndex = 0;
+      }
+      if (choice.systemLog != null) {
         systemLogList.add(choice.systemLog!);
-        // Remove only the selected choice
-        choices.removeWhere((c) => c == choice);
-      });
-    }
+      }
+      choices.removeWhere((c) => c == choice);
+      _activePuzzle = getActivePuzzle(); // Check if a puzzle should now appear
+    });
   }
 
-  void _onPuzzleSubmit(String solution) async {
-    if (_activePuzzle == null || _pendingChoice == null) return;
+  void _onPuzzleSubmit(String answer) async {
+    if (_activePuzzle == null) return;
 
-    if (solution == _activePuzzle!.solution) {
-      // Apply puzzle flag if present
+    if (answer == _activePuzzle!.solution) {
       if (_activePuzzle!.setFlag != null) {
         flagService.applyFlag(_activePuzzle!.setFlag!);
       }
-      final didAdvance = await _storyService.applyChoiceAndCheckAdvance(
-        _pendingChoice!,
-      );
-      setState(() {
-        _activePuzzle = null;
-        _pendingChoice = null;
-        currentNode = _storyService.currentNode;
-        if (didAdvance) {
+      // Move to next node if specified
+      if (_activePuzzle!.nextNodeId != null &&
+          _activePuzzle!.nextNodeId!.isNotEmpty) {
+        await _storyService.loadFirstNode(_activePuzzle!.nextNodeId!);
+        setState(() {
+          currentNode = _storyService.currentNode;
           _dialogueIndex = 0;
-        }
-      });
+          _activePuzzle = getActivePuzzle();
+        });
+      } else {
+        setState(() {
+          _activePuzzle = null;
+        });
+      }
     } else {
       setState(() {
         _puzzleErrorMessage = _activePuzzle!.failureMessage ?? "Wrong answer!";
         _showPuzzleWarning = true;
-      });
-
-      Future.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          _puzzleErrorMessage = null;
-          _showPuzzleWarning = false;
-        });
       });
     }
   }
 
   void _nextDialogue() {
     if (currentNode == null) return;
-
-    if (_dialogueIndex < currentNode!.dialogues.length - 1) {
+    final dialogues =
+        currentNode!.content.where((c) => c.type == 'dialogue').toList();
+    if (_dialogueIndex < dialogues.length - 1) {
       setState(() => _dialogueIndex++);
-      dialogueHistory.add(currentNode!.dialogues[_dialogueIndex]);
+      dialogueHistory.add(dialogues[_dialogueIndex]);
     }
   }
 
@@ -194,16 +183,29 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  NodeContent? getActivePuzzle() {
+    if (currentNode == null) return null;
+    for (final c in currentNode!.content) {
+      if (c.type == 'puzzle' && _storyService.checkCondition(c.condition)) {
+        return c;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final node = _storyService.currentNode;
-
     if (node == null) {
       return Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final bool isLastLine = _dialogueIndex == currentNode!.dialogues.length - 1;
+    // Get all dialogues for the current node
+    final dialogues =
+        currentNode!.content.where((c) => c.type == 'dialogue').toList();
+    final bool isLastLine = _dialogueIndex == dialogues.length - 1;
 
+    // Get available choices for the current node
     final availableChoices = _storyService.availableChoices();
 
     // Only show these panels if the player has logged in (password_entered == true)
@@ -276,7 +278,7 @@ class _GameScreenState extends State<GameScreen> {
               minWidth: 350,
               minHeight: MediaQuery.of(context).size.height - 100,
               child:
-                  (_dialogueIndex < currentNode!.dialogues.length)
+                  (_dialogueIndex < dialogues.length)
                       ? DialogueWidget(
                         dialogueHistory: dialogueHistory,
                         onNext: _nextDialogue,
@@ -284,6 +286,7 @@ class _GameScreenState extends State<GameScreen> {
                         playerName: widget.playerName,
                         choices: isLastLine ? availableChoices : [],
                         onChoiceSelected: _onChoiceSelected,
+                        characterMap: _storyService.characterMap,
                       )
                       : const SizedBox.shrink(),
             ),
@@ -355,10 +358,10 @@ class _GameScreenState extends State<GameScreen> {
               CustomContainer(
                 padding: const EdgeInsets.all(10.0),
                 title: 'Puzzle',
-                initialY: 200,
+                initialY: 50,
                 initialX: 300,
                 minWidth: 500,
-                minHeight: 560,
+                minHeight: 530,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -372,7 +375,7 @@ class _GameScreenState extends State<GameScreen> {
                       onPressed: () {
                         setState(() {
                           _activePuzzle = null;
-                          _pendingChoice = null;
+                          _puzzleErrorMessage = null;
                         });
                       },
                       child: const Text('Close Puzzle'),

@@ -15,6 +15,8 @@ class StoryService {
   int morale = 87; // Initial morale level
   int passengers = 24; // Initial passenger count
 
+  Map<String, Character> characterMap = {};
+
   Future<void> init() async {
     _nodeBox = await Hive.openBox<Node>('nodes');
     await loadStoryFromJson();
@@ -51,29 +53,29 @@ class StoryService {
     return true;
   }
 
-  List<Choice> availableChoices() {
+  List<NodeContent> availableChoices() {
     if (_currentNode == null) return [];
-    return _currentNode!.choices.where((choice) {
-      return checkCondition(choice.condition);
-    }).toList();
+    return _currentNode!.content
+        .where((c) => c.type == 'choice' && checkCondition(c.condition))
+        .toList();
   }
 
-  Future<bool> applyChoiceAndCheckAdvance(Choice choice) async {
+  Future<bool> applyChoiceAndCheckAdvance(NodeContent choice) async {
     if (choice.setFlag != null) {
       flagService.applyFlag(choice.setFlag!);
     }
 
-    // Apply effects if present
-    if (choice.effects != null && choice.effects is Map<String, dynamic>) {
-      _applyEffects(choice.effects as Map<String, dynamic>);
-    }
+    // // Apply effects if present
+    // if (choice.effects != null && choice.effects is Map<String, dynamic>) {
+    //   _applyEffects(choice.effects as Map<String, dynamic>);
+    //}
 
     bool didAdvance = false;
-    if (choice.nextScene != null && choice.nextScene!.isNotEmpty) {
-      _currentNode = _nodeBox.get(choice.nextScene);
+    if (choice.nextNodeId != null && choice.nextNodeId!.isNotEmpty) {
+      _currentNode = _nodeBox.get(choice.nextNodeId);
       didAdvance = true;
       if (_currentNode == null) {
-        debugPrint('Next node with id ${choice.nextScene} not found');
+        debugPrint('Next node with id ${choice.nextNodeId} not found');
       }
     }
     return didAdvance;
@@ -98,13 +100,19 @@ class StoryService {
   }
 
   Future<void> loadStoryFromJson() async {
-    // Load story data from JSON //
     debugPrint('loading story from JSON...');
     final storyJson = await rootBundle.loadString('json/spacewalker.json');
-    final List<dynamic> storyData = json.decode(storyJson);
-    debugPrint('Succesfully parsed ${storyData.length} story nodes!!');
+    final Map<String, dynamic> storyData = json.decode(storyJson);
 
-    for (var nodeData in storyData) {
+    // Characters
+    final List<dynamic> charactersJson = storyData['characters'];
+    characterMap = {
+      for (var c in charactersJson) c['id']: Character.fromJson(c),
+    };
+
+    // Nodes
+    final List<dynamic> nodesJson = storyData['nodes'];
+    for (var nodeData in nodesJson) {
       final node = Node.fromJson(nodeData);
       await _nodeBox.put(node.id, node);
       print('added node: ${node.id}');

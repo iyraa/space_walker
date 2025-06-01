@@ -1,11 +1,8 @@
 import 'package:hive/hive.dart';
 
-part 'node.g.dart'; // Make sure this part file exists after generation
+part 'node.g.dart';
 
-@HiveType(
-  typeId: 0,
-  adapterName: 'NodeAdapter',
-) // Assign a unique typeId for each class
+@HiveType(typeId: 0, adapterName: 'NodeAdapter')
 class Node {
   @HiveField(0)
   final String id;
@@ -17,146 +14,106 @@ class Node {
   final String? music;
 
   @HiveField(3)
-  final List<DialogueLine> dialogues;
-
-  // @HiveField(3)
-  // final List<Puzzle>? puzzles;
-
-  @HiveField(4)
-  final List<Choice> choices;
+  final List<NodeContent> content;
 
   Node({
     required this.id,
     required this.background,
     this.music,
-    required this.dialogues,
-    // this.puzzles,
-    required this.choices,
+    required this.content,
   });
 
   factory Node.fromJson(Map<String, dynamic> json) => Node(
     id: json['id'] ?? '',
     background: json['background'] ?? '',
-    music: json['music'] ?? '',
-    dialogues:
-        (json['dialogues'] as List)
-            .map((dialogue) => DialogueLine.fromJson(dialogue))
-            .toList(),
-    // puzzles:
-    //     (json['puzzles'] as List<dynamic>? ?? [])
-    //         .map((p) => Puzzle.fromJson(p as Map<String, dynamic>))
-    //         .toList(),
-    choices:
-        (json['choices'] as List)
-            .map((choice) => Choice.fromJson(choice))
-            .toList(),
+    music: json['music'],
+    content:
+        (json['content'] as List).map((e) => NodeContent.fromJson(e)).toList(),
   );
 }
 
-@HiveType(typeId: 1, adapterName: 'DialogueLineAdapter')
-class DialogueLine {
+@HiveType(typeId: 2, adapterName: 'NodeContentAdapter')
+class NodeContent {
   @HiveField(0)
-  final String character;
+  final String type; // "dialogue", "choice", "puzzle"
 
+  // Dialogue
   @HiveField(1)
-  final String narrative;
-
-  DialogueLine({required this.character, required this.narrative});
-
-  factory DialogueLine.fromJson(Map<String, dynamic> json) => DialogueLine(
-    character: json['character'] ?? '',
-    narrative: json['narrative'] ?? '',
-  );
-}
-
-@HiveType(typeId: 2, adapterName: 'ChoiceAdapter') // Unique typeId for Choice
-class Choice {
-  @HiveField(0)
-  final String option;
-
-  @HiveField(1)
-  final Map<String, bool>? condition;
-
+  final String? character;
   @HiveField(2)
-  final Map<String, bool>? setFlag;
+  final String? narrative;
 
+  // Puzzle
   @HiveField(3)
-  final String? nextScene;
-
+  final String? puzzleType;
   @HiveField(4)
+  final String? description;
+  @HiveField(5)
+  final String? solution;
+  @HiveField(6)
+  final Map<String, bool>? setFlag;
+  @HiveField(7)
+  final String? successMessage;
+  @HiveField(8)
+  final String? failureMessage;
+  @HiveField(9)
+  final List<String>? symbols;
+
+  // Choice
+  @HiveField(10)
+  final String? option;
+  @HiveField(11)
+  final String? nextNodeId;
+  @HiveField(12)
+  final Map<String, bool>? condition;
+  @HiveField(13)
   final String? systemLog;
 
-  @HiveField(5)
-  final Puzzle? puzzle;
-
-  @HiveField(6)
-  final Map<String, dynamic>? effects;
-
-  Choice({
-    required this.option,
-    this.condition,
+  NodeContent({
+    required this.type,
+    this.character,
+    this.narrative,
+    this.puzzleType,
+    this.description,
+    this.solution,
     this.setFlag,
-    this.nextScene,
+    this.successMessage,
+    this.failureMessage,
+    this.symbols,
+    this.option,
+    this.nextNodeId,
+    this.condition,
     this.systemLog,
-    this.puzzle,
-    this.effects,
   });
 
-  factory Choice.fromJson(Map<String, dynamic> json) => Choice(
-    option: json['option'] ?? '',
-    condition:
-        (json['condition'] as Map<String, dynamic>?)?.cast<String, bool>(),
-    setFlag: (json['set_flag'] as Map<String, dynamic>?)?.cast<String, bool>(),
-    nextScene: json['nextScene'] ?? '',
-    systemLog: json['systemLog'] ?? '',
-    puzzle:
-        json['puzzle'] != null
-            ? Puzzle.fromJson(json['puzzle'] as Map<String, dynamic>)
-            : null,
-    effects: json['effects'] as Map<String, dynamic>?,
+  factory NodeContent.fromJson(Map<String, dynamic> json) => NodeContent(
+    type: json['type'] ?? '',
+    character: json['character'],
+    narrative: json['narrative'],
+    puzzleType: json['puzzle_type'],
+    description: json['description'],
+    solution: json['solution'],
+    setFlag: (json['set_flag'] as Map?)?.cast<String, bool>(),
+    successMessage: json['successMessage'],
+    failureMessage: json['failureMessage'],
+    symbols: (json['symbols'] as List?)?.map((e) => e.toString()).toList(),
+    option: json['option'],
+    nextNodeId: json['next_node_id'],
+    condition: (json['condition'] as Map?)?.cast<String, bool>(),
+    systemLog: json['systemLog'],
   );
 }
 
-@HiveType(typeId: 3, adapterName: 'PuzzleAdapter')
-class Puzzle {
+@HiveType(typeId: 3, adapterName: 'CharacterAdapter')
+class Character {
   @HiveField(0)
-  final String type;
+  final String id;
 
   @HiveField(1)
-  final String description;
+  final String name;
 
-  @HiveField(2)
-  final String solution;
+  Character({required this.id, required this.name});
 
-  @HiveField(3)
-  final Map<String, bool>? setFlag;
-
-  @HiveField(4)
-  final String successMessage;
-
-  @HiveField(5)
-  final String failureMessage;
-
-  @HiveField(6)
-  final String? hint;
-
-  Puzzle({
-    required this.type,
-    required this.description,
-    required this.solution,
-    required this.setFlag,
-    required this.successMessage,
-    required this.failureMessage,
-    this.hint,
-  });
-
-  factory Puzzle.fromJson(Map<String, dynamic> json) => Puzzle(
-    type: json['type'] ?? '',
-    description: json['description'] ?? '',
-    solution: json['solution'] ?? '',
-    setFlag: (json['set_flag'] as Map<String, dynamic>?)?.cast<String, bool>(),
-    successMessage: json['successMessage'] ?? '',
-    failureMessage: json['failureMessage'] ?? '',
-    hint: json['hint'],
-  );
+  factory Character.fromJson(Map<String, dynamic> json) =>
+      Character(id: json['id'] ?? '', name: json['name'] ?? '');
 }

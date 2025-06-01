@@ -12,9 +12,11 @@ void main() async {
 
   // Register adapters
   Hive.registerAdapter(NodeAdapter());
-  Hive.registerAdapter(ChoiceAdapter());
-  Hive.registerAdapter(DialogueLineAdapter());
-  Hive.registerAdapter(PuzzleAdapter());
+  Hive.registerAdapter(NodeContentAdapter());
+  // Hive.registerAdapter(ChoiceAdapter());
+  // Hive.registerAdapter(DialogueLineAdapter());
+  // Hive.registerAdapter(PuzzleAdapter());
+  Hive.registerAdapter(CharacterAdapter());
 
   runApp(SpaceWalker());
 }
@@ -29,15 +31,17 @@ class SpaceWalker extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Electrolize',
         colorScheme: ColorScheme.dark(
-          secondary: Color(0xFF18222A),
-          primary: Color(0xFF9ED7D0),
+          // secondary: Color(0xFF18222A),
+          secondary: Color.fromRGBO(24, 34, 42, 1),
+          //primary: Color(0xFF9ED7D0),
+          primary: Color.fromRGBO(147, 217, 240, 1),
           brightness: Brightness.dark,
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: WidgetStateProperty.all<Color>(Color(0xFF9ED7D0)),
             side: WidgetStateProperty.all<BorderSide>(
-              BorderSide(color: Color(0xFF9ED7D0), width: 1),
+              BorderSide(color: Color.fromRGBO(147, 217, 240, 1), width: 1),
             ),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -46,8 +50,8 @@ class SpaceWalker extends StatelessWidget {
           ),
         ),
         textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 23)).apply(
-          bodyColor: const Color(0xFF9ED7D0),
-          displayColor: const Color(0xFF9ED7D0),
+          bodyColor: const Color.fromRGBO(147, 217, 240, 1),
+          displayColor: const Color.fromRGBO(147, 217, 240, 1),
         ),
       ),
       debugShowCheckedModeBanner: false,

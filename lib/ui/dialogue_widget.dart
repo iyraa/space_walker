@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:space_walker/models/node.dart';
 
 class DialogueWidget extends StatefulWidget {
-  final List<DialogueLine> dialogueHistory;
+  final List<NodeContent> dialogueHistory;
   final VoidCallback onNext;
   final String playerName;
   final bool isLastLine;
-  final List<Choice>? choices;
-  final void Function(Choice)? onChoiceSelected;
+  final List<NodeContent>? choices;
+  final void Function(NodeContent)? onChoiceSelected;
+  final Map<String, Character> characterMap; // Add this to DialogueWidget
 
   const DialogueWidget({
     super.key,
@@ -18,6 +19,7 @@ class DialogueWidget extends StatefulWidget {
     required this.isLastLine,
     this.choices,
     this.onChoiceSelected,
+    required this.characterMap,
   });
 
   @override
@@ -70,11 +72,14 @@ class _DialogueWidgetState extends State<DialogueWidget> {
               itemCount: widget.dialogueHistory.length,
               itemBuilder: (context, index) {
                 final dialogue = widget.dialogueHistory[index];
-                final character = dialogue.character.replaceAll(
+                final characterId = dialogue.character;
+                final characterName =
+                    widget.characterMap[characterId]?.name ?? characterId;
+                final displayName = characterName?.replaceAll(
                   'PLAYER',
                   widget.playerName,
                 );
-                final narrative = dialogue.narrative.replaceAll(
+                final narrative = dialogue.narrative?.replaceAll(
                   'PLAYER',
                   widget.playerName,
                 );
@@ -82,7 +87,7 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: Row(
                     mainAxisAlignment:
-                        character == widget.playerName
+                        characterName == widget.playerName
                             ? MainAxisAlignment.end
                             : MainAxisAlignment.start,
                     children: [
@@ -95,7 +100,7 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius:
-                              character == widget.playerName
+                              characterName == widget.playerName
                                   ? const BorderRadius.only(
                                     topLeft: Radius.circular(12),
                                     topRight: Radius.circular(12),
@@ -117,7 +122,7 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '$character:',
+                              '$displayName:',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -134,7 +139,7 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                             AnimatedTextKit(
                               animatedTexts: [
                                 TypewriterAnimatedText(
-                                  narrative,
+                                  narrative!,
                                   textStyle: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -169,7 +174,7 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                           child: ElevatedButton(
                             onPressed:
                                 () => widget.onChoiceSelected?.call(choice),
-                            child: Text(choice.option),
+                            child: Text(choice.option ?? ''),
                           ),
                         ),
                       )
