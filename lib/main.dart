@@ -33,27 +33,23 @@ class SpaceWalker extends StatelessWidget {
           primary: Color(0xFF9ED7D0),
           brightness: Brightness.dark,
         ),
-
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: WidgetStateProperty.all<Color>(
-              Color(0xFF9ED7D0),
-            ), // Text color
+            foregroundColor: WidgetStateProperty.all<Color>(Color(0xFF9ED7D0)),
             side: WidgetStateProperty.all<BorderSide>(
               BorderSide(color: Color(0xFF9ED7D0), width: 1),
             ),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            ), // Border color
-            backgroundColor: WidgetStateProperty.all(
-              Color(0xFF18222A),
-            ), // Background color
+            ),
+            backgroundColor: WidgetStateProperty.all(Color(0xFF18222A)),
           ),
         ),
-
-        textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 23)),
+        textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 23)).apply(
+          bodyColor: const Color(0xFF9ED7D0),
+          displayColor: const Color(0xFF9ED7D0),
+        ),
       ),
-
       debugShowCheckedModeBanner: false,
       home: const StartGameScreen(),
     );

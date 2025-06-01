@@ -44,7 +44,10 @@
         "option": "Input password",
         "nextScene": "",
         "set_flag": {},
-        "condition": {},
+        "condition": {
+          "got_keycard": true,
+          "got_uniform": true
+        },
         "systemLog": "Attempting to login into the system...",
         "puzzle": {
           "type": "codeEntry",
@@ -60,8 +63,6 @@
         "nextScene": "2: System Familarization",
         "set_flag": {},
         "condition": {
-          "got_keycard": true,
-          "got_uniform": true,
           "password_entered": true
         },
         "systemLog": "Login successful. Welcome, PLAYER."

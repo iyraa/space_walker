@@ -62,9 +62,15 @@ class _AnimatedConstellationBackgroundState
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _ConstellationPainter(_stars),
-      size: Size.infinite,
+    return Container(
+      color:
+          Theme.of(context)
+              .colorScheme
+              .secondary, // <-- Change this to your desired background color
+      child: CustomPaint(
+        painter: _ConstellationPainter(_stars),
+        size: Size.infinite,
+      ),
     );
   }
 }

@@ -12,7 +12,7 @@ class StoryService {
 
   int crew = 8; // Initial crew count
   int fuel = 75; // Initial fuel level
-  int morale = 100; // Initial morale level
+  int morale = 87; // Initial morale level
   int passengers = 24; // Initial passenger count
 
   Future<void> init() async {
@@ -44,7 +44,7 @@ class StoryService {
     for (var entry in condition.entries) {
       final flagValue = flagService.getFlag(entry.key);
       if (flagValue == null || flagValue != entry.value) {
-        debugPrint('Condition not met for ${entry.key}');
+        //debugPrint('Condition not met for ${entry.key}');
         return false;
       }
     }

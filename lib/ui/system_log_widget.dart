@@ -45,21 +45,21 @@ class _SystemLogWidgetState extends State<SystemLogWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AnimatedTextKit(
-          animatedTexts: [
-            TypewriterAnimatedText(
-              'System Log...',
-              textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              speed: const Duration(milliseconds: 100),
-            ),
-          ],
-          repeatForever: true,
-        ),
-        SizedBox(height: 8),
+        // AnimatedTextKit(
+        //   animatedTexts: [
+        //     TypewriterAnimatedText(
+        //       'System Log...',
+        //       textStyle: TextStyle(
+        //         fontSize: 20,
+        //         fontWeight: FontWeight.bold,
+        //         color: Theme.of(context).colorScheme.primary,
+        //       ),
+        //       speed: const Duration(milliseconds: 100),
+        //     ),
+        //   ],
+        //   repeatForever: true,
+        // ),
+        // SizedBox(height: 8),
         Expanded(
           child: ListView.builder(
             controller: _scrollController,
@@ -75,13 +75,13 @@ class _SystemLogWidgetState extends State<SystemLogWidget> {
                           widget.playerName,
                         ),
                         textStyle: TextStyle(
-                          fontSize: 11,
+                          fontSize: 13,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         speed: const Duration(milliseconds: 50),
                       ),
                     ],
-                    isRepeatingAnimation: false,
+                    isRepeatingAnimation: true,
                     displayFullTextOnTap: true,
                     stopPauseOnTap: true,
                   ),

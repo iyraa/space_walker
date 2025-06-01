@@ -67,7 +67,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
 
                   // Right: Title, name, buttons
                   Expanded(
-                    child: CustomContainer(
+                    child: Container(
                       padding: EdgeInsets.fromLTRB(16, 100, 16, 100),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
