@@ -8,7 +8,7 @@ part of 'node.dart';
 
 class NodeAdapter extends TypeAdapter<Node> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Node read(BinaryReader reader) {
@@ -19,22 +19,25 @@ class NodeAdapter extends TypeAdapter<Node> {
     return Node(
       id: fields[0] as String,
       background: fields[1] as String,
-      music: fields[2] as String?,
-      content: (fields[3] as List).cast<NodeContent>(),
+      audio: fields[2] as String?,
+      windowDisplay: fields[3] as String?,
+      content: (fields[4] as List).cast<NodeContent>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Node obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.background)
       ..writeByte(2)
-      ..write(obj.music)
+      ..write(obj.audio)
       ..writeByte(3)
+      ..write(obj.windowDisplay)
+      ..writeByte(4)
       ..write(obj.content);
   }
 
@@ -75,13 +78,14 @@ class NodeContentAdapter extends TypeAdapter<NodeContent> {
       condition: (fields[12] as Map?)?.cast<String, bool>(),
       systemLog: fields[13] as String?,
       id: fields[14] as String?,
+      effects: (fields[15] as Map?)?.cast<String, dynamic>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, NodeContent obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.type)
       ..writeByte(1)
@@ -111,7 +115,9 @@ class NodeContentAdapter extends TypeAdapter<NodeContent> {
       ..writeByte(13)
       ..write(obj.systemLog)
       ..writeByte(14)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(15)
+      ..write(obj.effects);
   }
 
   @override

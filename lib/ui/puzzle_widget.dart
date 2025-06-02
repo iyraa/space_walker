@@ -54,7 +54,7 @@ class _PuzzleWidgetState extends State<PuzzleWidget> {
     controller.selection = TextSelection.fromPosition(
       TextPosition(offset: controller.text.length),
     );
-    await _audioPlayer.play(AssetSource('audio/sfx/click.mp3'));
+    await _audioPlayer.play(AssetSource('audio/sfx/pin.mp3'));
     setState(() {});
   }
 

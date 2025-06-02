@@ -27,10 +27,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/json/story.json
+    - assets/json/spacewalker.json
     - assets/background/
-    - assets/background/moving_bg.mov
-    - assets/characters/
     - assets/audio/
     - assets/images/
     - assets/audio/sfx/

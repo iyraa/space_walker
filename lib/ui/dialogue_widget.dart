@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:space_walker/models/node.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class DialogueWidget extends StatefulWidget {
   final List<NodeContent> dialogueHistory;
@@ -28,6 +29,7 @@ class DialogueWidget extends StatefulWidget {
 
 class _DialogueWidgetState extends State<DialogueWidget> {
   final ScrollController _scrollController = ScrollController();
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void didUpdateWidget(covariant DialogueWidget oldWidget) {
@@ -49,6 +51,12 @@ class _DialogueWidgetState extends State<DialogueWidget> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
+    }
+  }
+
+  void _playAudio(String? audioPath) async {
+    if (audioPath != null && audioPath.isNotEmpty) {
+      await _audioPlayer.play(AssetSource(audioPath), volume: 0.5);
     }
   }
 
@@ -75,6 +83,8 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                 final characterId = dialogue.character;
                 final characterName =
                     widget.characterMap[characterId]?.name ?? characterId;
+
+                // Replace 'PLAYER' in characterName and narrative with the actual player name
                 final displayName = characterName?.replaceAll(
                   'PLAYER',
                   widget.playerName,
@@ -83,11 +93,15 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                   'PLAYER',
                   widget.playerName,
                 );
+
+                // Compare the resolved displayName with the playerName
+                final isPlayer = displayName == widget.playerName;
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: Row(
                     mainAxisAlignment:
-                        characterName == widget.playerName
+                        isPlayer
                             ? MainAxisAlignment.end
                             : MainAxisAlignment.start,
                     children: [
@@ -100,7 +114,7 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius:
-                              characterName == widget.playerName
+                              isPlayer
                                   ? const BorderRadius.only(
                                     topLeft: Radius.circular(12),
                                     topRight: Radius.circular(12),
@@ -127,26 +141,21 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.secondary,
-                                // color:
-                                //     character == widget.playerName
-                                //         ? Theme.of(context).colorScheme.primary
-                                //         : Theme.of(
-                                //           context,
-                                //         ).colorScheme.secondary,
                               ),
                             ),
                             const SizedBox(height: 6),
                             AnimatedTextKit(
                               animatedTexts: [
                                 TypewriterAnimatedText(
-                                  narrative!,
+                                  narrative ?? '',
                                   textStyle: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
+                                    fontFamily: 'Rajdhani',
                                     color:
                                         Theme.of(context).colorScheme.secondary,
                                   ),
-                                  speed: const Duration(milliseconds: 90),
+                                  speed: const Duration(milliseconds: 70),
                                   textAlign: TextAlign.left,
                                 ),
                               ],
@@ -172,8 +181,12 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                         (choice) => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: ElevatedButton(
-                            onPressed:
-                                () => widget.onChoiceSelected?.call(choice),
+                            onPressed: () {
+                              _playAudio(
+                                'audio/sfx/click.mp3',
+                              ); // Play SFX directly
+                              widget.onChoiceSelected?.call(choice);
+                            },
                             child: Text(choice.option ?? ''),
                           ),
                         ),

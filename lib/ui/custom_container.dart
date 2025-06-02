@@ -149,7 +149,7 @@ class _CustomContainerState extends State<CustomContainer> {
                               AnimatedTextKit(
                                 repeatForever: true,
                                 animatedTexts: [
-                                  FlickerAnimatedText(
+                                  TyperAnimatedText(
                                     widget.title,
                                     textStyle: TextStyle(
                                       color:

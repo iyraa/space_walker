@@ -21,6 +21,8 @@ class _SystemLogWidgetState extends State<SystemLogWidget> {
   @override
   void didUpdateWidget(covariant SystemLogWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    // Check if the logs list has changed
     if (widget.logs.length != oldWidget.logs.length) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (_scrollController.hasClients) {
@@ -45,21 +47,6 @@ class _SystemLogWidgetState extends State<SystemLogWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // AnimatedTextKit(
-        //   animatedTexts: [
-        //     TypewriterAnimatedText(
-        //       'System Log...',
-        //       textStyle: TextStyle(
-        //         fontSize: 20,
-        //         fontWeight: FontWeight.bold,
-        //         color: Theme.of(context).colorScheme.primary,
-        //       ),
-        //       speed: const Duration(milliseconds: 100),
-        //     ),
-        //   ],
-        //   repeatForever: true,
-        // ),
-        // SizedBox(height: 8),
         Expanded(
           child: ListView.builder(
             controller: _scrollController,
@@ -81,7 +68,7 @@ class _SystemLogWidgetState extends State<SystemLogWidget> {
                         speed: const Duration(milliseconds: 50),
                       ),
                     ],
-                    isRepeatingAnimation: true,
+                    isRepeatingAnimation: false,
                     displayFullTextOnTap: true,
                     stopPauseOnTap: true,
                   ),

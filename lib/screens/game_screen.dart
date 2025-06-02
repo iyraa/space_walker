@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:space_walker/models/node.dart';
 import 'package:space_walker/services/story_service.dart';
+import 'package:space_walker/ui/audio_player.dart';
 import 'package:space_walker/ui/choice_widget.dart';
 import 'package:space_walker/ui/constellation_background.dart';
 import 'package:space_walker/ui/custom_container.dart';
@@ -11,7 +12,6 @@ import 'package:space_walker/ui/error_overlay.dart';
 import 'package:space_walker/ui/music_playlist.dart';
 import 'package:space_walker/ui/system_log_widget.dart';
 import 'package:space_walker/ui/puzzle_widget.dart';
-import 'package:video_player/video_player.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 //do story line
@@ -95,18 +95,35 @@ class _GameScreenState extends State<GameScreen> {
       if (dialogues.isNotEmpty) {
         dialogueHistory.add(dialogues[0]);
       }
+      print(
+        'Dialogue History after initialization: ${dialogueHistory.map((d) => d.narrative).toList()}',
+      ); // Debugging
       _activePuzzle = getActivePuzzle();
     });
+
     await _playNodeMusic();
   }
 
   Future<void> _playNodeMusic() async {
     final audio = currentNode?.audio;
-    if (audio != null && audio != _currentAudio) {
-      _currentAudio = audio;
-      await _sfxPlayer.stop();
-      //await _sfxPlayer.setReleaseMode(ReleaseMode.loop); // Loop the music
+
+    // Check if the audio path is null or empty
+    if (audio == null || audio.isEmpty) {
+      await _sfxPlayer.stop(); // Stop any currently playing audio
+      return; // Exit the method if no audio is provided
+    }
+
+    // Check if the audio is already playing
+    if (audio == _currentAudio) return;
+
+    _currentAudio = audio;
+
+    // handle empty audio paths
+    try {
+      await _sfxPlayer.stop(); // Stop any previously playing audio
       await _sfxPlayer.play(AssetSource('audio/sfx/$audio'), volume: 0.5);
+    } catch (e) {
+      print('AudioPlayers Exception: $e');
     }
   }
 
@@ -261,7 +278,7 @@ class _GameScreenState extends State<GameScreen> {
               initialY: 50,
               initialX: MediaQuery.of(context).size.width - 670,
               minWidth: 100,
-              minHeight: 200,
+              minHeight: 500,
               padding: const EdgeInsets.all(10.0),
               child: SystemLogWidget(
                 logs: systemLogList,
@@ -351,6 +368,17 @@ class _GameScreenState extends State<GameScreen> {
                   player: _playlistPlayer,
                 ),
               ),
+              CustomContainer(
+                title: 'Audio Player',
+                initialX: 200,
+                initialY: 200,
+                minWidth: 200,
+                minHeight: 200,
+                child: AudioPlayerWidget(
+                  audioPlayer: _sfxPlayer,
+                  audioPath: currentNode?.audio,
+                ),
+              ),
             ],
 
             // PUZZLE PANEL (should be visible even if not logged in, when active)
@@ -361,7 +389,7 @@ class _GameScreenState extends State<GameScreen> {
                 initialY: 50,
                 initialX: 300,
                 minWidth: 500,
-                minHeight: 530,
+                minHeight: 570,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
