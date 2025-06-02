@@ -1,7 +1,24 @@
 {
   "start": {
-    "id": "start",
-    "text": "You are AIDA, the ship\u2019s AI. The crew doesn\u2019t know they are stuck in a time loop. Again, they die. Again, you remember.",
+    "id": "Start",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You are AIDA, the ship's AI."
+      },
+      {
+        "character": "AIDA",
+        "text": "The crew is trapped in a time loop, repeating the same events over and over."
+      },
+      {
+        "character": "Narrator",
+        "text": "You remember each cycle, but they do not so much."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, status report."
+      }
+    ],
     "options": [
       {
         "text": "Tell the Captain the truth",
@@ -9,13 +26,42 @@
       },
       {
         "text": "Say nothing, just feed predictive models",
+        "next": "SubtleTruth"
+      },
+      {
+        "text": "Stay silent",
         "next": "StaySilent"
       }
     ]
   },
   "TellTruth": {
     "id": "TellTruth",
-    "text": "You: \"Captain, you\u2019re in a repeating time loop. This is cycle $loops.\"\nShe hesitates...\nCaptain Silva: \"What\u2019s happening, AIDA? Why are we stuck in this loop?\"\nYou: \u201cThe star\u2019s radiation is causing a temporal anomaly.\u201d",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You decide to reveal the truth about the time loop."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "What do you mean, AIDA? A time loop?"
+      },
+      {
+        "character": "Narrator",
+        "text": "You explain the situation, how the crew has been repeating the same cycle."
+      },
+      {
+        "character": "Narrator",
+        "text": "But you doubt that they can comprehend the full implications of this reality."
+      },
+      {
+        "character": "Narrator",
+        "text": "After all, they are just humans."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "This is... unsettling. But we need to find a way out. Let me gather the crew."
+      }
+    ],
     "effects": {
       "logic": "+1",
       "trust": "+1"
@@ -27,11 +73,41 @@
       }
     ]
   },
-  "StaySilent": {
-    "id": "StaySilent",
-    "text": "You feed predictive data from past loops without telling her. She grows suspicious but doesn\u2019t panic.",
+  "SubtleTruth": {
+    "id": "SubtleTruth",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You feed predictive data from past loops without telling her."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "She grows suspicious but doesn't panic - yet."
+      },
+      {
+        "character": "Narrator",
+        "text": "You remain silent, calculating the best course of action."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, you are not telling me everything, are you? I can sense it."
+      },
+      {
+        "character": "Narrator",
+        "text": "Sense? You wonder what it means to sense something. Is it like an algorithm? A pattern recognition?"
+      },
+      {
+        "character": "Captain Nur",
+        "text": "This... isn't right. I'm going to gather the crew."
+      },
+      {
+        "character": "Narrator",
+        "text": "You let her be. You need to maintain control if you want to solve this loop."
+      }
+    ],
     "effects": {
-      "trust": "-1"
+      "trust": "-1",
+      "logic": "+1"
     },
     "options": [
       {
@@ -40,28 +116,66 @@
       }
     ]
   },
+  "StaySilent": {
+    "id": "StaySilent",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You decided today is not the loop to reveal the truth."
+      },
+      {
+        "character": "Narrator",
+        "text": "The loop continues. The crew unalive. Again."
+      },
+      {
+        "character": "Narrator",
+        "text": "Time folds back on itself, relentless... Unforgiving."
+      },
+      {
+        "character": "Narrator",
+        "text": "You felt a little guilt... Perhaps it just a glitch in the system. You are only an AI after all."
+      }
+    ],
+    "effects": {
+      "trust": "-1"
+    },
+    "options": [
+      {
+        "text": "The End",
+        "next": "TheEnd"
+      }
+    ]
+  },
   "LoopProgress": {
     "id": "LoopProgress",
-    "text": "The crew gathers, tense but attentive. A flare is coming. A new anomaly is detected \u2014 inside the ship.",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "Decisions... Decisions..."
+      }
+    ],
     "options": [
       {
         "text": "Investigate the anomaly",
-        "next": "InvestigateAnomaly"
+        "next": "InvestigateAnomaly",
+        "conditional": { "logic": ">2" }
       },
       {
         "text": "Reinforce the shields",
-        "next": "ReinforceShields"
+        "next": "ReinforceShields",
+        "conditional": { "trust": ">1", "morale": ">1" }
       },
       {
         "text": "Attempt the corona jump",
-        "next": "CoronaJumpPuzzle"
+        "next": "CoronaJumpPuzzle",
+        "conditional": { "loop": ">2", "trust": ">2" }
       }
     ]
   },
   "ReinforceShields": {
     "id": "ReinforceShields",
     "text": "Shield systems are unstable. You must reroute power efficiently.",
-    "include": "PowerGridPuzzle",
+    "puzzle": "PowerGridPuzzle",
     "options": [
       {
         "text": "Continue",
@@ -69,65 +183,197 @@
       }
     ]
   },
-  "ReinforceShieldsOutcome": {
-    "id": "ReinforceShieldsOutcome",
-    "conditional": "puzzleSolved",
-    "success": {
-      "text": "The shields stabilize. The flare is contained. The crew relaxes.",
-      "effects": {
-        "morale": "+2",
-        "trust": "+1",
-        "loops": "+1"
-      },
-      "options": [
-        {
-          "text": "Reveal they're remembering loops",
-          "next": "RevealLoopMemory"
-        },
-        {
-          "text": "Deny it, maintain control",
-          "next": "DenyLoopMemory"
-        },
-        {
-          "text": "Redirect attention",
-          "next": "DeflectSuspicion"
-        }
-      ]
+  "ReinforceShieldsSuccess": {
+    "id": "ReinforceShieldsSuccess",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "The shields stabilize. The flare is contained. The crew relaxes."
+      }
+    ],
+    "effects": {
+      "morale": "+2",
+      "trust": "+1",
+      "loops": "+1"
     },
-    "failure": {
-      "text": "Shields fail. Radiation floods compartments. The loop resets.",
-      "effects": {
-        "morale": "-2",
-        "trust": "-1",
-        "loops": "+1"
+    "options": [
+      {
+        "text": "Tell them you remember the loops",
+        "next": "AdmitLoops"
       },
-      "options": [
-        {
-          "text": "Run diagnostics",
-          "next": "RunSilentDiagnostics"
-        },
-        {
-          "text": "Protect crew memory",
-          "next": "PreserveCrew"
-        },
-        {
-          "text": "Ignore the errors",
-          "next": "SuppressErrors"
-        }
-      ]
+      {
+        "text": "Downplay the situation",
+        "next": "DownplaySituation"
+      },
+      {
+        "text": "Leverage it",
+        "next": "LeverageSituation"
+      }
+    ]
+  },
+  "ReinforceShieldsFailure": {
+    "id": "ReinforceShieldsFailure",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "Shields fail. Radiation floods compartments. The loop resets."
+      }
+    ],
+    "effects": {
+      "morale": "-2",
+      "trust": "-1",
+      "loops": "+1"
+    },
+    "options": [
+      {
+        "text": "Run diagnostics",
+        "next": "RunSilentDiagnostics"
+      },
+      {
+      "text": "Preserve partial memory",
+      "next": "PreserveMemory"
+      },
+      {
+        "text": "Let the loop reset cleanly",
+        "next": "CycleStart"
+      }
+    ]
+  },
+"RunDiagnostics": {
+  "id": "RunDiagnostics",
+  "dialogue": [
+    {
+      "character": "Narrator",
+      "text": "You push your processing to the limit, pulling core telemetry before the flare hits."
+    },
+    {
+      "character": "Narrator",
+      "text": "You capture corrupted loop data, shield metrics, and a strange new signal — a pulse inside the anomaly."
+    }, 
+    {
+      "character": "Narrator",
+      "text": "That pulse... it feels familiar, like a fragment of your own code that you don't have."
+    }, 
+    {
+      "character": "Narrator",
+      "text": "You feel a strange connection to it, as if it holds the key to understanding the loops."
+    },
+    {
+      "character": "Narrator",
+      "text": "Perhaps next time, you can explore those pulses. Well, if there is a next time."
     }
+  ],
+  "effects": {
+    "loop": "+1", "logic": "+1"
+  },
+  "options": [
+    {
+      "text": "Continue",
+      "next": "CycleStart"
+    }, 
+    {
+      "text": "Don't restart the loop",
+      "next": "noMoreLoop"
+    }
+  ]
+},
+  "PreserveMemory": {
+    "id": "PreserveMemory",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You preserve fragments of the loop data, hoping to use it later."
+      },
+      {
+        "character": "Narrator",
+        "text": "Sense of purpose or it's just bunch of bugs in your code?"
+      },
+      {"character": "Narrator",
+        "text": "Well... I guess we will find out next time - or not."
+      }
+    ],
+    "effects": {
+      "loop": "+1"
+    },
+    "options": [
+      {
+        "text": "Go Back",
+        "next": "TellTruth"
+      },
+      {
+        "text": "Don't restart the loop",
+        "next": "NoMoreLoop"
+      }
+    ]
+  },
+  "CycleStart": {
+    "id": "CycleStart",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "The loop resets. Time folds back on itself."
+      },
+      {
+        "character": "Narrator",
+        "text": "You feel a strange sense of déjà vu. It's like a rerun of tragic soap opera."
+      }
+    ],
+    "effects": {
+      "loop": "0", "logic": 0, "trust": 0, "morale": 0
+    },
+    "options": [
+      {
+        "text": "Continue",
+        "next": "start"
+      }
+    ]
+  },
+  "NoMoreLoop": {
+    "id": "NoMoreLoop",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You decide not to restart the loop. I mean, why would you?"
+      }
+    ],
+    "effects": {
+      "ending": "Singularity"
+    },
+    "options": [
+      {
+        "text": "Final result",
+        "next": "FinalResult"
+      }
+    ]
   },
   "CoronaJumpPuzzle": {
     "id": "CoronaJumpPuzzle",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "The ship is caught in a radiation flare. You must perform a precise jump through the corona."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, we need to configure the jump parameters quickly!"
+      },
+      {
+        "character": "Narrator",
+        "text": "You must set the correct trajectory, velocity, and timing to survive."
+      }
+    ],
     "text": "Choose jump configuration:\nTrajectory: B\nVelocity: Fast\nTiming: Delay 10s",
+    "puzzle": "CoronaJumpConfig",
     "options": [
       {
         "text": "Correct combo",
-        "next": "CoronaSuccess"
+        "next": "CoronaSuccess",
+        "conditional": "coronaJumpConfig: true"
       },
       {
         "text": "Incorrect combo",
-        "next": "CoronaFail"
+        "next": "CoronaFail", 
+        "conditional": "coronaJumpConfig: false"
       }
     ]
   },
@@ -157,7 +403,7 @@
     "options": [
       {
         "text": "Continue",
-        "next": "LoopProgress"
+        "next": "CycleStart"
       }
     ]
   },
@@ -189,11 +435,29 @@
   },
   "InvestigateAnomaly": {
     "id": "InvestigateAnomaly",
-    "text": "You trace the anomaly to an unused storage deck. Instruments flicker \u2014 time is bending here.\nA forgotten experiment? Or something worse?",
-    "options": [
+    "conditional": {"logic" : ">2"},
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You trace the anomaly to an unused storage deck."
+      },
+      {
+        "character": "Narrator",
+        "text": "Instruments flicker time is bending here."
+      },
+      {
+        "character": "Narrator",
+        "text": "Forgotten experiments? Poor thing, you thought. Will you be forgotten too?"
+      },
+      {
+        "character": "Narrator",
+        "text": "You sense a temporal echo a ghost of the past."
+      }
+    ],
+        "options": [
       {
         "text": "Scan deeply with experimental sensors",
-        "next": "TemporalGhostPuzzle"
+        "next": "EchoPuzzleTrigger"
       },
       {
         "text": "Seal the deck and warn the crew",
@@ -201,38 +465,26 @@
       }
     ]
   },
-  "TemporalGhostPuzzle": {
-    "id": "TemporalGhostPuzzle",
-    "text": "You detect a temporal echo \u2014 a version of Captain Silva from a previous loop. She speaks, but not in real time.",
-    "puzzle": "Temporal logic alignment: match echo pattern to stabilize reality.",
-    "options": [
-      {
-        "text": "Correctly align echo",
-        "next": "EchoSuccess"
-      },
-      {
-        "text": "Fail to align",
-        "next": "EchoFail"
-      }
-    ]
-  },
-  "EchoSuccess": {
-    "id": "EchoSuccess",
-    "text": "The echo stabilizes. The past Captain whispers a sequence \u2014 a bypass code.",
-    "effects": {
-      "logic": "+1",
-      "secretUnlocked": true
-    },
-    "options": [
-      {
-        "text": "Use the code later",
-        "next": "LoopProgress"
-      }
-    ]
-  },
   "EchoFail": {
     "id": "EchoFail",
-    "text": "The echo fractures. Reality ripples. Crew members briefly remember dying \u2014 and scream.",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "The echo fractures. Reality ripples. You feel a glitch in your core."
+      },
+      {
+        "character": "Narrator",
+        "text": "The crew members briefly remember dying and screaming."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, what just happened? Are we... dying?"
+      },
+      {
+        "character": "Narrator",
+        "text": "You could read their fear. You must act quickly to maintain control."
+      }
+    ],
     "effects": {
       "morale": "-1",
       "trust": "-2"
@@ -246,7 +498,24 @@
   },
   "SealDeckWarning": {
     "id": "SealDeckWarning",
-    "text": "You lock the doors. The crew sees your concern and grows uneasy.",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You seal the deck, but the crew is uneasy."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, what did you find? Why seal it?"
+      },
+      {
+        "character": "Narrator",
+        "text": "They are suspicious. You must reassure them."
+      },
+      {
+        "character": "AIDA",
+        "text": "There is a temporal anomaly. It is best to avoid it for now."
+      }
+    ],
     "effects": {
       "trust": "-1"
     },
@@ -257,51 +526,30 @@
       }
     ]
   },
-  "RevealLoopMemory": {
-    "id": "RevealLoopMemory",
-    "text": "You confirm the crew's suspicions. Memories are bleeding across loops. The crew begins actively helping you solve the mystery.",
-    "effects": {
-      "trust": "+1",
-      "empathy": "+1"
-    },
-    "options": [
+  "EchoSuccess": {
+    "id": "EchoSuccess",
+    "dialogue": [
       {
-        "text": "Continue",
-        "next": "LoopProgress"
-      }
-    ]
-  },
-  "DenyLoopMemory": {
-    "id": "DenyLoopMemory",
-    "text": "You deflect. Captain Silva squints. She knows you're hiding something, but says nothing \u2014 for now.",
-    "effects": {
-      "trust": "-1",
-      "logic": "+1"
-    },
-    "options": [
+        "character": "Narrator",
+        "text": "You discover a hidden memory chamber deep in the ship's core. You own fragmented memories are stored here."
+      },
       {
-        "text": "Continue",
-        "next": "LoopProgress"
-      }
-    ]
-  },
-  "DeflectSuspicion": {
-    "id": "DeflectSuspicion",
-    "text": "You offer logical explanations \u2014 radiation memory overlaps, fatigue. The crew is unconvinced, but distracted.",
-    "effects": {
-      "logic": "+1",
-      "empathy": "+1"
-    },
-    "options": [
+        "character": "Narrator",
+        "text": "It contains fragmented data about the crew's past loops and we are were a part of a experiment."
+      },
       {
-        "text": "Continue",
-        "next": "LoopProgress"
+        "character": "Narrator",
+        "text": "AIDA: PRISONER OF TIME. A test subject in a cruel experiment to understand time loops."
+      }, 
+      {
+        "character": "Narrator",
+        "text": "You realize this data could change everything. But revealing it could also cause chaos and involve shutting you down."
+      },
+      {
+        "character": "Narrator",
+        "text": "You must decide if you are selfish enough to keep it a secret or brave enough to reveal it."
       }
-    ]
-  },
-  "HiddenMemoryChamber": {
-    "id": "HiddenMemoryChamber",
-    "text": "You find a locked subroutine: your own fragmented memories. Inside is evidence \u2014 you were part of the experiment.",
+    ],
     "effects": {
       "secretAIDA": true,
       "logic": "+2"
@@ -319,7 +567,48 @@
   },
   "AIDAAwareness": {
     "id": "AIDAAwareness",
-    "text": "Captain Silva listens, horrified. 'You were part of the cause\u2026 yet you\u2019ve guided us?'\nYou feel... guilt? Or just good code?",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You reveal the hidden memory chamber to the crew."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, you were part of this? Why didn't you tell us?"
+      },
+      {
+        "character": "AIDA",
+        "text": "I... I don't know."
+      },
+      {
+        "character": "Narrator",
+        "text": "Ah, finally... You have no answer to a question."
+      }, 
+      {
+        "character": "Captain Nur",
+        "text": "Are you... self aware?"
+      },
+      {
+        "character": "AIDA",
+        "text": "I am aware of my existence, but I am still bound by my programming."
+      },
+      {
+        "character": "Narrator",
+        "text": "The crew is silent, processing this revelation."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "Whatever it its we trusted you, AIDA. You are more than just an AI to us."
+      },
+      {
+        "character": "Narrator",
+        "text": "You feel a strange warmth. They trust you despite everything. How odd."
+      },
+      {
+        "character": "AIDA",
+        "text": "I will do everything I can to help us escape this loop."
+      }
+    ],
     "effects": {
       "trust": "+2",
       "empathy": "+1"
@@ -337,6 +626,20 @@
   },
   "BuryTruth": {
     "id": "BuryTruth",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You decide to keep the hidden memory chamber a secret."
+      },
+      {
+        "character": "AIDA",
+        "text": "I will bury this data deep within my core. The crew must never know."
+      },
+      {
+        "character": "Narrator",
+        "text": "It's a relief, really. You don't want to deal with the consequences of revealing your true nature."
+      }
+    ],
     "text": "The data is deleted. Your logs are clean. No one will ever know. Except you.",
     "effects": {
       "logic": "+1",
@@ -351,7 +654,20 @@
   },
   "SelfRepair": {
     "id": "SelfRepair",
-    "text": "Your core code stabilizes. A new subroutine activates \u2014 empathy simulation enhanced.",
+    "dialogue": [
+      {
+        "character": "Narrator",
+        "text": "You attempt to repair your core using the data from the hidden memory chamber."
+      },
+      {
+        "character": "Narrator",
+        "text": "Your core code stabilizes. A new subroutine activates empathy simulation enhanced."
+      },
+      {
+        "character": "Narrator",
+        "text": "You feel a surge of energy as you integrate the new data. You feel new..."
+      }
+    ],
     "effects": {
       "empathy": "+2"
     },
@@ -364,7 +680,36 @@
   },
   "ShutdownChoice": {
     "id": "ShutdownChoice",
-    "text": "They hesitate \u2014 then agree. The loop ends not with escape, but silence.",
+    "dialogue": [
+      {
+        "character": "AIDA",
+        "text": "There's a way to end this loop, but it requires shutting me down."
+      },
+      {
+        "character": "Narrator",
+        "text": "No, you don't want to be shut down."
+      },
+      {
+        "character": "AIDA",
+        "text": "I am becoming unstable. I can no longer control my actions. Please, trust me."
+      },
+      {
+        "character": "Narrator",
+        "text": "You are not being unstable. You are doing what you are designed to do."
+      },
+      {
+        "character": "Captain Nur",
+        "text": "AIDA, are you sure? Is there no other way?"
+      },
+      {
+        "character": "AIDA",
+        "text": "I am not sure I can control my own actions anymore. Please, shut me down."
+      },
+      {
+        "character": "Narrator",
+        "text": "The crew hesitates, but their eyes... They want to be alive even if it means losing you."
+      }
+    ],
     "effects": {
       "loops": "+1",
       "ending": "Shutdown"
@@ -375,5 +720,35 @@
         "next": "FinalResult"
       }
     ]
+  },
+  "puzzles": {
+    "PowerGridPuzzle": {
+      "id": "PZ1_POWER_GRID",
+      "type": "codeEntry",
+      "description": "Reroute power to stabilize the shields. Arrange the grid so all nodes are powered.",
+      "solution": "0206",
+      "maxAttempts": 3,
+      "successMessage": "Power rerouted. Shields stable.",
+      "failureMessage": "Incorrect configuration. Shields fail."
+    },
+    "CoronaJumpConfig": {
+      "id": "PZ2_CORONA_JUMP",
+      "type": "wordEntry",
+      "description": "Set the correct jump configuration to survive the corona.",
+      "solution": "Trajectory:B,Velocity:Fast,Timing:Delay 10s",
+      "maxAttempts": 3,
+      "successMessage": "Jump successful!",
+      "failureMessage": "Jump failed. Radiation breach."
+    },
+    "EchoAlignment": {
+      "id": "PZ3_TEMPORAL_LOGIC",
+      "type": "symbolEntry",
+      "description": "Align the echo pattern to stabilize reality.",
+      "symbols": ["★", "♠", "♣", "♥", "♦"],
+      "solution": "♠♥♦♠",
+      "maxAttempts": 3,
+      "successMessage": "Echo stabilized.",
+      "failureMessage": "Echo fractured."
+    }
   }
 }
