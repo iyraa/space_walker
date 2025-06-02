@@ -40,7 +40,7 @@ class _GameScreenState extends State<GameScreen> {
   /* MUSIC MANAGEMENT */
   late final AudioPlayer _sfxPlayer;
   late final AudioPlayer _playlistPlayer;
-  String? _currentMusic;
+  String? _currentAudio;
 
   NodeContent? _activePuzzle;
   String? _puzzleErrorMessage;
@@ -80,7 +80,7 @@ class _GameScreenState extends State<GameScreen> {
     await _playlistPlayer.stop();
 
     await _storyService.init();
-    await _storyService.loadFirstNode('1: Start');
+    await _storyService.loadFirstNode('1_START');
 
     // Reset flag when starting a new game
     await flagService.init();
@@ -101,12 +101,12 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> _playNodeMusic() async {
-    final music = currentNode?.music;
-    if (music != null && music != _currentMusic) {
-      _currentMusic = music;
+    final audio = currentNode?.audio;
+    if (audio != null && audio != _currentAudio) {
+      _currentAudio = audio;
       await _sfxPlayer.stop();
       //await _sfxPlayer.setReleaseMode(ReleaseMode.loop); // Loop the music
-      await _sfxPlayer.play(AssetSource('audio/sfx/$music'), volume: 0.5);
+      await _sfxPlayer.play(AssetSource('audio/sfx/$audio'), volume: 0.5);
     }
   }
 

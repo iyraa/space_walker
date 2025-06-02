@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'node.g.dart';
 
-@HiveType(typeId: 0, adapterName: 'NodeAdapter')
+@HiveType(typeId: 1, adapterName: 'NodeAdapter')
 class Node {
   @HiveField(0)
   final String id;
@@ -11,22 +11,27 @@ class Node {
   final String background;
 
   @HiveField(2)
-  final String? music;
+  final String? audio;
 
   @HiveField(3)
+  final String? windowDisplay; // <-- Add this line
+
+  @HiveField(4)
   final List<NodeContent> content;
 
   Node({
     required this.id,
     required this.background,
-    this.music,
+    this.audio,
+    this.windowDisplay, // <-- Add this
     required this.content,
   });
 
   factory Node.fromJson(Map<String, dynamic> json) => Node(
-    id: json['id'] ?? '',
-    background: json['background'] ?? '',
-    music: json['music'],
+    id: json['id'],
+    background: json['background'],
+    audio: json['audio'],
+    windowDisplay: json['window_display'], // <-- Add this
     content:
         (json['content'] as List).map((e) => NodeContent.fromJson(e)).toList(),
   );
@@ -69,6 +74,13 @@ class NodeContent {
   @HiveField(13)
   final String? systemLog;
 
+  @HiveField(14)
+  final String? id;
+
+  // Effects (added for choices and puzzles)
+  @HiveField(15)
+  final Map<String, dynamic>? effects;
+
   NodeContent({
     required this.type,
     this.character,
@@ -84,6 +96,8 @@ class NodeContent {
     this.nextNodeId,
     this.condition,
     this.systemLog,
+    this.id,
+    this.effects,
   });
 
   factory NodeContent.fromJson(Map<String, dynamic> json) => NodeContent(
@@ -101,6 +115,8 @@ class NodeContent {
     nextNodeId: json['next_node_id'],
     condition: (json['condition'] as Map?)?.cast<String, bool>(),
     systemLog: json['systemLog'],
+    id: json['id'],
+    effects: json['effects'] as Map<String, dynamic>?, // parse effects
   );
 }
 

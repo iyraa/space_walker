@@ -1,7 +1,7 @@
 {
   "characters": [
     { "id": "1", "name": "PLAYER" },
-    { "id": "2", "name": "SITI the AI" },
+    { "id": "2", "name": "AIDA" },
     { "id": "3", "name": "CPO Su Yin" },
     { "id": "4", "name": "Chief Engineer Edwin" },
     { "id": "5", "name": "Liutenant KF" }
@@ -10,51 +10,758 @@
     {
   "id": "1_START",
   "background": "assets/background/background.jpg",
-  "music": "siren.mp3",
+  "audio": "siren.mp3",
+  "window_display": "",
   "content": [
     {
+      "id": "1_D0",
       "type": "dialogue",
       "character": "1",
-      "narrative": "This is a line of dialogue from PLAYER."
+      "narrative": "Huh? What going on? Why is the alarm ringing?"
     },
     {
+      "id": "1_D1",
       "type": "dialogue",
       "character": "2",
-      "narrative": "This is a line of dialogue from SITI."
+      "narrative": "You're finally awake! There's an urgent matter that needs your attention, PLAYER. The others are already waiting for you at the bridge."
     },
     {
-      "type": "puzzle",
-      "puzzle_type": "codeEntry",
-      "description": "Enter the code to unlock the door.",
-      "solution": "0206",
-      "set_flag": { "password_entered": true },
-      "successMessage": "Correct code!",
-      "failureMessage": "Incorrect code. Try again.",
-      "condition": { "got_keycard": true },
-      "next_node_id": ""
+      "id": "1_D2",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "What happened? Why is the alarm ringing?"
     },
     {
+      "id": "1_D3",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Uhh.. Nothing much. Just a mysterious file suddenly appeared in our system. The rest of the crew is already on the bridge, trying to figure out what it is."
+    },
+    {
+      "id": "1_D4",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Got it. I’ll head there right away… just need to grab my key card first."
+    },
+    {
+      "id": "1_C1",
       "type": "choice",
-      "option": "Appear only after entering the code",
-      "next_node_id": "",
-      "set_flag": {},
-      "condition": { "password_entered": true },
-      "systemLog": "You move to the next room."
-    },
-    {
-      "type": "choice",
-      "option": "Keycard",
+      "option": "Take the keycard that is dangling from the edge of your bed",
       "next_node_id": "",
       "set_flag": {"got_keycard": true},
       "condition": {},
-      "systemLog": "You ask SITI for help."
+      "systemLog": "Behind the keycard, you find a note that reads: '0206'",
+       "effects": {}
     },
     {
+      "id": "1_C2",
+      "type": "choice",
+      "option": "Enter code",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": { "got_keycard": true },
+      "systemLog": "Entering code to enter system.",
+      "effects": {}
+    },
+    {
+      "id": "1_P1",
+      "type": "puzzle",
+      "puzzle_type": "codeEntry",
+      "description": "PIN number.",
+      "solution": "0206",
+      "set_flag": { "password_entered": true },
+      "successMessage": "Welcome, PLAYER.",
+      "failureMessage": "Incorrect code. Try again.",
+      "condition": { "got_keycard": true },
+      "next_node_id": "2_SYSTEM"
+    }
+  ]
+},
+{
+  "id": "2_SYSTEM",
+  "background": "assets/background/background.jpg",
+  "audio": "siren.mp3",
+  "window_display": "",
+  "content": [
+    {
+      "id": "2_D1",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Begin system check. Check mic 1,2,3. *chuckle* Let's check the system while walking to the bridge, ya?"
+    },
+    {
+      "id": "2_D2",
       "type": "dialogue",
       "character": "1",
-      "narrative": "Repeat lol."
+      "narrative": "Sure, AIDA. That save us some time."
+    },
+    {
+      "id": "2_C1",
+      "type": "choice",
+      "option": "Who is AIDA?",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "AIDA is your AI buddy on the NUR-10, built by Dr. Zah back in 2025. Designed to support the crew of NUR-10.",
+      "effects": {}
+    },
+    {
+      "id": "2_C2",
+      "type": "choice",
+      "option": "About NUR-10",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "NUR-10 is a long-range spacecraft engineered for interstellar travel. We are currently en route to Caelus Prime — humanity’s first off-world colony. Our mission: deliver supplies and provide operational support.Estimated time to arrival: 7 hours.",
+      "effects": {}
+    },
+    {
+      "id": "2_C3",
+      "type": "choice",
+      "option": "What is Caelus Prime?",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "Caelus Prime is the first human colony established on an exoplanet, located in the habitable zone of the star system Gliese 581. It is a significant milestone in humanity's quest for interstellar colonization.",
+      "effects": {}
+    },
+    {
+      "id": "2_C4",
+      "type": "choice",
+      "option": "What is a bridge?",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "A bridge is a the top section of NUR-10 with reinforced windows showing outer space. It typically where you and the crew oversee flight operations, receive external communications.",
+      "effects": {}
+
+    },
+    {
+      "id": "2_C5",
+      "type": "choice",
+      "option": "Orientation Complete",
+      "next_node_id": "2_BRIDGE",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "Orientation protocols have been initialized.",
+      "effects": {}
+    }
+  ]
+},
+{
+  "id": "3_BRIDGE",
+  "background": "assets/background/caelus_prime.jpg",
+  "audio": "",
+  "window_display": "",
+  "content": [
+    {
+      "id": "3_D1",
+      "type": "dialogue",
+      "character": "3",
+      "narrative": " Ah, PLAYER! There you are. We were starting to think you’d sleep through the whole alarm."
+    },
+    {
+      "id": "3_D2",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Hey, I’m not sleeping — I’m just conserving energy. Can someone tell me what’s going on?"
+    },
+    {
+      "id": "3_D3",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "We received a mysterious file in our system. We managed to decrypt it but we need your help to figure this out."
+    },
+    {
+      "id": "3_D4",
+      "type": "dialogue",
+      "character": "3",
+      "narrative": " The message is fragmented. It is in two parts. Do you want me to show the first fragment?"
+    },
+    {
+      "id": "3_D5",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Let me take a look at it."
+    },
+    {
+      "id": "3_C1",
+      "type": "choice",
+      "option": "Display first fragment",
+      "next_node_id": "4_FRAGMENT1",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "Displaying the first fragment of the message.",
+      "effects": {}
+    }
+  ]
+}, 
+{
+  "id": "4_FRAGMENT1",
+  "background": "assets/background/first_fragment_1.gif",
+  "audio": "",
+  "window_display": "",
+  "content": [
+    {
+      "id": "4_D1",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "Looks like a bunch of bubbles floating in space."
+    },
+    {
+      "id": "4_D2",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "“Want me to clear up that fuzzy mess? One picture enhancement coming right up — if you say the word.”"
+    },
+    {
+      "id": "4_C1",
+      "type": "choice",
+      "option": "Yes, enhance the image",
+      "next_node_id": "5_ENHANCED_FRAGMENT1",
+      "set_flag": {"show_first_fragment_puzzle": false},
+      "condition": {},
+      "systemLog": "Enhancing the image of the first fragment.",
+      "effects": {}
+    },
+    {
+      "id": "4_C2",
+      "type": "choice",
+      "option": "No, solve the puzzle",
+      "next_node_id": "",
+      "set_flag": { "show_first_fragment_puzzle": true },
+      "condition": {},
+      "systemLog": "Solving the first fragment puzzle."
+    }, 
+    {
+      "id": "4_P1",
+      "type": "puzzle",
+      "puzzle_type": "wordEntry",
+      "description": "Solve the puzzle to reveal the first fragment.",
+      "solution": "WE NEVER LEFT",
+      "set_flag": { "first_fragment_solved": true },
+      "successMessage": "First decryption success.",
+      "failureMessage": "Incorrect solution. Try again.",
+      "condition": { "show_first_fragment_puzzle": true },
+      "next_node_id": "3_SHOW_MESSAGE1"
+    }
+  ]
+},
+{
+  "id": "5_ENHANCED_FRAGMENT1",
+  "background": "assets/background/first_fragment_2.gif",
+  "audio": "",
+  "window_display": "",
+  "content": [
+    {
+      "id": "5_D1",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "AIDA: Okay, here it is! Any clearer I will be answering it myself!"
+    },
+    {
+      "id": "5_C1",
+      "type": "choice",
+      "option": "Solve puzzle",
+      "next_node_id": "",
+      "set_flag": {"show_first_fragment_puzzle": true},
+      "condition": {},
+      "systemLog": "Displaying the first fragment of the message.",
+      "effects": {}
+    },
+    {
+      "id": "5_C2",
+      "type": "choice",
+      "option": "I'm not sure. Give me the answer.",
+      "next_node_id": "",
+      "set_flag": {"show_first_fragment_puzzle": true},
+      "condition": {},
+      "systemLog": "Solution: WE NEVER LEFT"
+    }
+  ]
+},
+{
+  "id": "6_FIRST_MESSAGE1",
+  "background": "assets/background/first-message.jpg",
+  "audio": "",
+  "window_display": "To: NUR-10. We never left. ROOT AT 7°N / 118°E ...",
+  "content": [
+    {
+      "id": "6_D1",
+      "type": "dialogue",
+      "character": "3",
+      "narrative": " Uhh... this sounds ominous."
+    },
+    {
+      "id": "6_D1",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "“‘We’? That’s the part bothering me. Before we do anything, we need to know who they are.”"
+    },
+    {
+      "id": "6_D2",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "I agree. We need to find out who sent this message and what it means."
+    },
+    {
+      "id": "6_D3",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "AIDA: I’ve got the next fragment ready. Clarity level: somewhere between a bad dream and an ancient riddle. You’re welcome."
+    },
+    {
+      "id": "6_C1",
+      "type": "choice",
+      "option": "Display second fragment",
+      "next_node_id": "7_SECOND_FRAGMENT",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "",
+      "effects": {"fuel" : -7, "morale": -8}
+    }
+  ]
+},
+{
+  "id": "7_SECOND_FRAGMENT",
+  "background": "assets/background/second_fragment_1.gif",
+  "audio": "ghost_in_machine.mp3",
+  "window_display": "To: NUR-10. We never left. ROOT AT 7°N / 118°E...",
+  "content": [
+    {
+      "id": "7_D1",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "That just scared the heck out of me. What the hell was that?"
+    },
+    {
+      "id": "7_D2",
+      "type": "dialogue",
+      "character": "3",
+      "narrative": "AIDA, a little heads up will be nice."
+    },
+    {
+      "id": "7_D3",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Oh, my bad. Next time I’ll flash warning lights, cue dramatic music, and maybe toss in a countdown — just for effect"
+    },
+    {
+      "id": "7_D4",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "If you like to hear the second fragment, you can press play button on the audio player."
+    },
+    {
+      "id": "7_C1",
+      "type": "choice",
+      "option": "Solve the puzzle",
+      "next_node_id": "",
+      "set_flag": {"show_second_fragment_puzzle": true},
+      "condition": {},
+      "systemLog": "Solving the second fragment puzzle.",
+      "effects": {}
+    },
+    {
+      "id": "7_C2",
+      "type": "choice",
+      "option": "I need the answer",
+      "next_node_id": "",
+      "set_flag": {"show_second_fragment_puzzle": true},
+      "condition": {},
+      "systemLog": "Solution: GHOST IN MACHINE",
+      "effects": {}
+    },
+    {
+      "id": "7_P1",
+      "type": "puzzle",
+      "puzzle_type": "wordEntry",
+      "description": "Solve the puzzle to reveal the second fragment.",
+      "solution": "GHOST IN MACHINE",
+      "set_flag": { "second_fragment_solved": true },
+      "successMessage": "Second decryption success.",
+      "failureMessage": "Incorrect solution. Try again.",
+      "condition": { "show_second_fragment_puzzle": true },
+      "next_node_id": "4_SHOW_MESSAGE2"
+    }
+  ]
+},
+{
+  "id": "8_SHOW_MESSAGE2",
+  "background": "assets/background/second_fragment_2.gif",
+  "audio": "",
+  "window_display": "To: NUR-10. We never left. ROOT AT 7°N / 118°E.Turn back - not. We are the ghost of NUR-10.",
+  "content": [
+    {
+      "id": "8_D1",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Turn back - not. That’s either a warning with a bad typo, or someone’s idea of a cosmic joke. "
+    },
+    {
+      "id": "8_D2",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "Either way, that doesn’t sound good at all. "
+    },
+    {
+      "id": "8_D3",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "What if this is a warning, from us? Our future selves. "
+    },
+    {
+      "id": "8_D4",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "Cross referencing now... The voice in the transmission matches a bio-metric signature is in our current crew database. "
+    },
+    {
+      "id": "8_D5",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Who the voice belongs to? "
+    },
+    {
+      "id": "8_D6",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "It belongs to you, PLAYER. "
+    },
+    {
+      "id": "8_D7",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "What? How is that even possible?"
+    },
+    {
+      "id": "8_D8",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "I don’t know, but we need to figure this out. We’re running out of time. It’s either we proceed or... any suggestion PLAYER?”"
+    },
+    {
+      "id": "8_C1",
+      "type": "choice",
+      "option": "Find out where the coordinates lead",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "Result: Seven degrees north, one-eighteen degrees east. The signal originates from Outpost Theta — located deep within the unexplored region of Caelus Prime.”",
+      "effects": {}
+    },
+    {
+      "id": "8_C2",
+      "type": "choice",
+      "option": "Contact Caelus Prime control",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "Unable to contact Caelus Prime. Communication error.",
+      "effects": {"fuel" : -3, "morale": -4}
+    },
+    {
+      "id": "8_C3",
+      "type": "choice",
+      "option": "Go to coordinates",
+      "next_node_id": "5_PROCEED_TO_OUTPOST_THETA",
+      "set_flag": {"show_second_fragment_puzzle": true},
+      "condition": {},
+      "systemLog": "",
+      "effects": {}
+    },
+    {
+      "id": "8_C4",
+      "type": "choice",
+      "option": "Turn back to Earth",
+      "next_node_id": "6_PROCEED_RETURN_TO_EARTH",
+      "set_flag": {"show_second_fragment_puzzle": true},
+      "condition": {},
+      "systemLog": "",
+      "effects": {}
+    }
+  ]
+},
+{
+  "id": "9_PROCEED_TO_OUTPOST_THETA",
+  "background": "assets/background/caelus_prime.jpg",
+  "audio": "",
+  "window_display": "",
+  "content": [
+    {
+      "id": "9_D1",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "PLAYER: “The only way to find answers… is to face it ourselves. No more waiting, no more guessing. We will go to Outpost Theta.”"
+    },
+    {
+      "id": "9_D2",
+      "type": "dialogue",
+      "character": "3",
+      "narrative":"Set course to Outpost Theta."
+    },
+    {
+      "id": "9_D3",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Course set. Estimated time to arrival: 30 minutes."
+    },
+    {
+      "id": "9_D4",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": " Let’s hope your decision is good one, PLAYER."
+    },
+    {
+      "id": "9_D5",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Calculating risk: 73.4% chance of danger, 26.6% chance of salvation. Statistically, I recommend going. I love me some good drama."
+    },
+    {
+      "id": "9_C1",
+      "type": "choice",
+      "option": "Authorize Outpost Theta",
+      "next_node_id": "7_OUTPOST_THETA",
+      "set_flag": { "authorized_outpost": true },
+      "condition": {},
+      "systemLog": "",
+      "effects": {"fuel" : -70, "morale": -12}
+    }, 
+    {
+      "id" : "9_P1",
+      "type": "puzzle",
+      "puzzle_type": "pinEntry",
+      "description": "PIN number.",
+      "solution": "0206",
+      "set_flag": {},
+      "successMessage": "Authorisation to Outpost Theta successful.",
+      "failureMessage": "Authorisation failed. Please try again.",
+      "condition": { "authorized_outpost": true },
+      "next_node_id": "10_OUTPOST_THETA"
+    }
+  ]
+},
+{
+  "id": "10_OUTPOST_THETA",
+  "background": "assets/background/outpost_theta.jpg",
+  "audio": "",
+  "window_display": "Weather conditions: Stormy. Visibility: Low.",
+  "content": [
+    {
+      "id": "10_D1",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Approaching Outpost Theta. Let’s hope they’re better at rolling out the red carpet than their communication skills."
+    },
+    {
+      "id": "10_D2",
+      "type": "dialogue",
+      "character": "3",
+      "narrative": "Sensors are picking up heavy storms in the atmosphere. Better suit up before we head out"
+    },
+    {
+      "id": "10_D3",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "You are staying here, CPO SY. We need someone to handle the comms."
+    },
+    {
+      "id": "10_D4",
+      "type": "dialogue",
+      "character": "3",
+      "narrative": "Understood. I’ll monitor the situation from here."
+    },
+    {
+      "id": "10_D5",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "Then… looks like I’m the lucky one going out in the storm.”"
+    },
+    {
+      "id": "10_D6",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Alright, let’s go. We need to find out what’s going on at Outpost Theta."
+    },
+    {
+      "id": "10_C1",
+      "type": "choice",
+      "option": "Wear space suit",
+      "next_node_id": "",
+      "set_flag": { "wore_space_suit": true },
+      "condition": {},
+      "systemLog": "Space suit equipped. Protection level: High.",
+      "effects": {"morale": -2}
+    },
+    {
+      "id": "10_C2",
+      "type": "choice",
+      "option": "Search the outpost",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": { "wore_space_suit": true },
+      "systemLog": "",
+      "effects": {}
+    }
+  ]
+}, {
+  "id": "11_SEARCH_OUTPOST",
+  "background": "assets/background/caelus_prime.jpg",
+  "audio": "",
+  "window_display": "",
+  "content": [
+    {
+      "id": "11_D1",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "The outpost is deserted. It looks like it has been abandoned for a long time."
+    },
+    {
+      "id": "11_D2",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Suit integrity holding. Visibility low. Try not to get blown into a crater."
+    },
+    {
+      "id": "11_D3",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Thank you for that, AIDA."
+    },
+    {
+      "id": "11_D2",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": " “Charming place. Do they always keep the light off?”"
+    },
+    {
+      "id": "11_C1",
+      "type": "choice",
+      "option": "Search the control room",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "",
+      "effects": {}
+    },
+    {
+      "id": "11_C2",
+      "type": "choice",
+      "option": "Search the living quarters",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "",
+      "effects": {}
+    }
+  ]
+}, {
+  "id": "12_CONTROL_ROOM",
+  "background": "assets/background/control_room.jpg",
+  "audio": "",
+  "window_display": "",
+  "content": [
+    {
+      "id": "12_D1",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "The control room is suspiciously in order."
+    },
+    {
+      "id": "12_D2",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "No signs of power. No bodies. No struggle. But something was here—recently. Digital footprints in the system."
+    },
+    {
+      "id": "12_D3",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Could be the one who sent the message."
+    },
+    {
+      "id": "12_D3",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Scanning: oxygen barely there, radiation is cozy and for the fun part, there's an odd frequency bouncing through the walls. Like a loop on repeat."
+    },
+    {
+      "id": "12_D4",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Let’s check it out. Maybe it will give us some answers."
+    },
+    {
+      "id": "12_C1",
+      "type": "choice",
+      "option": "Walks towards the source of the frequency",
+      "next_node_id": "13_FREQUENCY_SOURCE",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "",
+      "effects": {}
+    }, 
+    {
+      "id": "12_C2",
+      "type": "choice",
+      "option": "Search the control room for clues",
+      "next_node_id": "",
+      "set_flag": { "found_clue": true },
+      "condition": {},
+      "systemLog": "You found a clue: a keychain with 'Home Sweet Home' engraved.",
+      "effects": {}
+    }
+  ]
+},
+{
+  "id": "13_FREQUENCY_SOURCE",
+  "background": "assets/background/outpost_theta.jpg",
+  "audio": "frequency_loop.mp3",
+  "window_display": "",
+    "content": [
+    {
+      "id": "13_D1",
+      "type": "dialogue",
+      "character": "5",
+      "narrative": "The voice seemingly getting clearer as we approach the source."
+    },
+    {
+      "id": "13_D2",
+      "type": "dialogue",
+      "character": "4",
+      "narrative": "It's looping but I can't make out the words."
+    },
+    {
+      "id": "13_D2",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Something along the lines of loops and ghosts. It’s like a broken record, repeating the same message over and over."
+    },
+    {
+      "id": "13_D3",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "I can decode the message if you give some helping hand."
+    },
+    {
+      "id": "13_D4",
+      "type": "dialogue",
+      "character": "1",
+      "narrative": "Do it, AIDA. We need to find out what this message means."
+    },
+    {
+      "id": "13_P1",
+      "type": "puzzle",
+      "puzzle_type": "symbolEntry",
+      "description": "Decode the message from the frequency source.",
+      "solution": "♠♥♦♣",
+      "set_flag": {},
+      "successMessage": "Message decoded successfully.",
+      "failureMessage": "Decoding failed. Try again.",
+      "condition": { "frequency_decoded": true },
+      "next_node_id": ""
     }
   ]
 }
-  ]
 }

@@ -74,13 +74,14 @@ class NodeContentAdapter extends TypeAdapter<NodeContent> {
       nextNodeId: fields[11] as String?,
       condition: (fields[12] as Map?)?.cast<String, bool>(),
       systemLog: fields[13] as String?,
+      id: fields[14] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, NodeContent obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.type)
       ..writeByte(1)
@@ -108,7 +109,9 @@ class NodeContentAdapter extends TypeAdapter<NodeContent> {
       ..writeByte(12)
       ..write(obj.condition)
       ..writeByte(13)
-      ..write(obj.systemLog);
+      ..write(obj.systemLog)
+      ..writeByte(14)
+      ..write(obj.id);
   }
 
   @override
