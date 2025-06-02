@@ -91,36 +91,45 @@ class _PuzzleWidgetState extends State<PuzzleWidget> {
       inputPad = _buildSymbolPad();
     }
 
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.puzzle.description ?? '',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            TextField(
-              controller: controller,
-              readOnly: true,
-              decoration: const InputDecoration(labelText: 'Your answer'),
-            ),
-            const SizedBox(height: 8),
-            inputPad,
-            if (widget.errorMessage != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  widget.errorMessage!,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
+    return Expanded(
+      child: Center(
+        child: ClipRect(
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize:
+                    MainAxisSize
+                        .min, // Ensure the card doesn't expand unnecessarily
+                children: [
+                  Text(
+                    widget.puzzle.description ?? '',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
+                  TextField(
+                    controller: controller,
+                    readOnly: true,
+                    decoration: const InputDecoration(labelText: 'Your answer'),
+                  ),
+                  const SizedBox(height: 8),
+                  inputPad,
+                  if (widget.errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        widget.errorMessage!,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
+            ),
+          ),
         ),
       ),
     );

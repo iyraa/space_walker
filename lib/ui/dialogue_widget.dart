@@ -94,14 +94,11 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                   widget.playerName,
                 );
 
-                // Compare the resolved displayName with the playerName
-                final isPlayer = displayName == widget.playerName;
-
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: Row(
                     mainAxisAlignment:
-                        isPlayer
+                        displayName == widget.playerName
                             ? MainAxisAlignment.end
                             : MainAxisAlignment.start,
                     children: [
@@ -113,24 +110,9 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                         ),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
-                          borderRadius:
-                              isPlayer
-                                  ? const BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                    bottomLeft: Radius.circular(12),
-                                    bottomRight: Radius.circular(
-                                      4,
-                                    ), // less round for player's bottom right
-                                  )
-                                  : const BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                    bottomLeft: Radius.circular(
-                                      4,
-                                    ), // less round for others' bottom left
-                                    bottomRight: Radius.circular(12),
-                                  ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(12),
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,23 +126,14 @@ class _DialogueWidgetState extends State<DialogueWidget> {
                               ),
                             ),
                             const SizedBox(height: 6),
-                            AnimatedTextKit(
-                              animatedTexts: [
-                                TypewriterAnimatedText(
-                                  narrative ?? '',
-                                  textStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: 'Rajdhani',
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                  speed: const Duration(milliseconds: 70),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                              isRepeatingAnimation: false,
-                              displayFullTextOnTap: true,
+                            Text(
+                              narrative ?? '',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Rajdhani',
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                           ],
                         ),

@@ -211,7 +211,7 @@
     {
       "id": "4_D2",
       "type": "dialogue",
-      "character": "1",
+      "character": "2",
       "narrative": "“Want me to clear up that fuzzy mess? One picture enhancement coming right up — if you say the word.”"
     },
     {
@@ -239,11 +239,11 @@
       "puzzle_type": "wordEntry",
       "description": "Solve the puzzle to reveal the first fragment.",
       "solution": "WE NEVER LEFT",
-      "set_flag": { "first_fragment_solved": true },
+      "set_flag": {},
       "successMessage": "First decryption success.",
       "failureMessage": "Incorrect solution. Try again.",
       "condition": { "show_first_fragment_puzzle": true },
-      "next_node_id": "3_SHOW_MESSAGE1"
+      "next_node_id": "6_FIRST_MESSAGE1"
     }
   ]
 },
@@ -264,7 +264,7 @@
       "type": "choice",
       "option": "Solve puzzle",
       "next_node_id": "",
-      "set_flag": {"show_first_fragment_puzzle": true},
+      "set_flag": {"show_first_fragment_puzzle_again": true},
       "condition": {},
       "systemLog": "Displaying the first fragment of the message.",
       "effects": {}
@@ -277,6 +277,18 @@
       "set_flag": {},
       "condition": {},
       "systemLog": "Solution: WE NEVER LEFT"
+    },
+    {
+      "id": "5_P1",
+      "type": "puzzle",
+      "puzzle_type": "wordEntry",
+      "description": "Solve the puzzle to reveal the first fragment.",
+      "solution": "WE NEVER LEFT",
+      "set_flag": {},
+      "successMessage": "First decryption success.",
+      "failureMessage": "Incorrect solution. Try again.",
+      "condition": { "show_first_fragment_puzzle_again": true },
+      "next_node_id": "6_FIRST_MESSAGE1"
     }
   ]
 },
@@ -307,8 +319,8 @@
     {
       "id": "6_D4",
       "type": "dialogue",
-      "character": "5",
-      "narrative": "AIDA: I’ve got the next fragment ready. Clarity level: somewhere between a bad dream and an ancient riddle. You’re welcome."
+      "character": "2",
+      "narrative": "I’ve got the next fragment ready. Clarity level: somewhere between a bad dream and an ancient riddle. You’re welcome."
     },
     {
       "id": "6_C1",
@@ -350,7 +362,7 @@
       "id": "7_D4",
       "type": "dialogue",
       "character": "2",
-      "narrative": "If you like to hear the second fragment, you can press play button on the audio player."
+      "narrative": "If you like to hear the second fragment, you can press replay button on the audio player."
     },
     {
       "id": "7_C1",
@@ -413,7 +425,7 @@
     {
       "id": "8_D4",
       "type": "dialogue",
-      "character": "5",
+      "character": "2",
       "narrative": "Cross referencing now... The voice in the transmission matches a bio-metric signature is in our current crew database. "
     },
     {
@@ -464,7 +476,7 @@
       "id": "8_C3",
       "type": "choice",
       "option": "Go to coordinates",
-      "next_node_id": "5_PROCEED_TO_OUTPOST_THETA",
+      "next_node_id": "9_PROCEED_TO_OUTPOST_THETA",
       "set_flag": {},
       "condition": {"coordinate_found": true, "contact_caelus_prime": true},
       "systemLog": "",
@@ -474,7 +486,7 @@
       "id": "8_C4",
       "type": "choice",
       "option": "Turn back to Earth",
-      "next_node_id": "6_PROCEED_RETURN_TO_EARTH",
+      "next_node_id": "19_RETURN_TO_EARTH",
       "set_flag": {},
       "condition": {"coordinate_found": true, "contact_caelus_prime": true},
       "systemLog": "",
@@ -808,7 +820,7 @@
       "id": "14_C2",
       "type": "choice",
       "option": "Leave the outpost",
-      "next_node_id": "19_PROCEED_RETURN_TO_EARTH",
+      "next_node_id": "19_RETURN_TO_EARTH",
       "set_flag": {},
       "condition": {},
       "systemLog": "",
@@ -1109,7 +1121,8 @@
       "type": "dialogue",
       "character": "4",
       "narrative": "I’ll take a quiet ride back to Earth over a ghost hunt any day."
-    }, {
+    }, 
+    {
       "id": "19_D7",
       "type": "dialogue",
       "character": "2",
@@ -1119,16 +1132,27 @@
       "id": "19_C1",
       "type": "choice",
       "text": "Authorize return to Earth",
-      "next_node_id": "20_RETURN_TO_EARTH",
-      "set_flag": {},
+      "next_node_id": "",
+      "set_flag": {"open_return_to_earth_puzzle": true},
       "condition": {},
-      "systemLog": "Restarting the story.",
-      "effects": {"fuel":-50}
+      "systemLog": "Restarting the story."
+    },
+    {
+      "id": "19_P1",
+      "type": "puzzle",
+      "puzzle_type": "codeEntry",
+      "description": "Enter the your PIN.",
+      "solution": "0206",
+      "set_flag": {},
+      "successMessage": "Returning to Earth.",
+      "failureMessage": "Incorrect PIN. Please try again.",
+      "condition": {"open_return_to_earth_puzzle": true },
+      "next_node_id": "20_REACH_EARTH"
     }
   ]
 },
 {
-  "id": "20_RETURN_TO_EARTH",
+  "id": "20_REACH_EARTH",
   "background": "assets/background/earth.jpg",
   "audio": "scifi_bgm.mp3",
   "window_display": "Onwards to Earth",

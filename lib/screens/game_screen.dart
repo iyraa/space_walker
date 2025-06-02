@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:space_walker/models/node.dart';
 import 'package:space_walker/services/story_service.dart';
 import 'package:space_walker/ui/audio_player.dart';
-import 'package:space_walker/ui/choice_widget.dart';
 import 'package:space_walker/ui/constellation_background.dart';
 import 'package:space_walker/ui/custom_container.dart';
 import 'package:space_walker/ui/dialogue_widget.dart';
@@ -95,9 +94,9 @@ class _GameScreenState extends State<GameScreen> {
       if (dialogues.isNotEmpty) {
         dialogueHistory.add(dialogues[0]);
       }
-      print(
-        'Dialogue History after initialization: ${dialogueHistory.map((d) => d.narrative).toList()}',
-      ); // Debugging
+      // print(
+      //   'Dialogue History after initialization: ${dialogueHistory.map((d) => d.narrative).toList()}',
+      // ); // Debugging
       _activePuzzle = getActivePuzzle();
     });
 
@@ -132,13 +131,24 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       currentNode = _storyService.currentNode;
       if (didAdvance) {
-        _dialogueIndex = 0;
+        _dialogueIndex = 0; // Reset dialogue index
+        dialogueHistory = []; // Clear dialogue history
+        final dialogues =
+            currentNode!.content.where((c) => c.type == 'dialogue').toList();
+        if (dialogues.isNotEmpty) {
+          dialogueHistory.add(
+            dialogues[0],
+          ); // Automatically add the first dialogue after choicee
+        }
       }
       if (choice.systemLog != null) {
         systemLogList.add(choice.systemLog!);
       }
       choices.removeWhere((c) => c == choice);
       _activePuzzle = getActivePuzzle(); // Check if a puzzle should now appear
+      // print(
+      //   'Dialogue History after choice: ${dialogueHistory.map((d) => d.narrative).toList()}',
+      // ); // Debugging
     });
   }
 
@@ -149,13 +159,20 @@ class _GameScreenState extends State<GameScreen> {
       if (_activePuzzle!.setFlag != null) {
         flagService.applyFlag(_activePuzzle!.setFlag!);
       }
-      // Move to next node if specified
       if (_activePuzzle!.nextNodeId != null &&
           _activePuzzle!.nextNodeId!.isNotEmpty) {
         await _storyService.loadFirstNode(_activePuzzle!.nextNodeId!);
         setState(() {
           currentNode = _storyService.currentNode;
-          _dialogueIndex = 0;
+          _dialogueIndex = 0; // Reset dialogue index
+          dialogueHistory = [];
+          final dialogues =
+              currentNode!.content.where((c) => c.type == 'dialogue').toList();
+          if (dialogues.isNotEmpty) {
+            dialogueHistory.add(
+              dialogues[0],
+            ); // Automatically add the first dialogue
+          }
           _activePuzzle = getActivePuzzle();
         });
       } else {
@@ -165,8 +182,15 @@ class _GameScreenState extends State<GameScreen> {
       }
     } else {
       setState(() {
-        _puzzleErrorMessage = _activePuzzle!.failureMessage ?? "Wrong answer!";
+        // _puzzleErrorMessage = _activePuzzle!.failureMessage ?? "Wrong answer!";
         _showPuzzleWarning = true;
+      });
+
+      // Automatically hide the warning after 2 seconds
+      Future.delayed(const Duration(seconds: 2), () {
+        setState(() {
+          _showPuzzleWarning = false;
+        });
       });
     }
   }
@@ -379,6 +403,25 @@ class _GameScreenState extends State<GameScreen> {
                   audioPath: currentNode?.audio,
                 ),
               ),
+              if (currentNode?.windowDisplay != null &&
+                  currentNode!.windowDisplay!.isNotEmpty)
+                CustomContainer(
+                  title: 'Window Display',
+                  initialY: 100,
+                  initialX: 700,
+                  minWidth: 300,
+                  minHeight: 100,
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    currentNode!.windowDisplay ?? '',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Rajdhani',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
             ],
 
             // PUZZLE PANEL (should be visible even if not logged in, when active)
@@ -389,7 +432,7 @@ class _GameScreenState extends State<GameScreen> {
                 initialY: 50,
                 initialX: 300,
                 minWidth: 500,
-                minHeight: 570,
+                minHeight: 600,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

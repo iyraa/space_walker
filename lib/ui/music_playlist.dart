@@ -16,7 +16,11 @@ class MusicPlaylist extends StatefulWidget {
         'audio/music/anna_yvette_lost_sky_carry_on_vocal.mp3',
     'Carry On by Anna Yvette, Lost Sky Instrumental':
         'audio/music/anna_yvette_lost_sky_carry_on.mp3',
-    // Add more tracks here
+    'Orphic Night by Diandra Faye': 'audio/music/diandra_faye_orphic_night.mp3',
+    'Samurai by Jim Yosef': 'audio/music/jim_yosef_samurai.mp3',
+    'AI by Max Brhon': 'audio/music/max_brhon_ai.mp3',
+    'Mortals by Warriyo feat. Laura Brehm':
+        'audio/music/warriyo_laura_brehm_mortals.mp3',
   };
 
   const MusicPlaylist({
