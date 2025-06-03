@@ -29,6 +29,7 @@ Before running the project, ensure you have the following installed:
 ### 3. **Dependencies**
 
 - Install the required dependencies listed in pubspec.yaml:
+
   ```bash
   flutter pub get
   ```
