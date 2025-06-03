@@ -76,7 +76,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.asset(
-                                "background/aida.gif",
+                                "assets/background/aida.gif",
                                 height: 80,
 
                                 fit: BoxFit.cover,
@@ -144,7 +144,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                   children: [
                     // CircularProgressIndicator(),
                     Image.asset(
-                      "background/aida.gif",
+                      "assets/background/aida.gif",
                       height: 80,
 
                       fit: BoxFit.cover,

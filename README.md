@@ -118,11 +118,42 @@ The `spacewalker.json` file contains the story nodes, dialogues, choices, and pu
 
 ### 3. **Audio Files**
 
-Place all sound effects and background music in the sfx directory. Ensure filenames match those referenced in the code.
+#### Music
+
+- `assets/audio/music/32stitches_olympus.mp3`
+- `assets/audio/music/anna_yvette_lost_sky_carry_on_vocal.mp3`
+- `assets/audio/music/anna_yvette_lost_sky_carry_on.mp3`
+- `assets/audio/music/diandra_faye_niviro_orphic_night.mp3`
+- `assets/audio/music/jim_yosef_samurai.mp3`
+- `assets/audio/music/max_brhon_AI.mp3`
+- `assets/audio/music/slow_bgm.mp3`
+- `assets/audio/music/warriyo_laura_brehm_mortals.mp3`
+
+#### Sound Effects (SFX)
+
+- `assets/audio/sfx/click.mp3`
+- `assets/audio/sfx/frequency_loop.mp3`
+- `assets/audio/sfx/ghost_in_machine.mp3`
+- `assets/audio/sfx/not_real.mp3`
+- `assets/audio/sfx/pin.mp3`
+- `assets/audio/sfx/scifi_bgm.mp3`
+- `assets/audio/sfx/siren.mp3`
+- `assets/audio/sfx/welcome_captain.mp3`
 
 ### 4. **Images**
 
-Place all background images in the background directory. Ensure filenames match those referenced in the JSON file.
+#### Background Assets
+
+- `assets/background/aida.gif`
+- `assets/background/bridge.jpg`
+- `assets/background/caelus_prime.jpg`
+- `assets/background/control_room.jpg`
+- `assets/background/earth.jpg`
+- `assets/background/first_fragment_1.jpg`
+- `assets/background/first_fragment_2.jpg`
+- `assets/background/memory_chamber.jpg`
+- `assets/background/outpost_theta.jpg`
+- `assets/background/title.gif`
 
 ---
 
@@ -131,7 +162,7 @@ Place all background images in the background directory. Ensure filenames match 
 ### 1. **Clone the Repository**
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/iyraa/spacewalker.git
 cd space_walker
 ```
 

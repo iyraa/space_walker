@@ -92,7 +92,7 @@ class StoryService {
 
   Future<void> loadStoryFromJson() async {
     debugPrint('loading story from JSON...');
-    final storyJson = await rootBundle.loadString('json/spacewalker.json');
+    final storyJson = await rootBundle.loadString('assets/json/spacewalker.json');
     final Map<String, dynamic> storyData = json.decode(storyJson);
 
     // Characters
