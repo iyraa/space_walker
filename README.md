@@ -187,3 +187,43 @@ flutter run
 - Use `debugPrint` statements in the code to trace issues during runtime.
 
 ---
+
+## Credits
+
+### Music
+
+- **Warriyo - Mortals (feat. Laura Brehm) [NCS Release]**  
+  Music provided by NoCopyrightSounds  
+  Free Download/Stream: [http://ncs.io/mortals](http://ncs.io/mortals)  
+  Watch: [http://youtu.be/yJg-Y5byMMw](http://youtu.be/yJg-Y5byMMw)
+
+- **Max Brhon - AI [NCS Release]**  
+  Music provided by NoCopyrightSounds  
+  Free Download/Stream: [http://ncs.io/MB_AI](http://ncs.io/MB_AI)  
+  Watch: [http://ncs.lnk.to/MB_AIAT/youtube](http://ncs.lnk.to/MB_AIAT/youtube)
+
+- **NIVIRO - Orphic Night (feat. Diandra Faye) [NCS Release]**  
+  Music provided by NoCopyrightSounds  
+  Free Download/Stream: [http://ncs.io/orphicnight](http://ncs.io/orphicnight)  
+  Watch: [http://ncs.lnk.to/orphicnightAT/youtube](http://ncs.lnk.to/orphicnightAT/youtube)
+
+- **32Stitches - Olympus [NCS Release]**  
+  Music provided by NoCopyrightSounds  
+  Free Download/Stream: [http://ncs.io/Olympus](http://ncs.io/Olympus)  
+  Watch: [http://youtu.be/2HhAz5rWzsI](http://youtu.be/2HhAz5rWzsI)
+
+- **Jim Yosef - Samurai [NCS Release]**  
+  Music provided by NoCopyrightSounds  
+  Free Download/Stream: [http://ncs.io/Samurai](http://ncs.io/Samurai)  
+  Watch: [http://youtu.be/](http://youtu.be/)
+
+- **Lost Sky x Anna Yvette - Carry On [NCS Release]**  
+  Music provided by NoCopyrightSounds  
+  Free Download/Stream: [http://ncs.io/CarryOn](http://ncs.io/CarryOn)  
+  Watch: [http://ncs.lnk.to/CarryOnAT/youtube](http://ncs.lnk.to/CarryOnAT/youtube)
+
+- **For Tomorrow**  
+  Composer: Savfk  
+  Website: [https://youtube.com/savfkmusic](https://youtube.com/savfkmusic)  
+  License: [Creative Commons (BY 4.0)](https://creativecommons.org/licenses/by/4.0/)  
+  Music powered by BreakingCopyright: [https://breakingcopyright.com](https://breakingcopyright.com)
