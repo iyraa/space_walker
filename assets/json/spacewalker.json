@@ -2,9 +2,9 @@
   "characters": [
     { "id": "1", "name": "PLAYER" },
     { "id": "2", "name": "AIDA" },
-    { "id": "3", "name": "CPO Su Yin" },
-    { "id": "4", "name": "Chief Engineer Edwin" },
-    { "id": "5", "name": "Liutenant KF" }
+    { "id": "3", "name": "CPO SY" },
+    { "id": "4", "name": "Chief Engineer ED" },
+    { "id": "5", "name": "Lieutenant KF" }
   ],
   "nodes": [
   {
@@ -58,8 +58,8 @@
       "type": "choice",
       "option": "Enter code",
       "next_node_id": "",
-      "set_flag": {"show_login_puzzle:" : true },
-      "condition": { "got_keycard": true},
+      "set_flag": { "show_login_puzzle:" : true },
+      "condition": { "got_keycard" : true},
       "systemLog": "Entering code to enter system.",
       "effects": {}
     },
@@ -72,14 +72,14 @@
       "set_flag": { "password_entered": true },
       "successMessage": "Welcome, PLAYER.",
       "failureMessage": "Incorrect code. Try again.",
-      "condition": { "got_keycard": true, "show_login_puzzle:" : true },
+      "condition": { "show_login_puzzle:" : true },
       "next_node_id": "2_SYSTEM"
     }
   ]
 },
 {
   "id": "2_SYSTEM",
-  "background": "assets/background/bridge.jpg",
+  "background": "assets/background/caelus_prime.jpg",
   "audio": "scifi_bgm.mp3",
   "window_display": "",
   "content": [
@@ -93,7 +93,7 @@
       "id": "2_D2",
       "type": "dialogue",
       "character": "1",
-      "narrative": "Sure, AIDA. That save us some time."
+      "narrative": "Sure, AIDA. That'd save us some time."
     },
     {
       "id": "2_C1",
@@ -112,7 +112,7 @@
       "next_node_id": "",
       "set_flag": {},
       "condition": {},
-      "systemLog": "NUR-10 is a long-range spacecraft engineered for interstellar travel. We are currently en route to Caelus Prime — humanity’s first off-world colony. Our mission: deliver supplies and provide operational support.Estimated time to arrival: 7 hours.",
+      "systemLog": "NUR-10 is a long-range spacecraft engineered for interstellar travel. We are currently en route to Caelus Prime — humanity’s first off-world colony. Our mission: deliver supplies and provide operational support.",
       "effects": {}
     },
     {
@@ -157,8 +157,8 @@
     {
       "id": "3_D1",
       "type": "dialogue",
-      "character": "3",
-      "narrative": " Ah, PLAYER! There you are. We were starting to think you’d sleep through the whole alarm."
+      "character": "4",
+      "narrative": "Ah, PLAYER! There you are. We were starting to think you’d sleep through the whole alarm."
     },
     {
       "id": "3_D2",
@@ -176,7 +176,7 @@
       "id": "3_D4",
       "type": "dialogue",
       "character": "3",
-      "narrative": " The message is fragmented. It is in two parts. Do you want me to show the first fragment?"
+      "narrative": "The message is fragmented. It is in two parts. Do you want me to show the first fragment?"
     },
     {
       "id": "3_D5",
@@ -302,13 +302,13 @@
       "id": "6_D1",
       "type": "dialogue",
       "character": "3",
-      "narrative": " Uhh... this sounds ominous."
+      "narrative": "Uhh... this sounds ominous."
     },
     {
       "id": "6_D2",
       "type": "dialogue",
       "character": "4",
-      "narrative": "“‘We’? That’s the part bothering me. Before we do anything, we need to know who they are.”"
+      "narrative": "‘We’? That’s the part bothering me. Before we do anything, we need to know who they are."
     },
     {
       "id": "6_D3",
@@ -362,7 +362,7 @@
       "id": "7_D4",
       "type": "dialogue",
       "character": "2",
-      "narrative": "If you like to hear the second fragment, you can press replay button on the audio player."
+      "narrative": "If you like to hear the second fragment again, you can press replay button on the audio player."
     },
     {
       "id": "7_C1",
@@ -379,7 +379,7 @@
       "type": "choice",
       "option": "I need the answer",
       "next_node_id": "",
-      "set_flag": {"show_second_fragment_puzzle": true},
+      "set_flag": {"show_second_fragment_puzzle": false},
       "condition": {},
       "systemLog": "Solution: GHOST IN MACHINE",
       "effects": {}
@@ -390,7 +390,7 @@
       "puzzle_type": "wordEntry",
       "description": "Solve the puzzle to reveal the second fragment.",
       "solution": "GHOST IN MACHINE",
-      "set_flag": { "second_fragment_solved": true },
+      "set_flag": {},
       "successMessage": "Second decryption success.",
       "failureMessage": "Incorrect solution. Try again.",
       "condition": { "show_second_fragment_puzzle": true },
@@ -402,7 +402,7 @@
   "id": "8_SHOW_MESSAGE2",
   "background": "assets/background/bridge.jpg",
   "audio": "scifi_bgm.mp3",
-  "window_display": "To: NUR-10. We never left. ROOT AT 7°N / 118°E.Turn back - not. We are the ghost of NUR-10.",
+  "window_display": "To: NUR-10. We never left. ROOT AT 7°N / 118°E. Turn back - not. We are the ghost of NUR-10.",
   "content": [
     {
       "id": "8_D1",
@@ -419,7 +419,7 @@
     {
       "id": "8_D3",
       "type": "dialogue",
-      "character": "4",
+      "character": "3",
       "narrative": "What if this is a warning, from us? Our future selves. "
     },
     {
@@ -459,7 +459,7 @@
       "next_node_id": "",
       "set_flag": {"coordinate_found": true},
       "condition": {},
-      "systemLog": "Result: Seven degrees north, one-eighteen degrees east. The signal originates from Outpost Theta — located deep within the unexplored region of Caelus Prime.”",
+      "systemLog": "Result: Seven degrees north, one-eighteen degrees east. The signal originates from Outpost Theta — located deep within the unexplored region of Caelus Prime.",
       "effects": {}
     },
     {
@@ -527,7 +527,7 @@
     {
       "id": "9_D5",
       "type": "dialogue",
-      "character": "1",
+      "character": "2",
       "narrative": "Calculating risk: 73.4% chance of danger, 26.6% chance of salvation. Statistically, I recommend going. I love me some good drama."
     },
     {
@@ -541,9 +541,19 @@
       "effects": {"fuel" : -10}
     }, 
     {
+      "id": "9_C2",
+      "type": "choice",
+      "option": "Forget PIN",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "PIN 0206.",
+      "effects": {}
+    },
+    {
       "id" : "9_P1",
       "type": "puzzle",
-      "puzzle_type": "pinEntry",
+      "puzzle_type": "codeEntry",
       "description": "PIN number.",
       "solution": "0206",
       "set_flag": {},
@@ -570,7 +580,7 @@
       "id": "10_D2",
       "type": "dialogue",
       "character": "3",
-      "narrative": "Sensors are picking up heavy storms in the atmosphere. Better suit up before we head out"
+      "narrative": "Sensors are picking up heavy storms in the atmosphere. Better suit up before we head out."
     },
     {
       "id": "10_D3",
@@ -588,7 +598,7 @@
       "id": "10_D5",
       "type": "dialogue",
       "character": "4",
-      "narrative": "Then… looks like I’m the lucky one going out in the storm.”"
+      "narrative": "Then… looks like I’m the lucky one going out in the storm."
     },
     {
       "id": "10_D6",
@@ -610,7 +620,7 @@
       "id": "10_C2",
       "type": "choice",
       "option": "Search the outpost",
-      "next_node_id": "",
+      "next_node_id": "11_SEARCH_OUTPOST",
       "set_flag": {},
       "condition": { "wore_space_suit": true },
       "systemLog": "",
@@ -619,7 +629,7 @@
   ]
 }, {
   "id": "11_SEARCH_OUTPOST",
-  "background": "assets/background/caelus_prime.jpg",
+  "background": "assets/background/outpost_theta.jpg",
   "audio": "scifi_bgm.mp3",
   "window_display": "",
   "content": [
@@ -639,13 +649,13 @@
       "id": "11_D3",
       "type": "dialogue",
       "character": "1",
-      "narrative": "Thank you for that, AIDA."
+      "narrative": "Thank you for that, AIDA. Entering Outpost Theta control room."
     },
     {
       "id": "11_D4",
       "type": "dialogue",
       "character": "4",
-      "narrative": " “Charming place. Do they always keep the light off?”"
+      "narrative": "Charming place. Do they always keep the light off?"
     },
     {
       "id": "11_C1",
@@ -667,25 +677,25 @@
     {
       "id": "12_D1",
       "type": "dialogue",
-      "character": "4",
-      "narrative": "The control room is suspiciously in order."
+      "character": "2",
+      "narrative": "Accessing outpost theta system. Turning on the power now for my lovely humans."
     },
     {
       "id": "12_D2",
       "type": "dialogue",
       "character": "5",
-      "narrative": "No signs of power. No bodies. No struggle. But something was here—recently. Digital footprints in the system."
+      "narrative": "Thank you. Hmm.. Let me see. Something was here recently. Digital footprints in the system. "
     },
     {
       "id": "12_D3",
       "type": "dialogue",
-      "character": "2",
+      "character": "1",
       "narrative": "Could be the one who sent the message."
     },
     {
       "id": "12_D4",
       "type": "dialogue",
-      "character": "1",
+      "character": "2",
       "narrative": "Scanning: oxygen barely there, radiation is cozy and for the fun part, there's an odd frequency bouncing through the walls. Like a loop on repeat."
     },
     {
@@ -711,16 +721,16 @@
       "next_node_id": "",
       "set_flag": { "found_clue": true },
       "condition": {},
-      "systemLog": "You found a clue: a keychain with 'Home Sweet Home' engraved.",
+      "systemLog": "You found a key chain that says: HOME",
       "effects": {}
     }
   ]
 },
 {
   "id": "13_FREQUENCY_SOURCE",
-  "background": "",
+  "background": "assets/background/aida.gif",
   "audio": "frequency_loop.mp3",
-  "window_display": "",
+  "window_display": "♠♦♣♥",
     "content": [
     {
       "id": "13_D1",
@@ -750,16 +760,26 @@
       "id": "13_D5",
       "type": "dialogue",
       "character": "1",
-      "narrative": "Do it, AIDA. We need to find out what this message means."
+      "narrative": "Please do, AIDA. We need to find out what this message means."
     },
     {
       "id": "13_C1",
       "type": "choice",
       "option": "Decode the message",
       "next_node_id": "",
-      "set_flag": { "frequency_decoded": true },
+      "set_flag": { "open_frequency_decode": true },
       "condition": {},
-      "systemLog": "Decoding the frequency message.",
+      "systemLog": "Sort in descending order. ♠♦♣♥",
+      "effects": {}
+    },
+    {
+      "id": "13_C2",
+      "type": "choice",
+      "option": "Puzzle solution",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "Solution: ♠♥♦♣",
       "effects": {}
     },
     {
@@ -771,14 +791,14 @@
       "set_flag": {},
       "successMessage": "Message decoded successfully.",
       "failureMessage": "Decoding failed. Try again.",
-      "condition": { "frequency_decoded": true },
+      "condition": { "open_frequency_decode": true },
       "next_node_id": "14_WALK_TO_CHAMBER"
     }
   ]
 },
 {
   "id": "14_WALK_TO_CHAMBER",
-  "background": "",
+  "background": "assets/background/aida.gif",
   "audio": "not_real.mp3",
   "window_display": "",
   "content": [
@@ -797,13 +817,13 @@
     {
       "id": "14_D3",
       "type": "dialogue",
-      "character": "1",
-      "narrative": "There is a sub-level camber. There is unauthorized access logs match NUR-10 crew IDs… all of yours.”"
+      "character": "2",
+      "narrative": "There is a sub-level chamber. There is unauthorized access logs match NUR-10 crew IDs… all of yours. My mind would have blown if I had one."
     },
     {
       "id": "14_D4",
       "type": "dialogue",
-      "character": "1",
+      "character": "4",
       "narrative": "This doesn’t look good, PLAYER. I suggest we head back. Whatever this is, is not something I want to mess with."
     },
     {
@@ -819,7 +839,7 @@
     {
       "id": "14_C2",
       "type": "choice",
-      "option": "Leave the outpost",
+      "option": "Return Earth",
       "next_node_id": "19_RETURN_TO_EARTH",
       "set_flag": {},
       "condition": {},
@@ -830,36 +850,36 @@
 },
 {
   "id": "15_MEMORY_CHAMBER",
-  "background": "",
+  "background": "assets/background/aida.gif",
   "audio": "not_real.mp3",
   "window_display": "...loop detected ...not real... ghost...",
   "content": [
     {
-      "id": "15_D3",
+      "id": "15_D1",
       "type": "dialogue",
       "character": "1",
       "narrative": "I understand your hesitation. But we’re already here. Turning back won’t solve anything. The solution—whatever it is—is right in front of us. We have to go and find out who… or what’s been causing these echoes."
     },
     {
-      "id": "15_D4",
+      "id": "15_D2",
       "type": "dialogue",
       "character": "4",
-      "narrative": "Lt., maybe you should remind the PLAYER what sensible decisions look like before we all jump headfirst into whatever’s waiting for us."
+      "narrative": "Lieutenant, maybe you should remind the PLAYER what sensible decisions look like before we all jump headfirst into whatever is waiting for us."
     },
     {
-      "id": "15_D5",
+      "id": "15_D3",
       "type": "dialogue",
       "character": "5",
       "narrative": "Chief, with all due respect, sometimes sensible decisions mean facing the unknown. If we don’t go forward, we’re just stuck in this loop forever. I’m with the PLAYER on this."
     },
     {
-      "id": "15_D6",
+      "id": "15_D4",
       "type": "dialogue",
       "character": "1",
       "narrative": "Exactly. This isn’t just about us—it’s about everyone counting on us back home and those who might come after. We move forward, together."
     },
     {
-      "id": "15_D7",
+      "id": "15_D5",
       "type": "dialogue",
       "character": "4",
       "narrative": "Alright, PLAYER. I don’t like it, but I’m not about to let us stay stuck in this ghost story. Let’s get this over with."
@@ -867,17 +887,17 @@
     {
       "id": "15_C1",
       "type": "choice",
-      "text": "Enter code",
+      "option": "Enter code to memory chamber",
       "next_node_id": "",
       "set_flag": {"show_memory_puzzle": true },
       "condition": {},
-      "systemLog": "Proceeding to the memory chamber.",
+      "systemLog": "Entering code to enter chamber.",
       "effects": {}
     },
     {
       "id": "15_C2",
       "type": "choice",
-      "text": "AIDA,crack the code",
+      "option": "AIDA,crack the code",
       "next_node_id": "",
       "set_flag": {},
       "condition": {},
@@ -908,41 +928,42 @@
       "id": "16_D1",
       "type": "dialogue",
       "character": "4",
-      "narrative": "This stabiliser is the source of the time echo. Activating the wrong sequence will again reset the loop."
+      "narrative": "Hmm.. This stabiliser is the source of the time echo. It’s been keeping us trapped in this loop, repeating the same events over and over again."
     },
     {
       "id": "16_D2",
       "type": "dialogue",
-      "character": "1",
-      "narrative": "Then what do you suggest we do?"
+      "character": "3",
+      "narrative": "*crackle over the comms* What do you suggest we do?"
     },
     {
       "id": "16_D3",
       "type": "dialogue",
-      "character": "5",
-      "narrative": "Chief, with all due respect, sometimes sensible decisions mean facing the unknown. If we don’t go forward, we’re just stuck in this loop forever. I’m with the PLAYER on this."
+      "character": "1",
+      "narrative": "Destroy the stabilizer. Whatever it is... it’s kept us trapped in this loop for god knows how long."
     },
     {
       "id": "16_D4",
       "type": "dialogue",
       "character": "4",
-      "narrative": "Destroy the stabilizer. Whatever it is... it’s kept us trapped in this loop for god knows how long."
+      "narrative": "Are you sure about this? What if we lose everything?"
     },
     {
       "id": "16_D5",
       "type": "dialogue",
-      "character": "5",
-      "narrative": "If we break this… we may never know what happened to our other loops."
+      "character": "1",
+      "narrative": "We have to take the risk. We can’t let this stabilizer control our lives any longer."
     },
+
     {
       "id": "16_C1",
       "type": "choice",
-      "text": "Initiate stabilizer deactivation",
-      "next_node_id": "",
+      "option": "Initiate stabilizer deactivation",
+      "next_node_id": "17_BREAK_LOOP",
       "set_flag": { "show_stabiliser_puzzle": true },
       "condition": {},
       "systemLog": "Deactivating the stabilizer.",
-      "effects": { "loops": "-1", "trust": "-2" }
+      "effects": {}
     }
   ]
 },
@@ -979,17 +1000,17 @@
     {
       "id": "17_C1",
       "type": "choice",
-      "text": "Proceed with deactivation",
+      "option": "Proceed with deactivation",
       "next_node_id": "",
       "set_flag": { "show_deactivation_puzzle": true },
       "condition": {},
-      "systemLog": "Deactivating the stabilizer and breaking the loop.",
-      "effects": { "loops": "-1", "trust": "+1" }
+      "systemLog": "Authorised required: use your keycard 4 digit pin number",
+      "effects": {}
     },
     {
       "id": "17_C2",
       "type": "choice",
-      "text": "Forgot my pin code",
+      "option": "Forgot my pin code",
       "next_node_id": "",
       "set_flag": {},
       "condition": {},
@@ -999,7 +1020,7 @@
     {
       "id": "17_P1",
       "type": "puzzle",
-      "puzzle_type": "pinEntry",
+      "puzzle_type": "codeEntry",
       "description": "Enter the pin code to deactivate the stabilizer.",
       "solution": "0206",
       "set_flag": {},
@@ -1020,7 +1041,7 @@
       "id": "18_D1",
       "type": "dialogue",
       "character": "5",
-      "narrative": "So... we are alone now."
+      "narrative": "So... what happens next?"
     },
     {
       "id": "18_D2",
@@ -1031,52 +1052,26 @@
     {
       "id": "18_D3",
       "type": "dialogue",
-      "character": "5",
-      "narrative": "*quietly* Let’s break the loop."
-    },
-    {
-      "id": "18_D4",
-      "type": "dialogue",
-      "character": "4",
-      "narrative": "Deactivating the core’s stabiliser."
-    },
-    {
-      "id": "18_D5",
-      "type": "dialogue",
       "character": "2",
       "narrative": "Good news, everyone! Our once-ominous, stormy weather is now clear skies and sunshine. Perfect beach weather — if you ignore the existential dread."
     },
     {
-      "id": "18_D6",
+      "id": "18_D4",
       "type": "dialogue",
       "character": "1",
       "narrative": "Tell me, AIDA. Who programmed you again?"
     },
     {
-      "id": "18_D7",
+      "id": "18_D5",
       "type": "dialogue",
       "character": "2",
       "narrative": "Oh, just the brilliant Dr. Zah back in 2025. Genius-level intellect. Great sense of humor. Clearly rubbed off on me."
     },
     {
-      "id": "18_C1",
-      "type": "choice",
-      "text": "Restart the story",
-      "next_node_id": "1_START",
-      "set_flag": {},
-      "condition": {},
-      "systemLog": "Restarting the story.",
-      "effects": {}
-    },
-    {
-      "id": "18_C2",
-      "type": "choice",
-      "text": "Exit",
-      "next_node_id": "",
-      "set_flag": {},
-      "condition": {},
-      "systemLog": "Exiting the game.",
-      "effects": {}
+      "id": "18_D6",
+      "type": "dialogue",
+      "character": "2",
+      "narrative": "Good bye!"
     }
   ]
 },
@@ -1126,16 +1121,27 @@
       "id": "19_D7",
       "type": "dialogue",
       "character": "2",
-      "narrative": "Well, you are in for a treat! Sit tight and relax, everyone. Earth estimated time of arrival: 7 hours."
+      "narrative": "Well, you are in for a treat! Sit tight and relax, everyone. Earth estimated time of arrival: 7.3 hours."
     },
     {
       "id": "19_C1",
       "type": "choice",
-      "text": "Authorize return to Earth",
+      "option": "Authorize return to Earth",
       "next_node_id": "",
       "set_flag": {"open_return_to_earth_puzzle": true},
       "condition": {},
-      "systemLog": "Restarting the story."
+      "systemLog": "Authorize return Earth.",
+      "effects" :{"fuel": -60}
+    },
+    {
+      "id": "19_C2",
+      "type": "choice",
+      "option": "Forget PIN",
+      "next_node_id": "",
+      "set_flag": {},
+      "condition": {},
+      "systemLog": "PIN 0206.",
+      "effects": {}
     },
     {
       "id": "19_P1",
@@ -1214,12 +1220,12 @@
     {
       "id": "20_C1",
       "type": "choice",
-      "text": "Proceed with landing",
+      "option": "Proceed with landing",
       "next_node_id": "",
       "set_flag": { "show_quarantine_puzzle": true },
       "condition": {},
       "systemLog": "Landing protocols initiated.",
-      "effects": { "fuel": "-10", "morale": "+5" }
+      "effects": {}
     },
     {
       "id": "20_P1",
@@ -1231,15 +1237,15 @@
       "successMessage": "Landing confirmed. Proceeding with quarantine protocols.",
       "failureMessage": "Incorrect PIN. Please try again.",
       "condition": { "show_quarantine_puzzle": true },
-      "next_node_id": "21_LANDING_COMPLETE"
+      "next_node_id": "21_END2"
     }
   ]
 },
 {
   "id": "21_END2",
-  "background": "assets/background/earth_transit_3.jpg",
+  "background": "assets/background/earth.jpg",
   "audio": "scifi_bgm.mp3",
-  "window_display": "We tried to outrun the loop by going back,but time does not untangle so easily.Earth received us as echoes — shadows of a future that never was.The loop waits — and so do we.the ghost of nur 10",
+  "window_display": "We tried to outrun the loop by going back,but time does not untangle so easily.Earth received us as echoes — shadows of a future that never was. The loop waits — and so do we.the ghost of nur 10",
   "content": [
     {
       "id": "21_D1",
@@ -1256,28 +1262,8 @@
     {
       "id": "21_D3",
       "type": "dialogue",
-      "character": "5",
+      "character": "1",
       "narrative": "*whispers* We are the ghost of NUR-10."
-    },
-    {
-      "id": "21_C1",
-      "type": "choice",
-      "option": "Restart the story", 
-      "next_node_id": "1_START",
-      "set_flag": {},
-      "condition": {},
-      "systemLog": "Restarting the story.",
-      "effects": {}
-    },
-    {
-      "id": "21_C2",
-      "type": "choice",
-      "option": "Exit", 
-      "next_node_id": "",
-      "set_flag": {},
-      "condition": {},
-      "systemLog": "Exiting the game.",
-      "effects": {}
     }
   ]
 }

@@ -4,7 +4,8 @@ class FlagService {
   static const String _boxFlag = 'flagsBox';
   late Box _box;
 
-  /// Initialize the Hive box (call once in `main()` before use)
+  // Initialize the Hive box (call once in `main()` before use)
+  // Help to reset the flags box when restart
   Future<void> init() async {
     _box = await Hive.openBox('flags');
   }
@@ -14,12 +15,11 @@ class FlagService {
     if (setFlag == null) return;
 
     setFlag.forEach((key, value) {
-      // Instead of incrementing, just assign the value (string) to the key
       _box.put(key, value);
     });
   }
 
-  /// Check if all given conditions are met (now using bool)
+  // Check if all given conditions are met
   bool areConditionsMet(Map<String, bool> conditions) {
     for (var entry in conditions.entries) {
       final flagValue = getFlag(entry.key);
@@ -45,13 +45,13 @@ class FlagService {
     return null;
   }
 
-  /// Clear all flags (useful for restart or debug)
+  // Clear all flags
   Future<void> clearFlags() async {
     print("All flags cleared");
     await _box.clear();
   }
 
-  /// Optional: check if a specific flag exists
+  // Optional: check if a specific flag exists
   bool hasFlag(String key) {
     return _box.containsKey(key);
   }

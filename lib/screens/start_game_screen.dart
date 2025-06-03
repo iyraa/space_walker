@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:space_walker/screens/game_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_glow/flutter_glow.dart';
-import 'package:space_walker/ui/constellation_background.dart';
-import 'package:space_walker/ui/custom_container.dart';
+import 'package:space_walker/widgets/constellation_background.dart';
 
 class StartGameScreen extends StatefulWidget {
   const StartGameScreen({super.key});
@@ -62,7 +61,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Left GIF
-                  Image.asset("images/title.gif", fit: BoxFit.cover),
+                  Image.asset("background/title.gif", fit: BoxFit.cover),
                   const SizedBox(width: 24),
 
                   // Right: Title, name, buttons
@@ -77,7 +76,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.asset(
-                                "images/siti.gif",
+                                "background/aida.gif",
                                 height: 80,
 
                                 fit: BoxFit.cover,
@@ -127,21 +126,6 @@ class _StartGameScreenState extends State<StartGameScreen> {
                             ],
                           ),
                           const SizedBox(height: 24),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              OutlinedButton(
-                                onPressed: () {},
-                                child: const Text('Playlist'),
-                              ),
-                              const SizedBox(width: 12),
-                              OutlinedButton(
-                                onPressed: () {},
-                                child: const Text('Credits'),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
@@ -160,7 +144,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                   children: [
                     // CircularProgressIndicator(),
                     Image.asset(
-                      "images/siti.gif",
+                      "background/aida.gif",
                       height: 80,
 
                       fit: BoxFit.cover,

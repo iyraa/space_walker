@@ -30,7 +30,6 @@ flutter:
     - assets/json/spacewalker.json
     - assets/background/
     - assets/audio/
-    - assets/images/
     - assets/audio/sfx/
     - assets/audio/music/
 

@@ -9,13 +9,11 @@ void main() async {
 
   await Hive.initFlutter();
   await flagService.init();
+  await Hive.openBox('custom_container');
 
   // Register adapters
   Hive.registerAdapter(NodeAdapter());
   Hive.registerAdapter(NodeContentAdapter());
-  // Hive.registerAdapter(ChoiceAdapter());
-  // Hive.registerAdapter(DialogueLineAdapter());
-  // Hive.registerAdapter(PuzzleAdapter());
   Hive.registerAdapter(CharacterAdapter());
 
   runApp(SpaceWalker());
@@ -47,6 +45,22 @@ class SpaceWalker extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             ),
             backgroundColor: WidgetStateProperty.all(Color(0xFF18222A)),
+            padding: WidgetStateProperty.all<EdgeInsets>(
+              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            ),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            padding: WidgetStateProperty.all<EdgeInsets>(
+              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            ),
+            side: WidgetStateProperty.all(
+              const BorderSide(
+                color: Color.fromRGBO(147, 217, 240, 1),
+                width: 1,
+              ), // Set border color and width
+            ),
           ),
         ),
         textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 23)).apply(
