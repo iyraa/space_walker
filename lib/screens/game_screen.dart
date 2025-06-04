@@ -13,15 +13,7 @@ import 'package:space_walker/widgets/system_log_widget.dart';
 import 'package:space_walker/widgets/puzzle_widget.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-//do story line
-//adjust dialogue hover
-//decide what to do with the column = spaceship intergrity or spaceship status or people statuses.
-//adjust the system log aesthetic.
-//add time and date to the top bar with spacewalker blinking.
 
-//keyboard sound
-//success sound
-//fail sound
 class GameScreen extends StatefulWidget {
   final String playerName;
 
@@ -88,6 +80,8 @@ class _GameScreenState extends State<GameScreen> {
       _dialogueIndex = 0;
       currentNode = _storyService.currentNode;
       dialogueHistory = [];
+
+      // Append first dialogue index in node automatically
       final dialogues =
           currentNode!.content.where((c) => c.type == 'dialogue').toList();
       if (dialogues.isNotEmpty) {

@@ -61,7 +61,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Left GIF
-                  Image.asset("background/title.gif", fit: BoxFit.cover),
+                  Image.asset("assets/background/title.gif", fit: BoxFit.cover),
                   const SizedBox(width: 24),
 
                   // Right: Title, name, buttons
